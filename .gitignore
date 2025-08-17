@@ -1,0 +1,255 @@
+# ===================================================================
+# OS & Editor
+# ===================================================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# IDE & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ===================================================================
+# Dependencies
+# ===================================================================
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.pnpm-store/
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Ruby
+vendor/bundle/
+.bundle/
+
+# ===================================================================
+# Frontend (Next.js 15 + TypeScript + Tailwind CSS 4)
+# ===================================================================
+
+# Next.js
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/dist/
+
+# TypeScript
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+# Testing
+frontend/coverage/
+frontend/.nyc_output/
+frontend/__tests__/__coverage__/
+
+# Vercel
+frontend/.vercel/
+
+# Turbopackidik
+frontend/.turbo/
+
+# Biome
+frontend/.biome/
+
+# ===================================================================
+# Backend (Ruby on Rails 8 + PostgreSQL)
+# ===================================================================
+
+# Rails
+backend/.bundle/
+backend/vendor/bundle/
+backend/log/*
+backend/tmp/*
+!backend/log/.keep
+!backend/tmp/.keep
+!backend/tmp/pids/.keep
+backend/storage/*
+!backend/storage/.keep
+backend/public/uploads/
+backend/public/system/
+backend/public/assets/
+backend/public/packs/
+backend/public/packs-test/
+
+# Database
+backend/db/*.sqlite3
+backend/db/*.sqlite3-*
+backend/db/*.db
+
+# Credentials & Secrets
+backend/config/master.key
+backend/config/credentials/*.key
+backend/.env.local
+backend/.env.*.local
+
+# RuboCop
+backend/.rubocop-*
+
+# Brakeman
+backend/brakeman.html
+
+# Coverage
+backend/coverage/
+backend/.coverage/
+
+# ===================================================================
+# Environment Variables
+# ===================================================================
+
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+!.env.ci
+
+# ===================================================================
+# Docker
+# ===================================================================
+
+# Docker volumes
+docker-compose.override.yml
+.dockerignore
+
+# ===================================================================
+# Testing & Coverage
+# ===================================================================
+
+coverage/
+.nyc_output/
+*.lcov
+.coverage/
+htmlcov/
+.pytest_cache/
+.rspec_status
+
+# ===================================================================
+# Build Artifacts
+# ===================================================================
+
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# ===================================================================
+# Logs
+# ===================================================================
+
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ===================================================================
+# Temporary Files
+# ===================================================================
+
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+.vuepress/dist
+
+# ===================================================================
+# Misc
+# ===================================================================
+
+# Husky (keep hooks)
+!.husky/_/
+
+# Commitizen
+.cz.json
+
+# Lock files (choose one strategy)
+# Uncomment if you want to ignore lock files:
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ===================================================================
+# Security & Sensitive Data
+# ===================================================================
+
+# API Keys & Tokens
+*.pem
+*.key
+*.cert
+*.crt
+secrets.yml
+secrets.json
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# ===================================================================
+# CI/CD
+# ===================================================================
+
+.github/workflows/*.log
+
+# ===================================================================
+# Deployment
+# ===================================================================
+
+# Kamal
+.kamal/secrets
+
+# DEPLOYMENT NOTE:
+# Never commit sensitive environment variables or secrets.
+# Use secure methods:
+# - Docker: --build-arg, -e, --env-file
+# - CI/CD: GitHub Secrets, GitLab CI Variables
+# - Cloud: Vercel Environment Variables, AWS Secrets Manager, etc.

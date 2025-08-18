@@ -9,11 +9,11 @@ import { notFound } from "next/navigation";
 import { type Project } from "@/components/portfolio/ProjectCard";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export default async function ProjectDetailPage({ params }: Props) {
-  const id = params.id;
+  const { id } = await params;
   let project: Project | null = null;
 
   try {

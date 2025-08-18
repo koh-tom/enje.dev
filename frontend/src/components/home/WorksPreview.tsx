@@ -5,10 +5,13 @@ import Link from "next/link";
 // サーバーコンポーネント
 // 最新のプロジェクトをAPIから取得
 async function getLatestProjects(): Promise<Project[]> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!apiUrl) return [];
+
   try {
     // APIから最新3のみを取得
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/projects?_sort=id&_order=desc&_limit=3`,
+      `${apiUrl}/projects?_sort=id&_order=desc&_limit=3`,
       { next: { revalidate: 60 } },
     );
     if (!res.ok) return []; // エラー時は空配列

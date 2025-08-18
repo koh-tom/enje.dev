@@ -12,13 +12,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { contactSchema, type ContactFormValues } from "@/components/contact/Validation";
+import {
+  contactSchema,
+  type ContactFormValues,
+} from "@/components/contact/Validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 
 /*
  * Contactページ
- * 
+ *
  *
  */
 

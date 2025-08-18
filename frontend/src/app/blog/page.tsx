@@ -8,8 +8,14 @@ import { Badge } from "@/components/ui/badge";
 
 // サーバーサイドでブログ記事データを取得
 async function getPosts(): Promise<Post[]> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!apiUrl) {
+    console.error("API URLが設定されていません。フォールバックデータを使用します。");
+    return fallbackPosts;
+  }
+
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
+    const res = await fetch(`${apiUrl}/posts`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) {
@@ -31,8 +37,11 @@ async function getPosts(): Promise<Post[]> {
 
 // フィルターUI用に全タグを取得
 async function getTags(): Promise<Tag[]> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!apiUrl) return [];
+
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tags`, {
+    const res = await fetch(`${apiUrl}/tags`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) return [];

@@ -4,10 +4,13 @@ import Link from "next/link";
 
 // サーバーサイドで最新のブログ投稿を取得
 async function getLatestPosts(): Promise<Post[]> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!apiUrl) return [];
+
   try {
     // APIから最新3件を取得
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/posts?_sort=id&_order=desc&_limit=3`,
+      `${apiUrl}/posts?_sort=id&_order=desc&_limit=3`,
       { next: { revalidate: 60 } },
     );
     if (!res.ok) return []; // エラー時は空配列

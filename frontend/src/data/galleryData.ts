@@ -2,7 +2,7 @@ import type { TravelGallery } from "@/types/gallery";
 import { generateBlurDataURL } from "@/lib/imageUtils";
 
 /*
- *  
+ *
  */
 export const galleryData: TravelGallery[] = [
   {

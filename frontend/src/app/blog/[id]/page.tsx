@@ -13,8 +13,14 @@ type Props = {
 };
 
 async function getPost(id: string): Promise<Post | null> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!apiUrl) {
+    console.error("API URLが設定されていません。");
+    return null;
+  }
+
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}`, {
+    const res = await fetch(`${apiUrl}/posts/${id}`, {
       next: { revalidate: 3600 }, // 1時間キャッシュ
     });
 
@@ -107,7 +113,9 @@ export default async function BlogPostPage({ params }: Props) {
 
           {/* Markdownからの美しいタイポグラフィにproseを適用 */}
           <div className="prose prose-lg dark:prose-invert max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {post.content}
+            </ReactMarkdown>
           </div>
         </article>
       </div>

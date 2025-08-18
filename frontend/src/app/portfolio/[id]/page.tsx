@@ -15,22 +15,24 @@ type Props = {
 export default async function ProjectDetailPage({ params }: Props) {
   const { id } = await params;
   let project: Project | null = null;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/projects/${id}`,
-      { cache: "no-store" },
-    );
-    if (res.ok) {
-      const projectData = await res.json();
-      // APIに画像がない場合、プレースホルダーを使用
-      project = {
-        ...projectData,
-        image_url: projectData.image_url || "/images/placeholder-project.png",
-      };
+  if (apiUrl) {
+    try {
+      const res = await fetch(`${apiUrl}/projects/${id}`, { cache: "no-store" });
+      if (res.ok) {
+        const projectData = await res.json();
+        // APIに画像がない場合、プレースホルダーを使用
+        project = {
+          ...projectData,
+          image_url: projectData.image_url || "/images/placeholder-project.png",
+        };
+      }
+    } catch (error) {
+      console.error("API接続エラー", error);
     }
-  } catch (error) {
-    console.error("API接続エラー", error);
+  } else {
+    console.error("API URLが設定されていません。");
   }
 
   if (!project) {

@@ -134,7 +134,9 @@ export function BentoGrid() {
   return (
     <section className="py-20 px-4 bg-black text-white">
       <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl font-bold mb-12 text-center">At a Glance / ハイライト</h2>
+        <h2 className="text-3xl font-bold mb-12 text-center">
+          At a Glance / ハイライト
+        </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-4 h-auto md:h-[600px]">
           {/* 1. Location (Large) */}

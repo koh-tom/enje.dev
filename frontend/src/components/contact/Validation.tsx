@@ -9,8 +9,8 @@ export const contactSchema = z.object({
   email: z.email({
     message: "メールアドレスの形式で入力してください。",
   }),
-  
-  subject: z //件名 : 1~50文字 
+
+  subject: z //件名 : 1~50文字
     .string()
     .min(1, "件名が入力されていません。")
     .max(50, "最大50文字までです。"),

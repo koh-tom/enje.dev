@@ -28,6 +28,10 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+# Ensure scripts are executable and have Linux line endings
+RUN chmod +x bin/* && \
+    sed -i 's/\r$//' bin/*
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 

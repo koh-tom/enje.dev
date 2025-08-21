@@ -23,7 +23,7 @@ export const Header = () => {
         >
           enje's Portfolio & Blog
         </Link>
-        {pathname === "/blog" && <h1>Blog</h1>}
+        {pathname.startsWith("/blog/") && <h1>test</h1>}
 
         <div className="flex items-center gap-8">
           {/* ナビゲーション: リンク間の余白を広めに確保 */}

@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ModeToggle } from "@/components/theme-toggle";
+import { usePathname } from "next/navigation";
 
 /**
  * ヘッダーコンポーネント
@@ -9,6 +12,7 @@ import { ModeToggle } from "@/components/theme-toggle";
  * コンテンツの邪魔にならないよう高さを調整しています。
  */
 export const Header = () => {
+  const pathname = usePathname();
   return (
     <header className="sticky top-0 z-50 w-full bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80 border-b border-gray-800">
       <div className="container mx-auto flex h-16 items-center justify-between px-6 md:px-12">
@@ -19,6 +23,7 @@ export const Header = () => {
         >
           enje's Portfolio & Blog
         </Link>
+        {pathname === "/blog" && <h1>Blog</h1>}
 
         <div className="flex items-center gap-8">
           {/* ナビゲーション: リンク間の余白を広めに確保 */}

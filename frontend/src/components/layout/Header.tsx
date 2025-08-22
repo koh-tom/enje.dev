@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ModeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
+import { Magnetic } from "@/components/ui/magnetic";
 
 /**
  * ヘッダーコンポーネント
@@ -17,12 +18,16 @@ export const Header = ({ title }: { title?: string }) => {
     <header className="sticky top-0 z-50 w-full bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80 border-b border-gray-800">
       <div className="container mx-auto flex h-16 items-center justify-center px-6 md:px-12 relative">
         {/* ロゴまたはサイト名 (常に左端に表示) */}
-        <Link
-          href="/"
-          className="absolute left-6 md:left-12 text-xl font-bold tracking-wider text-white hover:text-gray-300 transition-colors z-10"
-        >
-          enje's Portfolio & Blog
-        </Link>
+        <div className="absolute left-6 md:left-12 z-10">
+          <Magnetic>
+            <Link
+              href="/"
+              className="text-xl font-bold tracking-wider text-white hover:text-gray-300 transition-colors block"
+            >
+              enje's Portfolio & Blog
+            </Link>
+          </Magnetic>
+        </div>
 
         {/* ページタイトル (title prop がある場合のみ中央に表示) */}
         {title && (
@@ -57,7 +62,11 @@ export const Header = ({ title }: { title?: string }) => {
           </nav>
 
           {/* テーマ切り替え */}
-          <ModeToggle />
+          <Magnetic>
+            <div className="inline-block">
+              <ModeToggle />
+            </div>
+          </Magnetic>
         </div>
       </div>
     </header>
@@ -77,13 +86,15 @@ const NavLink = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Link
-      href={href}
-      className="group relative py-1 transition-colors hover:text-white"
-    >
-      {children}
-      {/* 下線アニメーション: 中央から左右に広がる */}
-      <span className="absolute bottom-0 left-1/2 h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 ease-out group-hover:w-full" />
-    </Link>
+    <Magnetic>
+      <Link
+        href={href}
+        className="group relative block py-2 px-3 transition-colors hover:text-white"
+      >
+        {children}
+        {/* 下線アニメーション: 中央から左右に広がる */}
+        <span className="absolute bottom-1 left-1/2 h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 ease-out group-hover:w-1/2" />
+      </Link>
+    </Magnetic>
   );
 };

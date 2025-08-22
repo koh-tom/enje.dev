@@ -5,13 +5,14 @@ import Link from "next/link";
 import type { Metadata } from "next"; // Metadataの型をインポート
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
   children: React.ReactNode;
 };
 
 // サーバーコンポーネントとしてMetadataを生成
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = await getPost(params.id);
+  const { id } = await params;
+  const post = await getPost(id);
 
   if (!post) {
     return {
@@ -32,7 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogIdLayout({ params, children }: Props) {
-  const post = await getPost(params.id);
+  const { id } = await params;
+  const post = await getPost(id);
 
   if (!post) {
     notFound();

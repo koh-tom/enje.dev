@@ -9,7 +9,7 @@ import type { Metadata } from "next";
 import remarkGfm from "remark-gfm";
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 import { getPost } from "@/lib/posts";

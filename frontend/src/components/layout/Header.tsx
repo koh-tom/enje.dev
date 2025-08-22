@@ -11,21 +11,27 @@ import { usePathname } from "next/navigation";
  * 視認性を重視し、背景は濃い色で統一。スクロール追従(sticky)させつつ、
  * コンテンツの邪魔にならないよう高さを調整しています。
  */
-export const Header = () => {
+export const Header = ({ title }: { title?: string }) => {
   const pathname = usePathname();
   return (
     <header className="sticky top-0 z-50 w-full bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80 border-b border-gray-800">
-      <div className="container mx-auto flex h-16 items-center justify-between px-6 md:px-12">
-        {/* ロゴ: シンプルかつ力強く */}
+      <div className="container mx-auto flex h-16 items-center justify-center px-6 md:px-12 relative">
+        {/* ロゴまたはサイト名 (常に左端に表示) */}
         <Link
           href="/"
-          className="text-xl font-bold tracking-wider text-white hover:text-gray-300 transition-colors"
+          className="absolute left-6 md:left-12 text-xl font-bold tracking-wider text-white hover:text-gray-300 transition-colors z-10"
         >
           enje's Portfolio & Blog
         </Link>
-        {pathname.startsWith("/blog/") && <h1>test</h1>}
 
-        <div className="flex items-center gap-8">
+        {/* ページタイトル (title prop がある場合のみ中央に表示) */}
+        {title && (
+          <h1 className="text-xl font-bold tracking-wider text-white text-center max-w-xs truncate z-0">
+            {title.length > 30 ? `${title.substring(0, 30)}...` : title}
+          </h1>
+        )}
+
+        <div className="absolute right-6 md:right-12 flex items-center gap-8 z-10">
           {/* ナビゲーション: リンク間の余白を広めに確保 */}
           <nav>
             <ul className="flex items-center gap-8 text-sm font-medium text-gray-300">

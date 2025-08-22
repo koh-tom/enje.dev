@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import type { Post, Tag } from "@/components/blog/BlogPostCard"; // 型を再利用
+import { Post, Tag } from "@/lib/posts";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -9,56 +9,12 @@ import type { Metadata } from "next";
 import remarkGfm from "remark-gfm";
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 };
 
-async function getPost(id: string): Promise<Post | null> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!apiUrl) {
-    console.error("API URLが設定されていません。");
-    return null;
-  }
+import { getPost } from "@/lib/posts";
 
-  try {
-    const res = await fetch(`${apiUrl}/posts/${id}`, {
-      next: { revalidate: 3600 }, // 1時間キャッシュ
-    });
 
-    if (!res.ok) return null;
-    const postData = await res.json();
-    return {
-      ...postData,
-      image_url: postData.image_url || "/images/placeholder-blog.png",
-      reading_time:
-        postData.reading_time || Math.ceil(postData.content.length / 1000),
-    };
-  } catch (error) {
-    console.error("API接続エラー", error);
-    return null;
-  }
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
-  const post = await getPost(id);
-
-  if (!post) {
-    return {
-      title: "Post Not Found | My Portfolio",
-    };
-  }
-
-  return {
-    title: `${post.title} | My Portfolio & Blog`,
-    description: post.content.substring(0, 160),
-    openGraph: {
-      title: post.title,
-      description: post.content.substring(0, 160),
-      images: [post.image_url],
-      type: "article",
-    },
-  };
-}
 
 export default async function BlogPostPage({ params }: Props) {
   const { id } = await params;

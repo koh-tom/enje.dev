@@ -14,8 +14,6 @@ type Props = {
 
 import { getPost } from "@/lib/posts";
 
-
-
 export default async function BlogPostPage({ params }: Props) {
   const { id } = await params;
   const post = await getPost(id);

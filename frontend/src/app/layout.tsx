@@ -43,7 +43,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {!isBlogPostPage && <Header />} {/* ブログ記事ページ以外でHeaderを表示 */}
+          {!isBlogPostPage && <Header />}{" "}
+          {/* ブログ記事ページ以外でHeaderを表示 */}
           <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {children}
           </main>

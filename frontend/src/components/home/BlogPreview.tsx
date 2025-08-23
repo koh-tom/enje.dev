@@ -9,10 +9,9 @@ async function getLatestPosts(): Promise<Post[]> {
 
   try {
     // APIから最新3件を取得
-    const res = await fetch(
-      `${apiUrl}/posts?_sort=id&_order=desc&_limit=3`,
-      { next: { revalidate: 60 } },
-    );
+    const res = await fetch(`${apiUrl}/posts?_sort=id&_order=desc&_limit=3`, {
+      next: { revalidate: 60 },
+    });
     if (!res.ok) return []; // エラー時は空配列
     const posts = await res.json();
     return posts.map((p: Post) => ({

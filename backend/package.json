@@ -1,0 +1,10 @@
+{
+    "name": "backend",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "bin/rails s -p 3000",
+        "build": "echo 'No build step for Rails'",
+        "lint": "bundle exec rubocop"
+    }
+}

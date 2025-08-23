@@ -10,7 +10,9 @@ import { Badge } from "@/components/ui/badge";
 async function getPosts(): Promise<Post[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   if (!apiUrl) {
-    console.error("API URLが設定されていません。フォールバックデータを使用します。");
+    console.error(
+      "API URLが設定されていません。フォールバックデータを使用します。",
+    );
     return fallbackPosts;
   }
 

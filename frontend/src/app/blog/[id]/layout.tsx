@@ -43,9 +43,7 @@ export default async function BlogIdLayout({ params, children }: Props) {
   return (
     <>
       <Header title={post.title} />
-      <main className="flex-grow">
-        {children}
-      </main>
+      <main className="flex-grow">{children}</main>
     </>
   );
 }

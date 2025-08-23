@@ -27,12 +27,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const res = await fetch(`${apiUrl}/posts`);
       if (res.ok) {
         const posts = await res.json();
-      postRoutes = posts.map((post: any) => ({
-        url: `${baseUrl}/blog/${post.id}`,
-        lastModified: new Date(post.updated_at || post.published_at),
-        changeFrequency: "monthly" as const,
-        priority: 0.6,
-      }));
+        postRoutes = posts.map((post: any) => ({
+          url: `${baseUrl}/blog/${post.id}`,
+          lastModified: new Date(post.updated_at || post.published_at),
+          changeFrequency: "monthly" as const,
+          priority: 0.6,
+        }));
       }
     } catch (e) {
       console.error("Sitemap post fetch error", e);

@@ -4,37 +4,37 @@ import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 
 export const Magnetic = ({ children }: { children: React.ReactNode }) => {
-    const ref = useRef<HTMLDivElement>(null);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+  const ref = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-    const handleMouse = (e: React.MouseEvent) => {
-        const { clientX, clientY } = e;
-        // 要素が存在しない場合は何もしない
-        if (!ref.current) return;
+  const handleMouse = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    // 要素が存在しない場合は何もしない
+    if (!ref.current) return;
 
-        const { height, width, left, top } = ref.current.getBoundingClientRect();
-        const middleX = clientX - (left + width / 2);
-        const middleY = clientY - (top + height / 2);
+    const { height, width, left, top } = ref.current.getBoundingClientRect();
+    const middleX = clientX - (left + width / 2);
+    const middleY = clientY - (top + height / 2);
 
-        // 移動量を少し制限
-        setPosition({ x: middleX * 0.7, y: middleY * 0.7 });
-    };
+    // 移動量を少し制限
+    setPosition({ x: middleX * 0.7, y: middleY * 0.7 });
+  };
 
-    const reset = () => {
-        setPosition({ x: 0, y: 0 });
-    };
+  const reset = () => {
+    setPosition({ x: 0, y: 0 });
+  };
 
-    const { x, y } = position;
-    return (
-        <motion.div
-            style={{ position: "relative" }}
-            ref={ref}
-            onMouseMove={handleMouse}
-            onMouseLeave={reset}
-            animate={{ x, y }}
-            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-        >
-            {children}
-        </motion.div>
-    );
+  const { x, y } = position;
+  return (
+    <motion.div
+      style={{ position: "relative" }}
+      ref={ref}
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+      animate={{ x, y }}
+      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+    >
+      {children}
+    </motion.div>
+  );
 };

@@ -5,7 +5,9 @@ import { ProjectCard, type Project } from "@/components/portfolio/ProjectCard";
 async function getProjects(): Promise<Project[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   if (!apiUrl) {
-    console.error("API URLが設定されていません。フォールバックデータを使用します。");
+    console.error(
+      "API URLが設定されていません。フォールバックデータを使用します。",
+    );
     return fallbackProjects;
   }
 

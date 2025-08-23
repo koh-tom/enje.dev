@@ -19,7 +19,9 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   if (apiUrl) {
     try {
-      const res = await fetch(`${apiUrl}/projects/${id}`, { cache: "no-store" });
+      const res = await fetch(`${apiUrl}/projects/${id}`, {
+        cache: "no-store",
+      });
       if (res.ok) {
         const projectData = await res.json();
         // APIに画像がない場合、プレースホルダーを使用

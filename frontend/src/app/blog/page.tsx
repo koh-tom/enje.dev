@@ -1,10 +1,8 @@
 import {
-  BlogPostCard,
   type Post,
   type Tag,
 } from "@/components/blog/BlogPostCard";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { BlogList } from "@/components/blog/BlogList";
 
 // サーバーサイドでブログ記事データを取得
 async function getPosts(): Promise<Post[]> {
@@ -96,31 +94,7 @@ export default async function BlogPage() {
         </p>
       </header>
 
-      {/* 検索とフィルターセクション */}
-      <section className="mb-12">
-        <div className="max-w-2xl mx-auto">
-          <Input
-            type="search"
-            placeholder="記事を検索..."
-            className="w-full text-lg"
-          />
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
-            <Badge variant="default">すべて</Badge>
-            {tags.map((tag) => (
-              <Badge key={tag.id} variant="outline" className="cursor-pointer">
-                {tag.name}
-              </Badge>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ブログ記事リスト */}
-      <div className="space-y-8">
-        {posts.map((post) => (
-          <BlogPostCard key={post.id} post={post} />
-        ))}
-      </div>
+      <BlogList initialPosts={posts} tags={tags} />
     </div>
   );
 }

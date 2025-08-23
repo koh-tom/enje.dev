@@ -88,7 +88,8 @@ frontend/__tests__/__coverage__/
 # Vercel
 frontend/.vercel/
 
-# Turbopack
+# Turbopack / Turborepo
+.turbo/
 frontend/.turbo/
 
 # Biome

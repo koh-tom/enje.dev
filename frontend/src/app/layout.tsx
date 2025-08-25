@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { ThemeProvider } from "@/components/theme-provider";
 import { usePathname } from "next/navigation"; // usePathnameをインポート
 
@@ -43,6 +44,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <LoadingScreen />
           {!isBlogPostPage && <Header />}{" "}
           {/* ブログ記事ページ以外でHeaderを表示 */}
           <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">

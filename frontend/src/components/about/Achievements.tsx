@@ -14,21 +14,21 @@ interface Achievement {
 
 const achievements: Achievement[] = [
     {
-        date: "2022.08",
-        title: "TOEIC 930点",
-        category: "certification",
-    },
-    {
-        date: "2025.10",
-        title: "IEEE The 22nd English Presentation Competition in Ritsumeikan Excellent Award",
-        category: "award",
-        description: "An emulator of path planning algorithms to evaluate pipelined FPGA accelerator architectures",
-    },
-    {
         date: "2025.11",
         title: "CODE BLUE学生スタッフ参加",
         category: "staff",
         description: "学生スタッフとして参加",
+    },
+    {
+        date: "2025.10",
+        title: "IEEE The 22nd EPCR Excellent Award",
+        category: "award",
+        description: "An emulator of path planning algorithms to evaluate pipelined FPGA accelerator architectures",
+    },
+    {
+        date: "2022.08",
+        title: "TOEIC 930点",
+        category: "certification",
     },
 ];
 
@@ -47,6 +47,11 @@ export function Achievements() {
         return null; // 実績がない場合は表示しない
     }
 
+    // 日付を古い順にソート（時系列順）
+    const sortedAchievements = [...achievements].sort((a, b) =>
+        a.date.localeCompare(b.date)
+    );
+
     return (
         <section className="py-24 px-4 md:px-8 bg-gray-900 text-white">
             <div className="container mx-auto max-w-4xl">
@@ -62,7 +67,7 @@ export function Achievements() {
                 </motion.div>
 
                 <div className="space-y-4">
-                    {achievements.map((achievement, index) => {
+                    {sortedAchievements.map((achievement, index) => {
                         const config = categoryConfig[achievement.category];
                         const Icon = config.icon;
 

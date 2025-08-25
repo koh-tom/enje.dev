@@ -42,7 +42,6 @@ export const Footer = () => {
 
         {/* 技術スタック */}
         <div className="text-sm text-center md:text-right flex items-center gap-2">
-          <span>Built with</span>
           Next.js, TypeScript, Ruby on Rails で構築
         </div>
       </div>

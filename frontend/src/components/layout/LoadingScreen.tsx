@@ -7,18 +7,9 @@ export function LoadingScreen() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        // 初回訪問時のみローディングを表示（セッション内では再表示しない）
-        const hasVisited = sessionStorage.getItem("hasVisited");
-
-        if (hasVisited) {
-            setIsLoading(false);
-            return;
-        }
-
-        // ローディング時間（1.5秒後にフェードアウト開始）
+        // ローディング時間（2秒後にフェードアウト開始）
         const timer = setTimeout(() => {
             setIsLoading(false);
-            sessionStorage.setItem("hasVisited", "true");
         }, 2000);
 
         return () => clearTimeout(timer);

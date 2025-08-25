@@ -78,11 +78,10 @@ function InterestsSection() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-3 py-1 text-[10px] rounded-full transition-all ${
-                  activeCategory === category
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                }`}
+                className={`px-3 py-1 text-[10px] rounded-full transition-all ${activeCategory === category
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                  }`}
               >
                 {categoryLabels[category]}
               </button>

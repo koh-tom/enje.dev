@@ -48,16 +48,18 @@ export function Achievements() {
     }
 
     return (
-        <section className="py-16 px-4 md:px-8 bg-gray-900/50">
+        <section className="py-24 px-4 md:px-8 bg-gray-900 text-white">
             <div className="container mx-auto max-w-4xl">
-                <motion.h2
-                    initial={{ opacity: 0, y: -20 }}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-3xl font-bold text-center mb-12 text-white"
+                    className="text-center mb-16"
                 >
-                    Achievements / 実績
-                </motion.h2>
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                        Achievements / 実績
+                    </h2>
+                </motion.div>
 
                 <div className="space-y-4">
                     {achievements.map((achievement, index) => {
@@ -67,11 +69,12 @@ export function Achievements() {
                         return (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-lg border border-gray-700/50 hover:border-gray-600 transition-colors"
+                                whileHover={{ scale: 1.02 }}
+                                className="flex items-center gap-4 p-6 bg-gray-900/40 rounded-2xl border border-gray-800 hover:border-gray-700 transition-all"
                             >
                                 {/* 日付 */}
                                 <div className="flex-shrink-0 w-20 text-sm font-mono text-gray-400">
@@ -79,20 +82,20 @@ export function Achievements() {
                                 </div>
 
                                 {/* アイコン */}
-                                <div className={`flex-shrink-0 ${config.color}`}>
+                                <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center ${config.color}`}>
                                     <Icon size={20} />
                                 </div>
 
                                 {/* 内容 */}
-                                <div className="flex-grow">
-                                    <h3 className="text-white font-medium">{achievement.title}</h3>
+                                <div className="flex-grow min-w-0">
+                                    <h3 className="text-white font-bold">{achievement.title}</h3>
                                     {achievement.description && (
-                                        <p className="text-gray-400 text-sm mt-1">{achievement.description}</p>
+                                        <p className="text-gray-400 text-sm mt-1 truncate">{achievement.description}</p>
                                     )}
                                 </div>
 
                                 {/* カテゴリラベル */}
-                                <div className={`flex-shrink-0 text-xs px-2 py-1 rounded ${config.color} bg-gray-700/50`}>
+                                <div className={`flex-shrink-0 text-xs px-3 py-1.5 rounded-full ${config.color} bg-gray-800`}>
                                     {config.label}
                                 </div>
                             </motion.div>

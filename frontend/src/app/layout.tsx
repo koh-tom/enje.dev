@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { ThemeProvider } from "@/components/theme-provider";
+import { BackToTop } from "@/components/ui/BackToTop";
 import { usePathname } from "next/navigation"; // usePathnameをインポート
 
 const geistSans = Geist({
@@ -51,6 +52,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <BackToTop />
         </ThemeProvider>
       </body>
     </html>

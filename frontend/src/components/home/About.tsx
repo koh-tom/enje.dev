@@ -69,7 +69,7 @@ export function About() {
           >
             <div className="relative group">
               {/* 画像の装飾枠 */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-75 blur group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-sky-600 rounded-full opacity-75 blur group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative rounded-full p-1 bg-black">
                 <Image
                   src="/images/enje.png"
@@ -97,7 +97,7 @@ export function About() {
             <h3 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
               Software Engineer / Researcher
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-sky-600">
                 Bridging Hardware & Software
               </span>
             </h3>

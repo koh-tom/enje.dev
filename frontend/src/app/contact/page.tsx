@@ -50,6 +50,9 @@ export default function Contact() {
           <p className="text-gray-400">
             ご質問やコメントなど、お気軽にお送りください。
           </p>
+          <p className="text-red-500">
+            現在実装中のため、ご連絡は直接メールもしくはGitHubまでお願いします。
+          </p>
         </div>
 
         <div className="bg-white/5 dark:bg-gray-900 backdrop-blur-sm border border-white/10 dark:border-gray-800 p-8 rounded-2xl shadow-xl">

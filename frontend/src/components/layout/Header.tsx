@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ModeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
@@ -28,6 +28,11 @@ const navLinks = [
 export const Header = ({ title }: { title?: string }) => {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // ページ遷移時にメニューを閉じる
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -207,8 +212,8 @@ const MobileNavLink = ({
     <Link
       href={href}
       className={`block py-3 px-4 rounded-lg text-lg font-medium transition-all ${isActive
-          ? "bg-gradient-to-r from-cyan-500/20 to-sky-600/20 text-white border-l-2 border-cyan-500"
-          : "text-gray-400 hover:text-white hover:bg-gray-800/50"
+        ? "bg-gradient-to-r from-cyan-500/20 to-sky-600/20 text-white border-l-2 border-cyan-500"
+        : "text-gray-400 hover:text-white hover:bg-gray-800/50"
         }`}
     >
       {children}

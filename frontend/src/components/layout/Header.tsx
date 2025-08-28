@@ -5,7 +5,7 @@ import { ModeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
 import { Magnetic } from "@/components/ui/magnetic";
 
-/**
+/*
  * ヘッダーコンポーネント
  *
  * サイトのグローバルナビゲーション。
@@ -41,22 +41,22 @@ export const Header = ({ title }: { title?: string }) => {
           <nav>
             <ul className="flex items-center gap-8 text-sm font-medium text-gray-300">
               <li>
-                <NavLink href="/">Home</NavLink>
+                <NavLink href="/" pathname={pathname}>Home</NavLink>
               </li>
               <li>
-                <NavLink href="/portfolio">Portfolio</NavLink>
+                <NavLink href="/portfolio" pathname={pathname}>Portfolio</NavLink>
               </li>
               <li>
-                <NavLink href="/blog">Blog</NavLink>
+                <NavLink href="/blog" pathname={pathname}>Blog</NavLink>
               </li>
               <li>
-                <NavLink href="/gallery">Gallery</NavLink>
+                <NavLink href="/gallery" pathname={pathname}>Gallery</NavLink>
               </li>
               <li>
-                <NavLink href="/about">About</NavLink>
+                <NavLink href="/about" pathname={pathname}>About</NavLink>
               </li>
               <li>
-                <NavLink href="/contact">Contact</NavLink>
+                <NavLink href="/contact" pathname={pathname}>Contact</NavLink>
               </li>
             </ul>
           </nav>
@@ -73,28 +73,45 @@ export const Header = ({ title }: { title?: string }) => {
   );
 };
 
-/**
+/*
  * ナビゲーションリンクコンポーネント
  *
  * ホバー時に文字色が明るくなり、下線が中央から広がるアニメーションを提供します。
+ * アクティブページは下線でハイライト表示されます。
  */
 const NavLink = ({
   href,
+  pathname,
   children,
 }: {
   href: string;
+  pathname: string;
   children: React.ReactNode;
 }) => {
+  // アクティブ判定: 完全一致 or 子ページ（/blog/xxx など）
+  const isActive = href === "/"
+    ? pathname === "/"
+    : pathname === href || pathname.startsWith(`${href}/`);
+
   return (
     <Magnetic>
       <Link
         href={href}
-        className="group relative block py-2 px-3 transition-colors hover:text-white"
+        className={`group relative block py-2 px-3 transition-colors ${isActive
+          ? "text-white"
+          : "text-gray-400 hover:text-white"
+          }`}
       >
         {children}
-        {/* 下線アニメーション: 中央から左右に広がる */}
-        <span className="absolute bottom-1 left-1/2 h-[2px] w-0 -translate-x-1/2 bg-blue-500 transition-all duration-300 ease-out group-hover:w-1/2" />
+        {/* 下線: アクティブ時は常に表示、非アクティブ時はホバーで表示 */}
+        <span
+          className={`absolute bottom-1 left-1/2 h-[2px] -translate-x-1/2 bg-gradient-to-r from-cyan-500 to-sky-600 transition-all duration-300 ease-out ${isActive
+            ? "w-1/2"
+            : "w-0 group-hover:w-1/2"
+            }`}
+        />
       </Link>
     </Magnetic>
   );
 };
+

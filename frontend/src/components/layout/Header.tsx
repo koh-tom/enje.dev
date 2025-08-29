@@ -34,6 +34,18 @@ export const Header = ({ title }: { title?: string }) => {
     setIsMenuOpen(false);
   }, [pathname]);
 
+  // メニューが開いている時はスクロールを無効化
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMenuOpen]);
+
   return (
     <>
       <header className="sticky top-0 z-50 w-full bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80 border-b border-gray-800">

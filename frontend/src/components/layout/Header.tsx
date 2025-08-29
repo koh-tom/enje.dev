@@ -101,16 +101,19 @@ export const Header = ({ title }: { title?: string }) => {
             >
               <div className="relative w-6 h-5">
                 <span
-                  className={`absolute left-0 w-full h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "top-2 rotate-45" : "top-0"
-                    }`}
+                  className={`absolute left-0 w-full h-0.5 bg-white transition-all duration-300 ${
+                    isMenuOpen ? "top-2 rotate-45" : "top-0"
+                  }`}
                 />
                 <span
-                  className={`absolute left-0 top-2 w-full h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "opacity-0" : "opacity-100"
-                    }`}
+                  className={`absolute left-0 top-2 w-full h-0.5 bg-white transition-all duration-300 ${
+                    isMenuOpen ? "opacity-0" : "opacity-100"
+                  }`}
                 />
                 <span
-                  className={`absolute left-0 w-full h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? "top-2 -rotate-45" : "top-4"
-                    }`}
+                  className={`absolute left-0 w-full h-0.5 bg-white transition-all duration-300 ${
+                    isMenuOpen ? "top-2 -rotate-45" : "top-4"
+                  }`}
                 />
               </div>
             </button>
@@ -190,13 +193,15 @@ const NavLink = ({
     <Magnetic>
       <Link
         href={href}
-        className={`group relative block py-2 px-3 transition-colors ${isActive ? "text-white" : "text-gray-400 hover:text-white"
-          }`}
+        className={`group relative block py-2 px-3 transition-colors ${
+          isActive ? "text-white" : "text-gray-400 hover:text-white"
+        }`}
       >
         {children}
         <span
-          className={`absolute bottom-1 left-1/2 h-[2px] -translate-x-1/2 bg-gradient-to-r from-cyan-500 to-sky-600 transition-all duration-300 ease-out ${isActive ? "w-1/2" : "w-0 group-hover:w-1/2"
-            }`}
+          className={`absolute bottom-1 left-1/2 h-[2px] -translate-x-1/2 bg-gradient-to-r from-cyan-500 to-sky-600 transition-all duration-300 ease-out ${
+            isActive ? "w-1/2" : "w-0 group-hover:w-1/2"
+          }`}
         />
       </Link>
     </Magnetic>
@@ -223,10 +228,11 @@ const MobileNavLink = ({
   return (
     <Link
       href={href}
-      className={`block py-3 px-4 rounded-lg text-lg font-medium transition-all ${isActive
-        ? "bg-gradient-to-r from-cyan-500/20 to-sky-600/20 text-white border-l-2 border-cyan-500"
-        : "text-gray-400 hover:text-white hover:bg-gray-800/50"
-        }`}
+      className={`block py-3 px-4 rounded-lg text-lg font-medium transition-all ${
+        isActive
+          ? "bg-gradient-to-r from-cyan-500/20 to-sky-600/20 text-white border-l-2 border-cyan-500"
+          : "text-gray-400 hover:text-white hover:bg-gray-800/50"
+      }`}
     >
       {children}
     </Link>

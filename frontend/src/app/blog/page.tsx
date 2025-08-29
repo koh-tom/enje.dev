@@ -1,7 +1,4 @@
-import {
-  type Post,
-  type Tag,
-} from "@/components/blog/BlogPostCard";
+import { type Post, type Tag } from "@/components/blog/BlogPostCard";
 import { BlogList } from "@/components/blog/BlogList";
 
 // サーバーサイドでブログ記事データを取得

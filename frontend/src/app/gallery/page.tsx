@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { galleryData, filterGalleries } from "@/data/galleryData";
-import { GalleryGrid } from "@/components/gallery/GalleryGrid";
+import { useState } from "react";
 import { FilterBar } from "@/components/gallery/FilterBar";
+import { GalleryGrid } from "@/components/gallery/GalleryGrid";
 import { ViewModeToggle } from "@/components/gallery/ViewModeToggle";
+import { filterGalleries, galleryData } from "@/data/galleryData";
 
 /**
  * Gallery Page - Geek Visualisation Style

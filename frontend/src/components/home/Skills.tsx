@@ -2,18 +2,18 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Card } from "@/components/ui/card";
-import { FaRust, FaReact, FaPython, FaUbuntu, FaLinux } from "react-icons/fa";
+import { FaLinux, FaPython, FaReact, FaRust, FaUbuntu } from "react-icons/fa";
 import {
-  SiZig,
-  SiRuby,
-  SiNextdotjs,
-  SiVite,
   SiDocker,
+  SiNextdotjs,
   SiPostgresql,
+  SiRuby,
   SiTypescript,
+  SiVite,
+  SiZig,
 } from "react-icons/si";
 import { TbBrandCpp, TbBrandCSharp } from "react-icons/tb";
+import { Card } from "@/components/ui/card";
 
 /*
  * スキルデータの定義

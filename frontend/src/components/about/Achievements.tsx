@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Trophy, Award, Mic, BookOpen, Code, Star, User } from "lucide-react";
+import { Award, BookOpen, Code, Mic, Star, Trophy, User } from "lucide-react";
 
 type AchievementCategory =
   | "award"
@@ -13,6 +13,7 @@ type AchievementCategory =
   | "other";
 
 interface Achievement {
+  id: string; // ユニークなID
   date: string; // "2023.05" 形式
   title: string;
   category: AchievementCategory;
@@ -21,12 +22,14 @@ interface Achievement {
 
 const achievements: Achievement[] = [
   {
+    id: "codeblue-2025",
     date: "2025.11",
     title: "CODE BLUE学生スタッフ参加",
     category: "staff",
     description: "学生スタッフとして参加",
   },
   {
+    id: "ieee-epcr-2025",
     date: "2025.10",
     title: "IEEE The 22nd EPCR Excellent Award",
     category: "award",
@@ -34,6 +37,7 @@ const achievements: Achievement[] = [
       "An emulator of path planning algorithms to evaluate pipelined FPGA accelerator architectures",
   },
   {
+    id: "toeic-2022",
     date: "2022.08",
     title: "TOEIC 930点",
     category: "certification",
@@ -84,7 +88,7 @@ export function Achievements() {
 
             return (
               <motion.div
-                key={index}
+                key={achievement.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

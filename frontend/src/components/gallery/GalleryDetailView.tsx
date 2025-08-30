@@ -1,10 +1,9 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import type { TravelGallery } from "@/types/gallery";
-import { formatGalleryDate } from "@/lib/imageUtils";
 import { useEffect } from "react";
+import type { TravelGallery } from "@/types/gallery";
 
 interface GalleryDetailViewProps {
   gallery: TravelGallery;
@@ -60,6 +59,7 @@ export function GalleryDetailView({
             </div>
 
             <button
+              type="button"
               onClick={onClose}
               className="bg-white text-black px-6 py-2 rounded-full text-sm font-semibold hover:bg-gray-200 transition-colors"
             >

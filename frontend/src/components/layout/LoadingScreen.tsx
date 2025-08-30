@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +22,7 @@ export function LoadingScreen() {
   const characters = text.split("").map((char, index) => {
     const angle = (index * spacing * Math.PI) / 180;
     return {
+      id: `char-${char}-${index}`,
       char,
       x: Math.cos(angle) * radius,
       y: Math.sin(angle) * radius,
@@ -51,9 +52,9 @@ export function LoadingScreen() {
                 transformOrigin: "center center",
               }}
             >
-              {characters.map((item, index) => (
+              {characters.map((item) => (
                 <motion.div
-                  key={index}
+                  key={item.id}
                   className="absolute"
                   style={{
                     left: `calc(50% + ${item.x}px)`,

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 
 interface TimelineEvent {
+  id: string; // ユニークなID
   year: string;
   title: string;
   description: string;
@@ -11,21 +12,25 @@ interface TimelineEvent {
 
 const timelineEvents: TimelineEvent[] = [
   {
+    id: "university-2022",
     year: "2022 -",
     title: "大学入学",
     description: "工学部にて情報工学について勉強中。",
   },
   {
+    id: "venture-2023",
     year: "2023",
     title: "ベンチャー企業にてアルバイト",
     description: "ベンチャー企業にてシミュレーション構築のアルバイト。",
   },
   {
+    id: "engineer-2024",
     year: "2024 -",
     title: "エンジニアバイト",
     description: "Web開発のエンジニアバイト。",
   },
   {
+    id: "now-exploring",
     year: "Now",
     title: "新しい技術の探求",
     description: "常に新しい技術を学び、挑戦中。",
@@ -54,7 +59,7 @@ export function Timeline() {
 
           <div className="space-y-0">
             {timelineEvents.map((event, index) => (
-              <TimelineItem key={index} event={event} index={index} />
+              <TimelineItem key={event.id} event={event} index={index} />
             ))}
           </div>
         </div>

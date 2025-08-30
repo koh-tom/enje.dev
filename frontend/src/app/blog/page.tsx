@@ -1,5 +1,5 @@
-import { type Post, type Tag } from "@/components/blog/BlogPostCard";
 import { BlogList } from "@/components/blog/BlogList";
+import type { Post, Tag } from "@/components/blog/BlogPostCard";
 
 // サーバーサイドでブログ記事データを取得
 async function getPosts(): Promise<Post[]> {

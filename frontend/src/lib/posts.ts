@@ -1,6 +1,6 @@
 import type { Post, Tag } from "@/components/blog/BlogPostCard"; // 型を再利用
 
-export { Post, Tag }; // 他の場所からもインポートできるようにエクスポート
+export type { Post, Tag }; // 他の場所からもインポートできるようにエクスポート
 
 export async function getPost(id: string): Promise<Post | null> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;

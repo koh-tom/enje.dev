@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { BlogPostCard, type Post } from "@/components/blog/BlogPostCard";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 // サーバーサイドで最新のブログ投稿を取得
 async function getLatestPosts(): Promise<Post[]> {

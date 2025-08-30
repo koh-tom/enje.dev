@@ -1,5 +1,5 @@
-import type { TravelGallery } from "@/types/gallery";
 import { generateBlurDataURL } from "@/lib/imageUtils";
+import type { TravelGallery } from "@/types/gallery";
 
 /*
  *

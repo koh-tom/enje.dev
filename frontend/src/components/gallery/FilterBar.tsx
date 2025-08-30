@@ -1,7 +1,7 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { getUniqueLocations, getUniqueTags } from "@/data/galleryData";
 
 interface FilterBarProps {
@@ -19,7 +19,6 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
     string | undefined
   >();
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [isExpanded, setIsExpanded] = useState(true);
 
   const locations = getUniqueLocations();
   const tags = getUniqueTags();
@@ -56,6 +55,7 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
         <div className="flex flex-wrap gap-2">
           {locations.map((location) => (
             <button
+              type="button"
               key={location}
               onClick={() => handleLocationChange(location)}
               className={`px-4 py-2 rounded-lg text-sm transition-all duration-200 border ${
@@ -78,6 +78,7 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
         <div className="flex flex-wrap gap-2">
           {tags.map((tag) => (
             <button
+              type="button"
               key={tag}
               onClick={() => handleTagToggle(tag)}
               className={`px-3 py-1.5 text-xs transition-all duration-200 rounded-md border ${
@@ -96,6 +97,7 @@ export function FilterBar({ onFilterChange }: FilterBarProps) {
       <AnimatePresence>
         {hasActiveFilters && (
           <motion.button
+            type="button"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}

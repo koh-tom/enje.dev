@@ -1,18 +1,15 @@
-import { Badge } from "@/components/ui/badge";
-import { Post, Tag } from "@/lib/posts";
+import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
-import { ArrowLeft } from "lucide-react";
-import type { Metadata } from "next";
 import remarkGfm from "remark-gfm";
+import { Badge } from "@/components/ui/badge";
+import { getPost, type Tag } from "@/lib/posts";
 
 type Props = {
   params: Promise<{ id: string }>;
 };
-
-import { getPost } from "@/lib/posts";
 
 export default async function BlogPostPage({ params }: Props) {
   const { id } = await params;

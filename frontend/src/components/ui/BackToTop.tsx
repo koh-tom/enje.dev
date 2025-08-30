@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TfiArrowCircleUp } from "react-icons/tfi";
 
 export function BackToTop() {
@@ -29,6 +29,7 @@ export function BackToTop() {
 
   return (
     <button
+      type="button"
       onClick={scrollToTop}
       aria-label="ページトップへ戻る"
       className={`

@@ -1,10 +1,10 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const Scene3D = dynamic(
   () => import("@/components/home/Scene3D").then((mod) => mod.Scene3D),
@@ -58,7 +58,7 @@ export function Hero() {
           className="mb-8"
         >
           <span className="inline-block rounded-full bg-blue-500/10 px-3 py-1 text-sm font-medium text-blue-400 ring-1 ring-inset ring-blue-500/20">
-            ポートフォリオ & ブログへようこそ
+            ポートフォリオ &amp; ブログへようこそ
           </span>
         </motion.div>
 
@@ -70,7 +70,7 @@ export function Hero() {
             enje
           </span>
           <span className="block text-4xl md:text-6xl lg:text-7xl text-gray-400 mt-2">
-            Portfolio & Blog
+            Portfolio &amp; Blog
           </span>
         </motion.h1>
 
@@ -141,8 +141,6 @@ const BinaryRain = () => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
-
   const columns = 20; // 列の数
   const codeSnippets = [
     "01001000 01100101 01101100 01101100 01101111",
@@ -157,50 +155,56 @@ const BinaryRain = () => {
     "export default",
   ];
 
+  // Generate stable content once on mount to avoid hydration issues
+  const columnsData = useMemo(() => {
+    if (!mounted) return [];
+    return Array.from({ length: columns }).map((_, i) => ({
+      id: `column-${i}`,
+      duration: 10 + Math.random() * 10,
+      delay: Math.random() * 5,
+      left: (i / columns) * 100,
+      rows: Array.from({ length: 30 }).map((_, j) => {
+        const rand = Math.random();
+        const content =
+          rand > 0.7
+            ? codeSnippets[Math.floor(Math.random() * codeSnippets.length)]
+            : rand > 0.5
+              ? "1"
+              : "0";
+        return { id: `row-${i}-${j}`, content };
+      }),
+    }));
+  }, [mounted]);
+
+  if (!mounted) return null;
+
   return (
     <div className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none z-0">
-      {Array.from({ length: columns }).map((_, i) => {
-        const duration = 10 + Math.random() * 10;
-        const delay = Math.random() * 5;
-
-        return (
-          <motion.div
-            key={i}
-            className="absolute top-0 text-xs font-mono text-green-600"
-            style={{
-              left: `${(i / columns) * 100}%`,
-            }}
-            initial={{ y: -100 }}
-            animate={{
-              y: "100vh",
-            }}
-            transition={{
-              duration,
-              repeat: Infinity,
-              delay,
-              ease: "linear",
-            }}
-          >
-            {Array.from({ length: 30 }).map((_, j) => {
-              const rand = Math.random();
-              const content =
-                rand > 0.7
-                  ? codeSnippets[
-                      Math.floor(Math.random() * codeSnippets.length)
-                    ]
-                  : rand > 0.5
-                    ? "1"
-                    : "0";
-
-              return (
-                <div key={j} className="py-1">
-                  {content}
-                </div>
-              );
-            })}
-          </motion.div>
-        );
-      })}
+      {columnsData.map((column) => (
+        <motion.div
+          key={column.id}
+          className="absolute top-0 text-xs font-mono text-green-600"
+          style={{
+            left: `${column.left}%`,
+          }}
+          initial={{ y: -100 }}
+          animate={{
+            y: "100vh",
+          }}
+          transition={{
+            duration: column.duration,
+            repeat: Infinity,
+            delay: column.delay,
+            ease: "linear",
+          }}
+        >
+          {column.rows.map((row) => (
+            <div key={row.id} className="py-1">
+              {row.content}
+            </div>
+          ))}
+        </motion.div>
+      ))}
     </div>
   );
 };

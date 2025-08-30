@@ -1,14 +1,13 @@
 "use client"; // クライアントコンポーネントとして宣言
 
-import type { Metadata } from "next"; // Metadataのインポートはサーバーコンポーネントでのみ可能だが、型定義として残す
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
+import { usePathname } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
 import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { ThemeProvider } from "@/components/theme-provider";
 import { BackToTop } from "@/components/ui/BackToTop";
-import { usePathname } from "next/navigation"; // usePathnameをインポート
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,12 +18,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-// Metadataはサーバーコンポーネントでのみエクスポート可能。クライアントコンポーネントでは動的に設定する必要があるが、ここでは便宜上コメントアウト
-// export const metadata: Metadata = {
-//   title: "enje.dev",
-//   description: "A portfolio and blog by a passionate developer.",
-// };
 
 export default function RootLayout({
   children,

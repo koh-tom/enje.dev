@@ -1,7 +1,7 @@
-import { ProfileHero } from "@/components/about/ProfileHero";
-import { BentoGrid } from "@/components/about/BentoGrid";
 import { Achievements } from "@/components/about/Achievements";
+import { BentoGrid } from "@/components/about/BentoGrid";
 import { Philosophy } from "@/components/about/Philosophy";
+import { ProfileHero } from "@/components/about/ProfileHero";
 
 export default function AboutPage() {
   return (

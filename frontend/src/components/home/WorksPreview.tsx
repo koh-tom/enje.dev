@@ -1,6 +1,6 @@
-import { ProjectCard, type Project } from "@/components/portfolio/ProjectCard";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { type Project, ProjectCard } from "@/components/portfolio/ProjectCard";
+import { Button } from "@/components/ui/button";
 
 // サーバーコンポーネント
 // 最新のプロジェクトをAPIから取得

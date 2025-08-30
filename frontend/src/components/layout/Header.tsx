@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { ModeToggle } from "@/components/theme-toggle";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { ModeToggle } from "@/components/theme-toggle";
 import { Magnetic } from "@/components/ui/magnetic";
-import { motion, AnimatePresence } from "framer-motion";
 
 /*
  * ナビゲーションリンクの定義
@@ -32,7 +32,7 @@ export const Header = ({ title }: { title?: string }) => {
   // ページ遷移時にメニューを閉じる
   useEffect(() => {
     setIsMenuOpen(false);
-  }, [pathname]);
+  }, []);
 
   // メニューが開いている時はスクロールを無効化
   useEffect(() => {
@@ -46,6 +46,16 @@ export const Header = ({ title }: { title?: string }) => {
     };
   }, [isMenuOpen]);
 
+  const handleOverlayClick = () => {
+    setIsMenuOpen(false);
+  };
+
+  const handleOverlayKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
+      setIsMenuOpen(false);
+    }
+  };
+
   return (
     <>
       <header className="sticky top-0 z-50 w-full bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80 border-b border-gray-800">
@@ -57,7 +67,7 @@ export const Header = ({ title }: { title?: string }) => {
                 href="/"
                 className="text-lg md:text-xl font-bold tracking-wider text-white hover:text-gray-300 transition-colors block"
               >
-                enje's Portfolio & Blog
+                enje's Portfolio &amp; Blog
               </Link>
             </Magnetic>
           </div>
@@ -95,6 +105,7 @@ export const Header = ({ title }: { title?: string }) => {
           <div className="flex md:hidden items-center gap-4 z-10">
             <ModeToggle />
             <button
+              type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="relative w-8 h-8 flex items-center justify-center"
               aria-label={isMenuOpen ? "メニューを閉じる" : "メニューを開く"}
@@ -132,9 +143,12 @@ export const Header = ({ title }: { title?: string }) => {
             className="fixed inset-0 z-40 md:hidden"
           >
             {/* 背景オーバーレイ */}
-            <div
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-              onClick={() => setIsMenuOpen(false)}
+            <button
+              type="button"
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer border-none"
+              onClick={handleOverlayClick}
+              onKeyDown={handleOverlayKeyDown}
+              aria-label="メニューを閉じる"
             />
 
             {/* メニューコンテンツ */}

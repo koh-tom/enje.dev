@@ -1,14 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  FaLaptop,
-  FaCode,
-  FaTerminal,
-  FaKeyboard,
-  FaGithub,
-  FaDesktop,
-} from "react-icons/fa";
+import type { IconType } from "react-icons";
+import { FaDesktop, FaKeyboard, FaLaptop, FaTerminal } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 import { MdEditDocument } from "react-icons/md";
 
@@ -16,7 +10,7 @@ const ToolIcon = ({
   IconComponent,
   color,
 }: {
-  IconComponent: any;
+  IconComponent: IconType;
   color: string;
 }) => (
   <div
@@ -95,7 +89,10 @@ export function Philosophy() {
               <h3 className="text-lg font-bold mb-2">{tool.title}</h3>
               <div className="text-gray-400 text-sm leading-relaxed">
                 {tool.description.split("\n").map((line, i) => (
-                  <p key={i} className={line.trim() ? "" : "h-2"}>
+                  <p
+                    key={`${tool.title}-line-${i}`}
+                    className={line.trim() ? "" : "h-2"}
+                  >
                     {line}
                   </p>
                 ))}

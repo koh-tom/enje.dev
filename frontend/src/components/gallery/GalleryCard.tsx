@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import type { TravelGallery } from "@/types/gallery";
-import { formatGalleryDate } from "@/lib/imageUtils";
 
 interface GalleryCardProps {
   gallery: TravelGallery;
@@ -67,7 +66,9 @@ export function GalleryCard({ gallery, onClick, index }: GalleryCardProps) {
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
+            <title>Location</title>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

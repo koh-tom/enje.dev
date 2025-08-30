@@ -1,9 +1,12 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import {
+  type ContactFormValues,
+  contactSchema,
+} from "@/components/contact/Validation";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,11 +15,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  contactSchema,
-  type ContactFormValues,
-} from "@/components/contact/Validation";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 /*
  * Contactページ

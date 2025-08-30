@@ -1,12 +1,11 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Github, ExternalLink } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-
 // Project型を再利用
-import { type Project } from "@/components/portfolio/ProjectCard";
+import type { Project } from "@/components/portfolio/ProjectCard";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   params: Promise<{ id: string }>;

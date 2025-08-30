@@ -1,15 +1,15 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
+import { Search } from "lucide-react";
+import { useMemo, useState } from "react";
 import {
   BlogPostCard,
   type Post,
   type Tag,
 } from "@/components/blog/BlogPostCard";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { useState, useMemo } from "react";
-import { Search } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Input } from "@/components/ui/input";
 
 interface BlogListProps {
   initialPosts: Post[];
@@ -119,6 +119,7 @@ export function BlogList({ initialPosts, tags }: BlogListProps) {
                 条件に一致する記事は見つかりませんでした 😢
               </p>
               <button
+                type="button"
                 onClick={() => {
                   setSearchQuery("");
                   setSelectedTag(null);

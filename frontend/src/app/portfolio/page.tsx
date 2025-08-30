@@ -1,4 +1,4 @@
-import { ProjectCard, type Project } from "@/components/portfolio/ProjectCard";
+import { type Project, ProjectCard } from "@/components/portfolio/ProjectCard";
 
 // サーバーサイドでプロジェクト一覧を取得
 // ISR (revalidate: 60) を設定して、高速表示とデータ鮮度を両立

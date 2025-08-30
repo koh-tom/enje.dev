@@ -1,9 +1,9 @@
-import { Hero } from "@/components/home/Hero";
 import { About } from "@/components/home/About";
+import { BlogPreview } from "@/components/home/BlogPreview";
+import { Hero } from "@/components/home/Hero";
+import { Skills } from "@/components/home/Skills";
 import { Timeline } from "@/components/home/Timeline";
 import { WorksPreview } from "@/components/home/WorksPreview";
-import { BlogPreview } from "@/components/home/BlogPreview";
-import { Skills } from "@/components/home/Skills";
 
 /*
  * ホーム画面

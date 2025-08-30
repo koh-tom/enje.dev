@@ -1,4 +1,4 @@
-import { FaGithub, FaBluesky, FaHeart } from "react-icons/fa6";
+import { FaBluesky, FaGithub } from "react-icons/fa6";
 
 const socialLinks = [
   {

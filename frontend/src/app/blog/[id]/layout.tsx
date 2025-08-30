@@ -1,8 +1,7 @@
-import { getPost } from "@/lib/posts";
-import { Header } from "@/components/layout/Header";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import type { Metadata } from "next"; // Metadataの型をインポート
+import { Header } from "@/components/layout/Header";
+import { getPost } from "@/lib/posts";
 
 type Props = {
   params: Promise<{ id: string }>;

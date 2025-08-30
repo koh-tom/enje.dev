@@ -1,16 +1,16 @@
 "use client";
 
+import { ExternalLink, Github } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button"; // Buttonコンポーネントを追加
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button"; // Buttonコンポーネントを追加
-import { Github, ExternalLink } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
 
 // プロジェクト定義
 export interface Project {

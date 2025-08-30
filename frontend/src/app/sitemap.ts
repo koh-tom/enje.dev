@@ -1,7 +1,20 @@
 import type { MetadataRoute } from "next";
 
+interface SitemapPost {
+  id: string;
+  updated_at?: string;
+  published_at: string;
+}
+
+interface SitemapRoute {
+  url: string;
+  lastModified: Date;
+  changeFrequency: "weekly" | "monthly";
+  priority: number;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
 
   // 基本的なページ
   const routes = [
@@ -19,15 +32,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // ブログ記事の動的取得 (エラー時は空配列)
-  let postRoutes: any[] = [];
+  let postRoutes: SitemapRoute[] = [];
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   if (apiUrl) {
     try {
       const res = await fetch(`${apiUrl}/posts`);
       if (res.ok) {
-        const posts = await res.json();
-        postRoutes = posts.map((post: any) => ({
+        const posts: SitemapPost[] = await res.json();
+        postRoutes = posts.map((post) => ({
           url: `${baseUrl}/blog/${post.id}`,
           lastModified: new Date(post.updated_at || post.published_at),
           changeFrequency: "monthly" as const,

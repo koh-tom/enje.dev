@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Card } from "@/components/ui/card";
-import { FaGithub, FaBluesky } from "react-icons/fa6";
-import { SiZig } from "react-icons/si";
 import Link from "next/link";
-import { FaRust, FaReact, FaLinux, FaMapMarkerAlt } from "react-icons/fa";
+import { useState } from "react";
+import { FaLinux, FaMapMarkerAlt, FaReact, FaRust } from "react-icons/fa";
+import { FaBluesky, FaGithub } from "react-icons/fa6";
+import { SiZig } from "react-icons/si";
 import { TbBrandCpp } from "react-icons/tb";
+import { Card } from "@/components/ui/card";
 
 // Bento Gridの各アイテムをラップするコンポーネント (スクロール連動アニメーション付き)
 const BentoItem = ({
@@ -33,6 +33,7 @@ const BentoItem = ({
 );
 
 interface InterestItem {
+  id: string; // ユニークなID
   emoji: string;
   label: string;
   detail: string;
@@ -48,14 +49,34 @@ function InterestsSection() {
 
   const categories: Record<CategoryType, InterestItem[]> = {
     sports: [
-      { emoji: "⚽", label: "Spurs", detail: "Tottenham Hotspur - COYS!" },
-      { emoji: "🇮🇹", label: "Azzurri", detail: "Italian National Team" },
-      { emoji: "⚾", label: "Fighters", detail: "北海道日本ハムファイターズ" },
+      {
+        id: "spurs",
+        emoji: "⚽",
+        label: "Spurs",
+        detail: "Tottenham Hotspur - COYS!",
+      },
+      {
+        id: "azzurri",
+        emoji: "🇮🇹",
+        label: "Azzurri",
+        detail: "Italian National Team",
+      },
+      {
+        id: "fighters",
+        emoji: "⚾",
+        label: "Fighters",
+        detail: "北海道日本ハムファイターズ",
+      },
     ],
     hobbies: [
-      { emoji: "🎭", label: "Theater", detail: "観劇・舞台鑑賞" },
-      { emoji: "🎬", label: "Movies", detail: "映画鑑賞" },
-      { emoji: "☗", label: "Shogi", detail: "居飛車党 (矢倉)" },
+      {
+        id: "theater",
+        emoji: "🎭",
+        label: "Theater",
+        detail: "観劇・舞台鑑賞",
+      },
+      { id: "movies", emoji: "🎬", label: "Movies", detail: "映画鑑賞" },
+      { id: "shogi", emoji: "☗", label: "Shogi", detail: "居飛車党 (矢倉)" },
     ],
   };
 
@@ -76,6 +97,7 @@ function InterestsSection() {
           {(Object.keys(categories) as Array<keyof typeof categories>).map(
             (category) => (
               <button
+                type="button"
                 key={category}
                 onClick={() => setActiveCategory(category)}
                 className={`px-3 py-1 text-[10px] rounded-full transition-all ${
@@ -100,9 +122,9 @@ function InterestsSection() {
         transition={{ duration: 0.3 }}
         className="grid grid-cols-3 gap-3"
       >
-        {categories[activeCategory].map((interest, idx) => (
+        {categories[activeCategory].map((interest) => (
           <motion.div
-            key={idx}
+            key={interest.id}
             className="flex flex-col items-center gap-2 relative group cursor-pointer"
             whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}

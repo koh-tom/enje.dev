@@ -16,6 +16,7 @@ export function ViewModeToggle({ mode, onModeChange }: ViewModeToggleProps) {
   return (
     <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-800 rounded-xl p-1 border border-gray-200 dark:border-gray-700">
       <button
+        type="button"
         onClick={() => onModeChange("masonry")}
         className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
           mode === "masonry"
@@ -34,6 +35,7 @@ export function ViewModeToggle({ mode, onModeChange }: ViewModeToggleProps) {
       </button>
 
       <button
+        type="button"
         onClick={() => onModeChange("grid")}
         className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
           mode === "grid"

@@ -49,10 +49,10 @@
 bun run dev
 ```
 
-| Application | URL | Port |
-| --- | --- | --- |
-| **Frontend** (Next.js) | http://localhost:3000 | `3001` |
-| **Backend** (Rails API) | http://localhost:3001 | `3000` |
+| Application             | URL                   | Port   |
+| ----------------------- | --------------------- | ------ |
+| **Frontend** (Next.js)  | http://localhost:3001 | `3001` |
+| **Backend** (Rails API) | http://localhost:3000 | `3000` |
 
 ## ディレクトリ構造
 

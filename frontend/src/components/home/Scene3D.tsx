@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Stars } from "@react-three/drei";
-import * as THREE from "three";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { useMemo, useRef } from "react";
+import type * as THREE from "three";
 
 function GeometricShape() {
   const meshRef = useRef<THREE.Mesh>(null);

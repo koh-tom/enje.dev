@@ -1,9 +1,9 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { FaBluesky, FaGithub, FaArrowRight } from "react-icons/fa6";
-import { motion } from "framer-motion";
+import { FaArrowRight, FaBluesky, FaGithub } from "react-icons/fa6";
 
 /*
  * SNS系リンクの定義リスト
@@ -111,7 +111,7 @@ export function About() {
 
             {/* 趣味・属性タグクラウド */}
             <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-8">
-              {interests.map((tag, index) => (
+              {interests.map((tag, _index) => (
                 <span
                   key={tag}
                   className="px-4 py-1.5 text-sm font-medium text-gray-300 bg-gray-900/80 border border-gray-800 rounded-full hover:border-blue-500 hover:text-blue-400 hover:bg-gray-800 transition-all duration-300 cursor-default"

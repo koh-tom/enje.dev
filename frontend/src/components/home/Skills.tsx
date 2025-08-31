@@ -21,22 +21,23 @@ import { Marquee } from "@/components/ui/marquee";
  * name: スキル名
  * proficiency: 習熟度(5が最高)
  * icon: 表示するアイコン
+ * color: ブランドカラー
  */
 const skills = [
-  { name: "Ubuntu", proficiency: 5, icon: FaUbuntu },
-  { name: "Zig", proficiency: 5, icon: SiZig },
-  { name: "C++", proficiency: 5, icon: TbBrandCpp },
-  { name: "Rust", proficiency: 4, icon: FaRust },
-  { name: "TypeScript", proficiency: 4, icon: SiTypescript },
-  { name: "Ruby", proficiency: 4, icon: SiRuby },
-  { name: "Python", proficiency: 4, icon: FaPython },
-  { name: "React", proficiency: 4, icon: FaReact },
-  { name: "Next.js", proficiency: 4, icon: SiNextdotjs },
-  { name: "Vite", proficiency: 4, icon: SiVite },
-  { name: "Linux", proficiency: 4, icon: FaLinux },
-  { name: "Docker", proficiency: 3, icon: SiDocker },
-  { name: "PostgreSQL", proficiency: 3, icon: SiPostgresql },
-  { name: "C#", proficiency: 3, icon: TbBrandCSharp },
+  { name: "Ubuntu", proficiency: 5, icon: FaUbuntu, color: "text-[#E95420]" }, // Ubuntu Orange
+  { name: "Zig", proficiency: 5, icon: SiZig, color: "text-[#F7A41D]" }, // Zig Orange
+  { name: "C++", proficiency: 5, icon: TbBrandCpp, color: "text-[#00599C]" }, // C++ Blue
+  { name: "Rust", proficiency: 4, icon: FaRust, color: "text-[#DEA584]" }, // Rust Orange/Brown
+  { name: "TypeScript", proficiency: 4, icon: SiTypescript, color: "text-[#3178C6]" }, // TypeScript Blue
+  { name: "Ruby", proficiency: 4, icon: SiRuby, color: "text-[#CC342D]" }, // Ruby Red
+  { name: "Python", proficiency: 4, icon: FaPython, color: "text-[#3776AB]" }, // Python Blue
+  { name: "React", proficiency: 4, icon: FaReact, color: "text-[#61DAFB]" }, // React Cyan
+  { name: "Next.js", proficiency: 4, icon: SiNextdotjs, color: "text-white" }, // Next.js White
+  { name: "Vite", proficiency: 4, icon: SiVite, color: "text-[#646CFF]" }, // Vite Purple
+  { name: "Linux", proficiency: 4, icon: FaLinux, color: "text-[#FCC624]" }, // Linux Yellow (Tux)
+  { name: "Docker", proficiency: 3, icon: SiDocker, color: "text-[#2496ED]" }, // Docker Blue
+  { name: "PostgreSQL", proficiency: 3, icon: SiPostgresql, color: "text-[#4169E1]" }, // PostgreSQL Blue
+  { name: "C#", proficiency: 3, icon: TbBrandCSharp, color: "text-[#512BD4]" }, // C# Purple
 ];
 
 // スキルを2つのグループに分割（上段と下段で逆方向に流す）
@@ -44,7 +45,7 @@ const firstRow = skills.slice(0, Math.ceil(skills.length / 2));
 const secondRow = skills.slice(Math.ceil(skills.length / 2));
 
 /**
- * 元のスキルカードコンポーネント（デザインそのまま）
+ * 元のスキルカードコンポーネント（デザインそのまま + ブランドカラー）
  */
 function SkillCard({ skill }: { skill: (typeof skills)[0] }) {
   const Icon = skill.icon;
@@ -52,7 +53,7 @@ function SkillCard({ skill }: { skill: (typeof skills)[0] }) {
   return (
     <Card className="p-6 bg-gray-800 border-gray-700 flex flex-col items-center w-36">
       <div className="text-4xl mb-2">
-        <Icon className="w-10 h-10 text-white" />
+        <Icon className={`w-10 h-10 ${skill.color}`} />
       </div>
       <p className="font-semibold text-white">{skill.name}</p>
       {/* 習熟度を表す5段階のドット表示 */}

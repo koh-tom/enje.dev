@@ -228,21 +228,21 @@ export function BentoGrid() {
                 <Link
                   href="https://github.com/koh-tom"
                   target="_blank"
-                  className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black transition-all"
+                  className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black text-gray-500 transition-all"
                 >
                   <FaGithub size={24} />
                 </Link>
                 <Link
                   href="https://bsky.app/profile/coysdaje.bsky.social"
                   target="_blank"
-                  className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black transition-all"
+                  className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black text-blue-500 transition-all"
                 >
                   <FaBluesky size={24} />
                 </Link>
                 <Link
                   href="https://sizu.me/enje"
                   target="_blank"
-                  className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black transition-all"
+                  className="p-3 bg-gray-800 rounded-full hover:bg-white hover:text-black text-white transition-all"
                 >
                   <BsJournals size={24} />
                 </Link>

@@ -116,6 +116,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -126,6 +127,7 @@
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(calc(-100% - var(--gap)));
   }
@@ -135,6 +137,7 @@
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(calc(-100% - var(--gap)));
   }
@@ -148,3 +151,8 @@
   animation: marquee-vertical var(--duration) linear infinite;
 }
 
+/* ホバー時にアニメーションを停止 */
+.marquee-container:hover .animate-marquee,
+.marquee-container:hover .animate-marquee-vertical {
+  animation-play-state: paused;
+}

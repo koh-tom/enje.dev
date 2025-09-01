@@ -1,4 +1,5 @@
 import { FaBluesky, FaGithub } from "react-icons/fa6";
+import { BsJournals } from "react-icons/bs";
 
 const socialLinks = [
   {
@@ -12,6 +13,12 @@ const socialLinks = [
     url: "https://bsky.app/profile/coysdaje.bsky.social",
     icon: FaBluesky,
     className: "text-blue-500 hover:text-blue-400 transition-colors",
+  },
+  {
+    name: "Sizu",
+    url: "https://sizu.me/enje",
+    icon: BsJournals,
+    className: "text-white hover:text-gray transition-colors",
   },
 ];
 

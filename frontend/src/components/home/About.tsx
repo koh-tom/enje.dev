@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRight, FaBluesky, FaGithub } from "react-icons/fa6";
+import { BsJournals } from "react-icons/bs";
 
 /*
  * SNS系リンクの定義リスト
@@ -20,6 +21,12 @@ const socialLinks = [
     url: "https://bsky.app/profile/coysdaje.bsky.social",
     icon: FaBluesky,
     className: "text-blue-500 hover:text-blue-400 transition-colors",
+  },
+  {
+    name: "Sizu",
+    url: "https://sizu.me/enje",
+    icon: BsJournals,
+    className: "text-white hover:text-gray transition-colors",
   },
 ];
 

@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
+import { BsJournals } from "react-icons/bs";
 import { FaLinux, FaMapMarkerAlt, FaReact, FaRust } from "react-icons/fa";
 import { FaBluesky, FaGithub } from "react-icons/fa6";
-import { BsJournals } from "react-icons/bs";
 import { SiZig } from "react-icons/si";
 import { TbBrandCpp } from "react-icons/tb";
 import { Card } from "@/components/ui/card";
@@ -101,10 +101,11 @@ function InterestsSection() {
                 type="button"
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-3 py-1 text-[10px] rounded-full transition-all ${activeCategory === category
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
-                  }`}
+                className={`px-3 py-1 text-[10px] rounded-full transition-all ${
+                  activeCategory === category
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                }`}
               >
                 {categoryLabels[category]}
               </button>

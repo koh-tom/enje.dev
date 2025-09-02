@@ -1,5 +1,5 @@
-import { FaBluesky, FaGithub } from "react-icons/fa6";
 import { BsJournals } from "react-icons/bs";
+import { FaBluesky, FaGithub } from "react-icons/fa6";
 
 const socialLinks = [
   {

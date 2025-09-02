@@ -28,7 +28,12 @@ const skills = [
   { name: "Zig", proficiency: 5, icon: SiZig, color: "text-[#F7A41D]" }, // Zig Orange
   { name: "C++", proficiency: 5, icon: TbBrandCpp, color: "text-[#00599C]" }, // C++ Blue
   { name: "Rust", proficiency: 4, icon: FaRust, color: "text-[#DEA584]" }, // Rust Orange/Brown
-  { name: "TypeScript", proficiency: 4, icon: SiTypescript, color: "text-[#3178C6]" }, // TypeScript Blue
+  {
+    name: "TypeScript",
+    proficiency: 4,
+    icon: SiTypescript,
+    color: "text-[#3178C6]",
+  }, // TypeScript Blue
   { name: "Ruby", proficiency: 4, icon: SiRuby, color: "text-[#CC342D]" }, // Ruby Red
   { name: "Python", proficiency: 4, icon: FaPython, color: "text-[#3776AB]" }, // Python Blue
   { name: "React", proficiency: 4, icon: FaReact, color: "text-[#61DAFB]" }, // React Cyan
@@ -36,7 +41,12 @@ const skills = [
   { name: "Vite", proficiency: 4, icon: SiVite, color: "text-[#646CFF]" }, // Vite Purple
   { name: "Linux", proficiency: 4, icon: FaLinux, color: "text-[#FCC624]" }, // Linux Yellow (Tux)
   { name: "Docker", proficiency: 3, icon: SiDocker, color: "text-[#2496ED]" }, // Docker Blue
-  { name: "PostgreSQL", proficiency: 3, icon: SiPostgresql, color: "text-[#4169E1]" }, // PostgreSQL Blue
+  {
+    name: "PostgreSQL",
+    proficiency: 3,
+    icon: SiPostgresql,
+    color: "text-[#4169E1]",
+  }, // PostgreSQL Blue
   { name: "C#", proficiency: 3, icon: TbBrandCSharp, color: "text-[#512BD4]" }, // C# Purple
 ];
 
@@ -61,8 +71,9 @@ function SkillCard({ skill }: { skill: (typeof skills)[0] }) {
         {Array.from({ length: 5 }).map((_, i) => (
           <span
             key={`${skill.name}-dot-${i}`}
-            className={`block w-3 h-3 rounded-full ${i < skill.proficiency ? "bg-blue-500" : "bg-gray-600"
-              }`}
+            className={`block w-3 h-3 rounded-full ${
+              i < skill.proficiency ? "bg-blue-500" : "bg-gray-600"
+            }`}
           />
         ))}
       </div>

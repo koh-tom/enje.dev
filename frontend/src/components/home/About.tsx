@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { FaArrowRight, FaBluesky, FaGithub } from "react-icons/fa6";
 import { BsJournals } from "react-icons/bs";
+import { FaArrowRight, FaBluesky, FaGithub } from "react-icons/fa6";
 
 /*
  * SNS系リンクの定義リスト

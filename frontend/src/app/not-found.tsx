@@ -81,6 +81,91 @@ function TerminalLog({
 }
 
 /**
+ * 7セグメントディスプレイ風の数字表示
+ * 各セグメントを個別にレンダリング
+ */
+function SevenSegmentDigit({ digit, color = "cyan" }: { digit: string; color?: string }) {
+  // 各数字に対応するセグメント（a-g の順）
+  // セグメント配置:
+  //   aaa
+  //  f   b
+  //   ggg
+  //  e   c
+  //   ddd
+  const segments: Record<string, boolean[]> = {
+    "0": [true, true, true, true, true, true, false],
+    "1": [false, true, true, false, false, false, false],
+    "2": [true, true, false, true, true, false, true],
+    "3": [true, true, true, true, false, false, true],
+    "4": [false, true, true, false, false, true, true],
+    "5": [true, false, true, true, false, true, true],
+    "6": [true, false, true, true, true, true, true],
+    "7": [true, true, true, false, false, false, false],
+    "8": [true, true, true, true, true, true, true],
+    "9": [true, true, true, true, false, true, true],
+  };
+
+  const activeSegments = segments[digit] || segments["0"];
+
+  const colorClasses = {
+    cyan: { active: "bg-cyan-400 shadow-cyan-400/30", dim: "bg-cyan-900/30" },
+    red: { active: "bg-red-400 shadow-red-400/50", dim: "bg-red-900/30" },
+    green: { active: "bg-green-400 shadow-green-400/50", dim: "bg-green-900/30" },
+  };
+
+  const colors = colorClasses[color as keyof typeof colorClasses] || colorClasses.cyan;
+
+  const getSegmentClass = (isActive: boolean) =>
+    isActive ? `${colors.active} shadow-lg` : colors.dim;
+
+  return (
+    <div className="relative w-12 h-20 md:w-16 md:h-28">
+      {/* セグメント a (top) */}
+      <div
+        className={`absolute top-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[0])}`}
+      />
+      {/* セグメント b (top-right) */}
+      <div
+        className={`absolute top-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[1])}`}
+      />
+      {/* セグメント c (bottom-right) */}
+      <div
+        className={`absolute bottom-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[2])}`}
+      />
+      {/* セグメント d (bottom) */}
+      <div
+        className={`absolute bottom-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[3])}`}
+      />
+      {/* セグメント e (bottom-left) */}
+      <div
+        className={`absolute bottom-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[4])}`}
+      />
+      {/* セグメント f (top-left) */}
+      <div
+        className={`absolute top-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[5])}`}
+      />
+      {/* セグメント g (middle) */}
+      <div
+        className={`absolute top-1/2 -translate-y-1/2 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[6])}`}
+      />
+    </div>
+  );
+}
+
+/**
+ * 7セグメント文字列表示
+ */
+function SevenSegmentDisplay({ text, color = "cyan" }: { text: string; color?: string }) {
+  return (
+    <div className="flex items-center gap-2 md:gap-4">
+      {text.split("").map((char, index) => (
+        <SevenSegmentDigit key={`seg-${index}`} digit={char} color={color} />
+      ))}
+    </div>
+  );
+}
+
+/**
  * 404 Not Found ページ - ターミナルテーマ
  */
 export default function NotFound() {
@@ -112,9 +197,9 @@ export default function NotFound() {
         transition={{ duration: 0.5 }}
         className="text-center mb-8"
       >
-        <h1 className="text-7xl md:text-8xl font-black font-mono text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-sky-700 mb-2">
-          404
-        </h1>
+        <div className="flex justify-center mb-4">
+          <SevenSegmentDisplay text="404" color="cyan" />
+        </div>
         <p className="text-gray-500 font-mono text-sm">PAGE_NOT_FOUND</p>
       </motion.div>
 

@@ -1,97 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 /**
- * タイプライター効果でログを表示
+ * ターミナルのコマンド履歴と出力を管理
  */
-function TerminalLog({
-  logs,
-  onComplete,
-}: {
-  logs: { text: string; type: "info" | "error" | "warn" | "success" }[];
-  onComplete?: () => void;
-}) {
-  const [visibleLogs, setVisibleLogs] = useState<number>(0);
-  const [currentText, setCurrentText] = useState("");
-  const [isTyping, setIsTyping] = useState(true);
-
-  useEffect(() => {
-    if (visibleLogs >= logs.length) {
-      setIsTyping(false);
-      onComplete?.();
-      return;
-    }
-
-    const currentLog = logs[visibleLogs];
-    let charIndex = 0;
-
-    const typeTimer = setInterval(() => {
-      if (charIndex < currentLog.text.length) {
-        setCurrentText(currentLog.text.slice(0, charIndex + 1));
-        charIndex++;
-      } else {
-        clearInterval(typeTimer);
-        setTimeout(() => {
-          setVisibleLogs((prev) => prev + 1);
-          setCurrentText("");
-        }, 100);
-      }
-    }, 20);
-
-    return () => clearInterval(typeTimer);
-  }, [visibleLogs, logs, onComplete]);
-
-  const getTextColor = (type: string) => {
-    switch (type) {
-      case "error":
-        return "text-red-400";
-      case "warn":
-        return "text-yellow-400";
-      case "success":
-        return "text-green-400";
-      default:
-        return "text-gray-300";
-    }
-  };
-
-  return (
-    <div className="space-y-1">
-      {logs.slice(0, visibleLogs).map((log, index) => (
-        <div key={`log-${index}`} className={`${getTextColor(log.type)}`}>
-          {log.text}
-        </div>
-      ))}
-      {visibleLogs < logs.length && (
-        <div className={getTextColor(logs[visibleLogs].type)}>
-          {currentText}
-          <span className="animate-pulse">▌</span>
-        </div>
-      )}
-      {!isTyping && (
-        <div className="text-gray-500 animate-pulse">
-          <span className="text-green-400">$</span> _
-        </div>
-      )}
-    </div>
-  );
-}
+type TerminalLine = {
+  id: string;
+  text: string;
+  type: "input" | "output" | "error" | "success" | "info";
+};
 
 /**
  * 7セグメントディスプレイ風の数字表示
- * 各セグメントを個別にレンダリング
  */
 function SevenSegmentDigit({ digit, color = "cyan" }: { digit: string; color?: string }) {
-  // 各数字に対応するセグメント（a-g の順）
-  // セグメント配置:
-  //   aaa
-  //  f   b
-  //   ggg
-  //  e   c
-  //   ddd
   const segments: Record<string, boolean[]> = {
     "0": [true, true, true, true, true, true, false],
     "1": [false, true, true, false, false, false, false],
@@ -114,47 +39,22 @@ function SevenSegmentDigit({ digit, color = "cyan" }: { digit: string; color?: s
   };
 
   const colors = colorClasses[color as keyof typeof colorClasses] || colorClasses.cyan;
-
   const getSegmentClass = (isActive: boolean) =>
     isActive ? `${colors.active} shadow-lg` : colors.dim;
 
   return (
     <div className="relative w-12 h-20 md:w-16 md:h-28">
-      {/* セグメント a (top) */}
-      <div
-        className={`absolute top-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[0])}`}
-      />
-      {/* セグメント b (top-right) */}
-      <div
-        className={`absolute top-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[1])}`}
-      />
-      {/* セグメント c (bottom-right) */}
-      <div
-        className={`absolute bottom-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[2])}`}
-      />
-      {/* セグメント d (bottom) */}
-      <div
-        className={`absolute bottom-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[3])}`}
-      />
-      {/* セグメント e (bottom-left) */}
-      <div
-        className={`absolute bottom-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[4])}`}
-      />
-      {/* セグメント f (top-left) */}
-      <div
-        className={`absolute top-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[5])}`}
-      />
-      {/* セグメント g (middle) */}
-      <div
-        className={`absolute top-1/2 -translate-y-1/2 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[6])}`}
-      />
+      <div className={`absolute top-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[0])}`} />
+      <div className={`absolute top-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[1])}`} />
+      <div className={`absolute bottom-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[2])}`} />
+      <div className={`absolute bottom-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[3])}`} />
+      <div className={`absolute bottom-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[4])}`} />
+      <div className={`absolute top-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[5])}`} />
+      <div className={`absolute top-1/2 -translate-y-1/2 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[6])}`} />
     </div>
   );
 }
 
-/**
- * 7セグメント文字列表示
- */
 function SevenSegmentDisplay({ text, color = "cyan" }: { text: string; color?: string }) {
   return (
     <div className="flex items-center gap-2 md:gap-4">
@@ -166,28 +66,208 @@ function SevenSegmentDisplay({ text, color = "cyan" }: { text: string; color?: s
 }
 
 /**
- * 404 Not Found ページ - ターミナルテーマ
+ * インタラクティブターミナル
  */
-export default function NotFound() {
-  const [showButtons, setShowButtons] = useState(false);
+function InteractiveTerminal() {
+  const router = useRouter();
+  const [lines, setLines] = useState<TerminalLine[]>([]);
+  const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
 
-  const errorLogs: { text: string; type: "info" | "error" | "warn" | "success" }[] = [
-    { text: "$ curl -X GET /requested-page", type: "info" },
-    { text: "", type: "info" },
-    { text: "[INFO]  Initializing route resolver...", type: "info" },
-    { text: "[INFO]  Scanning available endpoints...", type: "info" },
-    { text: "[WARN]  Route pattern match failed", type: "warn" },
-    { text: "[ERROR] HTTP 404: Resource not found", type: "error" },
-    { text: "[ERROR] The requested path does not exist", type: "error" },
-    { text: "", type: "info" },
-    { text: "Possible causes:", type: "info" },
-    { text: "  - URL may have been moved or deleted", type: "info" },
-    { text: "  - Typo in the address", type: "info" },
-    { text: "  - Link may be outdated", type: "info" },
-    { text: "", type: "info" },
-    { text: "[INFO]  Recommended: Return to home page", type: "success" },
+  // 初期メッセージをタイプライター効果で表示
+  const initialMessages = [
+    { text: "$ curl -X GET /requested-page", type: "input" as const },
+    { text: "[ERROR] HTTP 404: Resource not found", type: "error" as const },
+    { text: "[INFO]  The requested path does not exist", type: "info" as const },
+    { text: "", type: "info" as const },
+    { text: "Type 'help' for available commands", type: "success" as const },
   ];
 
+  useEffect(() => {
+    let lineIndex = 0;
+    const addLine = () => {
+      if (lineIndex < initialMessages.length) {
+        const msg = initialMessages[lineIndex];
+        setLines(prev => [...prev, { id: `init-${lineIndex}`, text: msg.text, type: msg.type }]);
+        lineIndex++;
+        setTimeout(addLine, 150);
+      } else {
+        setIsTyping(false);
+        inputRef.current?.focus();
+      }
+    };
+    addLine();
+  }, []);
+
+  // 自動スクロール
+  useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, [lines]);
+
+  // 利用可能なルート
+  const routes: Record<string, string> = {
+    "/": "/",
+    "/home": "/",
+    "~": "/",
+    "/blog": "/blog",
+    "/about": "/about",
+    "/portfolio": "/portfolio",
+    "/gallery": "/gallery",
+    "/contact": "/contact",
+  };
+
+  // コマンド処理
+  const handleCommand = (cmd: string) => {
+    const trimmedCmd = cmd.trim().toLowerCase();
+    const newLines: TerminalLine[] = [
+      { id: `cmd-${Date.now()}`, text: `$ ${cmd}`, type: "input" },
+    ];
+
+    if (!trimmedCmd) {
+      setLines(prev => [...prev, ...newLines]);
+      return;
+    }
+
+    // cd コマンド
+    if (trimmedCmd.startsWith("cd ")) {
+      const path = trimmedCmd.slice(3).trim();
+      const route = routes[path];
+      if (route) {
+        newLines.push({ id: `out-${Date.now()}`, text: `Navigating to ${path}...`, type: "success" });
+        setLines(prev => [...prev, ...newLines]);
+        setTimeout(() => router.push(route), 500);
+        return;
+      }
+      newLines.push({ id: `out-${Date.now()}`, text: `bash: cd: ${path}: No such directory`, type: "error" });
+    }
+    // ls コマンド
+    else if (trimmedCmd === "ls" || trimmedCmd === "ls -la") {
+      newLines.push({ id: `out-${Date.now()}-1`, text: "drwxr-xr-x  /home      (Homepage)", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-2`, text: "drwxr-xr-x  /blog      (Blog posts)", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-3`, text: "drwxr-xr-x  /about     (About me)", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-4`, text: "drwxr-xr-x  /portfolio (Projects)", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-5`, text: "drwxr-xr-x  /gallery   (Photo gallery)", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-6`, text: "drwxr-xr-x  /contact   (Contact form)", type: "info" });
+    }
+    // help コマンド
+    else if (trimmedCmd === "help" || trimmedCmd === "--help" || trimmedCmd === "-h") {
+      newLines.push({ id: `out-${Date.now()}-1`, text: "Available commands:", type: "success" });
+      newLines.push({ id: `out-${Date.now()}-2`, text: "  cd <path>  - Navigate to a page", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-3`, text: "  ls         - List available pages", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-4`, text: "  clear      - Clear terminal", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-5`, text: "  help       - Show this help", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-6`, text: "", type: "info" });
+      newLines.push({ id: `out-${Date.now()}-7`, text: "Example: cd /home", type: "info" });
+    }
+    // clear コマンド
+    else if (trimmedCmd === "clear") {
+      setLines([]);
+      return;
+    }
+    // whoami コマンド
+    else if (trimmedCmd === "whoami") {
+      newLines.push({ id: `out-${Date.now()}`, text: "visitor", type: "info" });
+    }
+    // pwd コマンド
+    else if (trimmedCmd === "pwd") {
+      newLines.push({ id: `out-${Date.now()}`, text: "/404", type: "info" });
+    }
+    // cat コマンド
+    else if (trimmedCmd.startsWith("cat ")) {
+      const path = trimmedCmd.slice(4).trim();
+      const route = routes[path];
+      if (route) {
+        newLines.push({ id: `out-${Date.now()}`, text: `Opening ${path}...`, type: "success" });
+        setLines(prev => [...prev, ...newLines]);
+        setTimeout(() => router.push(route), 500);
+        return;
+      }
+      newLines.push({ id: `out-${Date.now()}`, text: `cat: ${path}: No such file or directory`, type: "error" });
+    }
+    // 未知のコマンド
+    else {
+      newLines.push({ id: `out-${Date.now()}`, text: `bash: ${trimmedCmd.split(" ")[0]}: command not found`, type: "error" });
+    }
+
+    setLines(prev => [...prev, ...newLines]);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleCommand(input);
+    setInput("");
+  };
+
+  const getTextColor = (type: string) => {
+    switch (type) {
+      case "error": return "text-red-400";
+      case "success": return "text-green-400";
+      case "input": return "text-gray-100";
+      default: return "text-gray-400";
+    }
+  };
+
+  return (
+    <div className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow-2xl shadow-black/50 w-full max-w-2xl">
+      {/* ターミナルヘッダー */}
+      <div className="flex items-center gap-2 px-4 py-3 bg-gray-800/50 border-b border-gray-700">
+        <div className="flex gap-2">
+          <div className="w-3 h-3 rounded-full bg-red-500" />
+          <div className="w-3 h-3 rounded-full bg-yellow-500" />
+          <div className="w-3 h-3 rounded-full bg-green-500" />
+        </div>
+        <div className="flex-1 text-center">
+          <span className="text-xs text-gray-400 font-mono">
+            visitor@enje.dev: ~/404
+          </span>
+        </div>
+        <div className="w-16" />
+      </div>
+
+      {/* ターミナル本体 */}
+      <div
+        ref={terminalRef}
+        className="p-4 font-mono text-sm leading-relaxed h-[300px] overflow-y-auto"
+        onClick={() => inputRef.current?.focus()}
+        onKeyDown={() => inputRef.current?.focus()}
+      >
+        {/* 履歴表示 */}
+        {lines.map((line) => (
+          <div key={line.id} className={getTextColor(line.type)}>
+            {line.text || "\u00A0"}
+          </div>
+        ))}
+
+        {/* 入力行 */}
+        {!isTyping && (
+          <form onSubmit={handleSubmit} className="flex items-center">
+            <span className="text-green-400 mr-2">$</span>
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="flex-1 bg-transparent text-gray-100 outline-none caret-green-400"
+              autoFocus
+              spellCheck={false}
+              autoComplete="off"
+            />
+            <span className="animate-pulse text-green-400">▌</span>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * 404 Not Found ページ - インタラクティブターミナル
+ */
+export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[85vh] bg-gray-950 px-4 py-12">
       {/* 404 ヘッダー */}
@@ -203,72 +283,24 @@ export default function NotFound() {
         <p className="text-gray-500 font-mono text-sm">PAGE_NOT_FOUND</p>
       </motion.div>
 
-      {/* メインターミナル */}
+      {/* インタラクティブターミナル */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="w-full max-w-2xl"
+        className="w-full flex justify-center"
       >
-        <div className="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden shadow-2xl shadow-black/50">
-          {/* ターミナルヘッダー */}
-          <div className="flex items-center gap-2 px-4 py-3 bg-gray-800/50 border-b border-gray-700">
-            <div className="flex gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500 hover:bg-red-400 transition-colors" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-colors" />
-              <div className="w-3 h-3 rounded-full bg-green-500 hover:bg-green-400 transition-colors" />
-            </div>
-            <div className="flex-1 text-center">
-              <span className="text-xs text-gray-400 font-mono">
-                system_log.txt — bash
-              </span>
-            </div>
-            <div className="w-16" /> {/* バランス用スペーサー */}
-          </div>
-
-          {/* ターミナル本体 */}
-          <div className="p-6 font-mono text-sm leading-relaxed min-h-[300px] max-h-[400px] overflow-y-auto">
-            <TerminalLog logs={errorLogs} onComplete={() => setShowButtons(true)} />
-          </div>
-        </div>
+        <InteractiveTerminal />
       </motion.div>
 
-      {/* アクションボタン */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: showButtons ? 1 : 0, y: showButtons ? 0 : 20 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
-      >
-        <Button
-          asChild
-          size="lg"
-          className="rounded-full bg-green-600 hover:bg-green-700 font-mono"
-        >
-          <Link href="/">
-            <span className="mr-2">$</span> cd /home
-          </Link>
-        </Button>
-        <Button
-          asChild
-          variant="outline"
-          size="lg"
-          className="rounded-full border-gray-700 text-gray-300 hover:bg-gray-800 font-mono"
-        >
-          <Link href="/blog">
-            <span className="mr-2">$</span> cat /blog
-          </Link>
-        </Button>
-      </motion.div>
-
-      {/* フッターヒント */}
+      {/* ヒント */}
       <motion.p
         initial={{ opacity: 0 }}
-        animate={{ opacity: showButtons ? 1 : 0 }}
-        transition={{ delay: 0.3, duration: 0.5 }}
-        className="text-gray-600 text-xs font-mono mt-8"
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="text-gray-600 text-xs font-mono mt-6"
       >
-        Press any button to continue...
+        Try typing: help, ls, cd /home
       </motion.p>
     </div>
   );

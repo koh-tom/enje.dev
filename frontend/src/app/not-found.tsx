@@ -302,6 +302,39 @@ export default function NotFound() {
       >
         Try typing: help, ls, cd /home
       </motion.p>
+
+      {/* または区切り線 */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.5 }}
+        className="flex items-center gap-4 mt-8"
+      >
+        <div className="h-px w-16 bg-gray-700" />
+        <span className="text-gray-500 text-xs font-mono">or</span>
+        <div className="h-px w-16 bg-gray-700" />
+      </motion.div>
+
+      {/* アクションボタン */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.4, duration: 0.5 }}
+        className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6"
+      >
+        <a
+          href="/"
+          className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-cyan-600 hover:bg-cyan-700 text-white font-mono text-sm transition-colors"
+        >
+          <span className="mr-2">←</span> Back to Home
+        </a>
+        <a
+          href="/blog"
+          className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-gray-700 text-gray-300 hover:bg-gray-800 font-mono text-sm transition-colors"
+        >
+          View Blog
+        </a>
+      </motion.div>
     </div>
   );
 }

@@ -34,8 +34,8 @@ function SevenSegmentDigit({ digit, color = "cyan" }: { digit: string; color?: s
 
   const colorClasses = {
     cyan: { active: "bg-cyan-400 shadow-cyan-400/30", dim: "bg-cyan-900/30" },
-    red: { active: "bg-red-400 shadow-red-400/50", dim: "bg-red-900/30" },
-    green: { active: "bg-green-400 shadow-green-400/50", dim: "bg-green-900/30" },
+    red: { active: "bg-red-500 shadow-red-500/30", dim: "bg-red-950/40" },
+    green: { active: "bg-green-500 shadow-green-500/30", dim: "bg-green-950/40" },
   };
 
   const colors = colorClasses[color as keyof typeof colorClasses] || colorClasses.cyan;
@@ -245,18 +245,18 @@ function InteractiveTerminal() {
         {/* 入力行 */}
         {!isTyping && (
           <form onSubmit={handleSubmit} className="flex items-center">
-            <span className="text-green-400 mr-2">$</span>
+            <span className="text-cyan-400 mr-2">$</span>
             <input
               ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-1 bg-transparent text-gray-100 outline-none caret-green-400"
+              className="flex-1 bg-transparent text-cyan-400 outline-none caret-cyan-400"
               autoFocus
               spellCheck={false}
               autoComplete="off"
             />
-            <span className="animate-pulse text-green-400">▌</span>
+            <span className="animate-pulse text-cyan-400">▌</span>
           </form>
         )}
       </div>
@@ -278,7 +278,7 @@ export default function NotFound() {
         className="text-center mb-8"
       >
         <div className="flex justify-center mb-4">
-          <SevenSegmentDisplay text="404" color="cyan" />
+          <SevenSegmentDisplay text="404" color="red" />
         </div>
         <p className="text-gray-500 font-mono text-sm">PAGE_NOT_FOUND</p>
       </motion.div>

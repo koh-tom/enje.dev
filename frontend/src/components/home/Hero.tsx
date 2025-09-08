@@ -67,10 +67,7 @@ export function Hero() {
           style={{ y: y2 }}
         >
           <span className="block bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent">
-            enje
-          </span>
-          <span className="block text-4xl md:text-6xl lg:text-7xl text-gray-400 mt-2">
-            Portfolio &amp; Blog
+            enje.dev
           </span>
         </motion.h1>
 

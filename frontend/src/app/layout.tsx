@@ -8,6 +8,7 @@ import { Header } from "@/components/layout/Header";
 import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { ThemeProvider } from "@/components/theme-provider";
 import { BackToTop } from "@/components/ui/BackToTop";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LoadingScreen />
+          <ScrollProgress />
           {!isBlogPostPage && <Header />}{" "}
           {/* ブログ記事ページ以外でHeaderを表示 */}
           <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">

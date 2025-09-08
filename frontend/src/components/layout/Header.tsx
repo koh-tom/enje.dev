@@ -60,14 +60,17 @@ export const Header = ({ title }: { title?: string }) => {
     <>
       <header className="sticky top-0 z-50 w-full bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80 border-b border-gray-800">
         <div className="container mx-auto flex h-16 items-center justify-between px-6 md:px-12">
-          {/* ロゴまたはサイト名 */}
+          {/* ロゴまたはサイト名 - ターミナル風 */}
           <div className="z-10">
             <Magnetic>
               <Link
                 href="/"
-                className="text-lg md:text-xl font-bold tracking-wider text-white hover:text-gray-300 transition-colors block"
+                className="group flex items-center gap-1 text-lg md:text-xl font-mono tracking-wider text-white hover:text-gray-300 transition-colors"
               >
-                enje.dev
+                <span className="text-cyan-400">~</span>
+                <span className="text-gray-400">/</span>
+                <span className="font-bold">enje.dev</span>
+                <span className="animate-pulse text-cyan-400 ml-0.5">_</span>
               </Link>
             </Magnetic>
           </div>
@@ -238,8 +241,8 @@ const MobileNavLink = ({
     <Link
       href={href}
       className={`block py-3 px-4 rounded-lg text-lg font-medium transition-all ${isActive
-          ? "bg-gradient-to-r from-cyan-500/20 to-sky-600/20 text-white border-l-2 border-cyan-500"
-          : "text-gray-400 hover:text-white hover:bg-gray-800/50"
+        ? "bg-gradient-to-r from-cyan-500/20 to-sky-600/20 text-white border-l-2 border-cyan-500"
+        : "text-gray-400 hover:text-white hover:bg-gray-800/50"
         }`}
     >
       {children}

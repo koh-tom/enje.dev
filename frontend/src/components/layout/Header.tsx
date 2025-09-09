@@ -70,7 +70,7 @@ export const Header = ({ title }: { title?: string }) => {
                 <span className="text-cyan-400">~</span>
                 <span className="text-gray-400">/</span>
                 <span className="font-bold">enje.dev</span>
-                <span className="animate-pulse text-cyan-400 ml-0.5">_</span>
+                <span className="animate-blink text-cyan-400 ml-0.5">▌</span>
               </Link>
             </Magnetic>
           </div>

@@ -156,3 +156,17 @@
 .marquee-container:hover .animate-marquee-vertical {
   animation-play-state: paused;
 }
+
+/* ターミナルカーソル点滅アニメーション */
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}

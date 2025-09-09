@@ -65,11 +65,11 @@ export const Header = ({ title }: { title?: string }) => {
             <Magnetic>
               <Link
                 href="/"
-                className="group flex items-center gap-1 text-lg md:text-xl font-mono tracking-wider text-white hover:text-gray-300 transition-colors"
+                className="group flex items-center text-sm md:text-base font-mono text-white hover:text-gray-200 transition-colors bg-gray-900/50 border border-gray-700/50 rounded-md px-3 py-1.5 hover:border-cyan-500/50 hover:bg-gray-800/50"
               >
-                <span className="text-cyan-400">~</span>
-                <span className="text-gray-400">/</span>
-                <span className="font-bold">enje.dev</span>
+                <span className="text-green-400 mr-1.5">❯</span>
+                <span className="text-gray-500 mr-1">cd</span>
+                <span className="text-cyan-400">~/enje.dev</span>
                 <span className="animate-blink text-cyan-400 ml-0.5">▌</span>
               </Link>
             </Magnetic>

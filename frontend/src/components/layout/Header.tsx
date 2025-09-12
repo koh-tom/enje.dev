@@ -30,9 +30,10 @@ export const Header = ({ title }: { title?: string }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // ページ遷移時にメニューを閉じる
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is used as a trigger on route change
   useEffect(() => {
     setIsMenuOpen(false);
-  }, []);
+  }, [pathname]);
 
   // メニューが開いている時はスクロールを無効化
   useEffect(() => {

@@ -7,6 +7,8 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
+    "format": "bun --cwd frontend format",
+    "check": "bun --cwd frontend lint",
     "prepare": "husky install",
     "cz": "cz"
   },

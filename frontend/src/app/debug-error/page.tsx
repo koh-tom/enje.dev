@@ -1,5 +1,6 @@
 "use client";
 
+import { notFound } from "next/navigation";
 import ErrorComponent from "../error";
 
 /*
@@ -7,6 +8,10 @@ import ErrorComponent from "../error";
  * devで/debug-errorにアクセスして確認。
  */
 export default function DebugErrorPage() {
+  if (process.env.NODE_ENV === "production") {
+    notFound();
+  }
+
   const dummyError = new Error(
     "これはデバッグ用のテストエラーメッセージです。",
   );

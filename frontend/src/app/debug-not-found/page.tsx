@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import NotFound from "../not-found";
 
 /*
@@ -5,6 +6,10 @@ import NotFound from "../not-found";
  * devで/debug-not-foundにアクセスして確認。
  */
 export default function DebugNotFoundPage() {
+  if (process.env.NODE_ENV === "production") {
+    notFound();
+  }
+
   return (
     <div className="py-10">
       <div className="bg-blue-500/10 border border-blue-500/20 p-4 mb-10 rounded-lg text-blue-500 text-sm text-center">

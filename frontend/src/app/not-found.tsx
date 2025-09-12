@@ -89,11 +89,24 @@ function SevenSegmentDisplay({
   return (
     <div className="flex items-center gap-2 md:gap-4">
       {text.split("").map((char, index) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: static "404" display with no reordering
         <SevenSegmentDigit key={`seg-${index}`} digit={char} color={color} />
       ))}
     </div>
   );
 }
+
+// 初期メッセージをタイプライター効果で表示
+const initialMessages = [
+  { text: "$ curl -X GET /requested-page", type: "input" as const },
+  { text: "[ERROR] HTTP 404: Resource not found", type: "error" as const },
+  {
+    text: "[INFO]  The requested path does not exist",
+    type: "info" as const,
+  },
+  { text: "", type: "info" as const },
+  { text: "Type 'help' for available commands", type: "success" as const },
+];
 
 /**
  * インタラクティブターミナル
@@ -105,18 +118,6 @@ function InteractiveTerminal() {
   const [isTyping, setIsTyping] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
-
-  // 初期メッセージをタイプライター効果で表示
-  const initialMessages = [
-    { text: "$ curl -X GET /requested-page", type: "input" as const },
-    { text: "[ERROR] HTTP 404: Resource not found", type: "error" as const },
-    {
-      text: "[INFO]  The requested path does not exist",
-      type: "info" as const,
-    },
-    { text: "", type: "info" as const },
-    { text: "Type 'help' for available commands", type: "success" as const },
-  ];
 
   useEffect(() => {
     let lineIndex = 0;
@@ -138,6 +139,7 @@ function InteractiveTerminal() {
   }, []);
 
   // 自動スクロール
+  // biome-ignore lint/correctness/useExhaustiveDependencies: scroll down whenever lines are updated
   useEffect(() => {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
@@ -341,6 +343,7 @@ function InteractiveTerminal() {
       </div>
 
       {/* ターミナル本体 */}
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: click to focus input */}
       <div
         ref={terminalRef}
         className="p-4 font-mono text-sm leading-relaxed h-[300px] overflow-y-auto"
@@ -364,6 +367,7 @@ function InteractiveTerminal() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="flex-1 bg-transparent text-cyan-400 outline-none caret-cyan-400"
+              // biome-ignore lint/a11y/noAutofocus: autofocus is intentional for terminal experience
               autoFocus
               spellCheck={false}
               autoComplete="off"

@@ -38,7 +38,7 @@ export function LoadingScreen() {
           transition={{ duration: 0.8, ease: "easeInOut" }}
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
         >
-          <div className="relative w-[450px] h-[450px] gradient-to-r from-blue-500 to-gray-500">
+          <div className="relative w-[450px] h-[450px] bg-gradient-to-r from-blue-500 to-gray-500">
             {/* 蛇のように連なって回転する文字グループ */}
             <motion.div
               className="absolute inset-0"

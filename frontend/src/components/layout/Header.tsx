@@ -180,7 +180,9 @@ export const Header = ({ title }: { title?: string }) => {
 
               {/* フッター情報 */}
               <div className="mt-8 pt-8 border-t border-gray-800">
-                <p className="text-sm text-gray-500">© 2024 enje.dev</p>
+                <p className="text-sm text-gray-500">
+                  © {new Date().getFullYear()} enje.dev
+                </p>
               </div>
             </motion.nav>
           </motion.div>

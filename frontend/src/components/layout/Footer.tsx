@@ -28,8 +28,7 @@ export const Footer = () => {
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         {/* コピーライト */}
         <div className="text-sm text-center md:text-left">
-          &copy; {new Date().getFullYear()} Koh TOMITA. 2025. All rights
-          reserved.
+          &copy; {new Date().getFullYear()} Koh TOMITA. All rights reserved.
         </div>
 
         {/* リンク */}

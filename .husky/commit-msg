@@ -1,1 +1,1 @@
-npx --no-install commitlint --edit $1 --config frontend/commitlint.config.js
+bun x commitlint --edit $1 --config frontend/commitlint.config.js

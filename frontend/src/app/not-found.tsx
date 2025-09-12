@@ -16,7 +16,13 @@ type TerminalLine = {
 /**
  * 7セグメントディスプレイ風の数字表示
  */
-function SevenSegmentDigit({ digit, color = "cyan" }: { digit: string; color?: string }) {
+function SevenSegmentDigit({
+  digit,
+  color = "cyan",
+}: {
+  digit: string;
+  color?: string;
+}) {
   const segments: Record<string, boolean[]> = {
     "0": [true, true, true, true, true, true, false],
     "1": [false, true, true, false, false, false, false],
@@ -35,27 +41,51 @@ function SevenSegmentDigit({ digit, color = "cyan" }: { digit: string; color?: s
   const colorClasses = {
     cyan: { active: "bg-cyan-400 shadow-cyan-400/30", dim: "bg-cyan-900/30" },
     red: { active: "bg-red-500 shadow-red-500/30", dim: "bg-red-950/40" },
-    green: { active: "bg-green-500 shadow-green-500/30", dim: "bg-green-950/40" },
+    green: {
+      active: "bg-green-500 shadow-green-500/30",
+      dim: "bg-green-950/40",
+    },
   };
 
-  const colors = colorClasses[color as keyof typeof colorClasses] || colorClasses.cyan;
+  const colors =
+    colorClasses[color as keyof typeof colorClasses] || colorClasses.cyan;
   const getSegmentClass = (isActive: boolean) =>
     isActive ? `${colors.active} shadow-lg` : colors.dim;
 
   return (
     <div className="relative w-12 h-20 md:w-16 md:h-28">
-      <div className={`absolute top-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[0])}`} />
-      <div className={`absolute top-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[1])}`} />
-      <div className={`absolute bottom-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[2])}`} />
-      <div className={`absolute bottom-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[3])}`} />
-      <div className={`absolute bottom-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[4])}`} />
-      <div className={`absolute top-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[5])}`} />
-      <div className={`absolute top-1/2 -translate-y-1/2 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[6])}`} />
+      <div
+        className={`absolute top-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[0])}`}
+      />
+      <div
+        className={`absolute top-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[1])}`}
+      />
+      <div
+        className={`absolute bottom-1 right-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[2])}`}
+      />
+      <div
+        className={`absolute bottom-0 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[3])}`}
+      />
+      <div
+        className={`absolute bottom-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[4])}`}
+      />
+      <div
+        className={`absolute top-1 left-0 w-1.5 md:w-2 h-8 md:h-11 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[5])}`}
+      />
+      <div
+        className={`absolute top-1/2 -translate-y-1/2 left-1 right-1 h-1.5 md:h-2 rounded-full transition-all duration-300 ${getSegmentClass(activeSegments[6])}`}
+      />
     </div>
   );
 }
 
-function SevenSegmentDisplay({ text, color = "cyan" }: { text: string; color?: string }) {
+function SevenSegmentDisplay({
+  text,
+  color = "cyan",
+}: {
+  text: string;
+  color?: string;
+}) {
   return (
     <div className="flex items-center gap-2 md:gap-4">
       {text.split("").map((char, index) => (
@@ -80,7 +110,10 @@ function InteractiveTerminal() {
   const initialMessages = [
     { text: "$ curl -X GET /requested-page", type: "input" as const },
     { text: "[ERROR] HTTP 404: Resource not found", type: "error" as const },
-    { text: "[INFO]  The requested path does not exist", type: "info" as const },
+    {
+      text: "[INFO]  The requested path does not exist",
+      type: "info" as const,
+    },
     { text: "", type: "info" as const },
     { text: "Type 'help' for available commands", type: "success" as const },
   ];
@@ -90,7 +123,10 @@ function InteractiveTerminal() {
     const addLine = () => {
       if (lineIndex < initialMessages.length) {
         const msg = initialMessages[lineIndex];
-        setLines(prev => [...prev, { id: `init-${lineIndex}`, text: msg.text, type: msg.type }]);
+        setLines((prev) => [
+          ...prev,
+          { id: `init-${lineIndex}`, text: msg.text, type: msg.type },
+        ]);
         lineIndex++;
         setTimeout(addLine, 150);
       } else {
@@ -128,7 +164,7 @@ function InteractiveTerminal() {
     ];
 
     if (!trimmedCmd) {
-      setLines(prev => [...prev, ...newLines]);
+      setLines((prev) => [...prev, ...newLines]);
       return;
     }
 
@@ -137,31 +173,91 @@ function InteractiveTerminal() {
       const path = trimmedCmd.slice(3).trim();
       const route = routes[path];
       if (route) {
-        newLines.push({ id: `out-${Date.now()}`, text: `Navigating to ${path}...`, type: "success" });
-        setLines(prev => [...prev, ...newLines]);
+        newLines.push({
+          id: `out-${Date.now()}`,
+          text: `Navigating to ${path}...`,
+          type: "success",
+        });
+        setLines((prev) => [...prev, ...newLines]);
         setTimeout(() => router.push(route), 500);
         return;
       }
-      newLines.push({ id: `out-${Date.now()}`, text: `bash: cd: ${path}: No such directory`, type: "error" });
+      newLines.push({
+        id: `out-${Date.now()}`,
+        text: `bash: cd: ${path}: No such directory`,
+        type: "error",
+      });
     }
     // ls コマンド
     else if (trimmedCmd === "ls" || trimmedCmd === "ls -la") {
-      newLines.push({ id: `out-${Date.now()}-1`, text: "drwxr-xr-x  /home      (Homepage)", type: "info" });
-      newLines.push({ id: `out-${Date.now()}-2`, text: "drwxr-xr-x  /blog      (Blog posts)", type: "info" });
-      newLines.push({ id: `out-${Date.now()}-3`, text: "drwxr-xr-x  /about     (About me)", type: "info" });
-      newLines.push({ id: `out-${Date.now()}-4`, text: "drwxr-xr-x  /portfolio (Projects)", type: "info" });
-      newLines.push({ id: `out-${Date.now()}-5`, text: "drwxr-xr-x  /gallery   (Photo gallery)", type: "info" });
-      newLines.push({ id: `out-${Date.now()}-6`, text: "drwxr-xr-x  /contact   (Contact form)", type: "info" });
+      newLines.push({
+        id: `out-${Date.now()}-1`,
+        text: "drwxr-xr-x  /home      (Homepage)",
+        type: "info",
+      });
+      newLines.push({
+        id: `out-${Date.now()}-2`,
+        text: "drwxr-xr-x  /blog      (Blog posts)",
+        type: "info",
+      });
+      newLines.push({
+        id: `out-${Date.now()}-3`,
+        text: "drwxr-xr-x  /about     (About me)",
+        type: "info",
+      });
+      newLines.push({
+        id: `out-${Date.now()}-4`,
+        text: "drwxr-xr-x  /portfolio (Projects)",
+        type: "info",
+      });
+      newLines.push({
+        id: `out-${Date.now()}-5`,
+        text: "drwxr-xr-x  /gallery   (Photo gallery)",
+        type: "info",
+      });
+      newLines.push({
+        id: `out-${Date.now()}-6`,
+        text: "drwxr-xr-x  /contact   (Contact form)",
+        type: "info",
+      });
     }
     // help コマンド
-    else if (trimmedCmd === "help" || trimmedCmd === "--help" || trimmedCmd === "-h") {
-      newLines.push({ id: `out-${Date.now()}-1`, text: "Available commands:", type: "success" });
-      newLines.push({ id: `out-${Date.now()}-2`, text: "  cd <path>  - Navigate to a page", type: "info" });
-      newLines.push({ id: `out-${Date.now()}-3`, text: "  ls         - List available pages", type: "info" });
-      newLines.push({ id: `out-${Date.now()}-4`, text: "  clear      - Clear terminal", type: "info" });
-      newLines.push({ id: `out-${Date.now()}-5`, text: "  help       - Show this help", type: "info" });
+    else if (
+      trimmedCmd === "help" ||
+      trimmedCmd === "--help" ||
+      trimmedCmd === "-h"
+    ) {
+      newLines.push({
+        id: `out-${Date.now()}-1`,
+        text: "Available commands:",
+        type: "success",
+      });
+      newLines.push({
+        id: `out-${Date.now()}-2`,
+        text: "  cd <path>  - Navigate to a page",
+        type: "info",
+      });
+      newLines.push({
+        id: `out-${Date.now()}-3`,
+        text: "  ls         - List available pages",
+        type: "info",
+      });
+      newLines.push({
+        id: `out-${Date.now()}-4`,
+        text: "  clear      - Clear terminal",
+        type: "info",
+      });
+      newLines.push({
+        id: `out-${Date.now()}-5`,
+        text: "  help       - Show this help",
+        type: "info",
+      });
       newLines.push({ id: `out-${Date.now()}-6`, text: "", type: "info" });
-      newLines.push({ id: `out-${Date.now()}-7`, text: "Example: cd /home", type: "info" });
+      newLines.push({
+        id: `out-${Date.now()}-7`,
+        text: "Example: cd /home",
+        type: "info",
+      });
     }
     // clear コマンド
     else if (trimmedCmd === "clear") {
@@ -181,19 +277,31 @@ function InteractiveTerminal() {
       const path = trimmedCmd.slice(4).trim();
       const route = routes[path];
       if (route) {
-        newLines.push({ id: `out-${Date.now()}`, text: `Opening ${path}...`, type: "success" });
-        setLines(prev => [...prev, ...newLines]);
+        newLines.push({
+          id: `out-${Date.now()}`,
+          text: `Opening ${path}...`,
+          type: "success",
+        });
+        setLines((prev) => [...prev, ...newLines]);
         setTimeout(() => router.push(route), 500);
         return;
       }
-      newLines.push({ id: `out-${Date.now()}`, text: `cat: ${path}: No such file or directory`, type: "error" });
+      newLines.push({
+        id: `out-${Date.now()}`,
+        text: `cat: ${path}: No such file or directory`,
+        type: "error",
+      });
     }
     // 未知のコマンド
     else {
-      newLines.push({ id: `out-${Date.now()}`, text: `bash: ${trimmedCmd.split(" ")[0]}: command not found`, type: "error" });
+      newLines.push({
+        id: `out-${Date.now()}`,
+        text: `bash: ${trimmedCmd.split(" ")[0]}: command not found`,
+        type: "error",
+      });
     }
 
-    setLines(prev => [...prev, ...newLines]);
+    setLines((prev) => [...prev, ...newLines]);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -204,10 +312,14 @@ function InteractiveTerminal() {
 
   const getTextColor = (type: string) => {
     switch (type) {
-      case "error": return "text-red-400";
-      case "success": return "text-green-400";
-      case "input": return "text-gray-100";
-      default: return "text-gray-400";
+      case "error":
+        return "text-red-400";
+      case "success":
+        return "text-green-400";
+      case "input":
+        return "text-gray-100";
+      default:
+        return "text-gray-400";
     }
   };
 

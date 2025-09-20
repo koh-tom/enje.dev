@@ -55,7 +55,7 @@ const toolkit = [
   {
     IconComponent: FaTerminal,
     title: "ターミナル",
-    description: "Ghosty",
+    description: "Ghostty",
     color: "text-cyan-400",
   },
 ];

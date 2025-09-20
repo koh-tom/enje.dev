@@ -47,7 +47,7 @@ export function ProfileHero() {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="max-w-2xl text-gray-300 leading-relaxed"
         >
-          FPGA/Computer Perfomance/Algorithm
+          FPGA/Computer Performance/Algorithm
           <br className="hidden md:block" />
           C/C++/Assembly/Verilog/React/Rust/Ruby/Julia
         </motion.p>

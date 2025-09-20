@@ -13,6 +13,12 @@ interface SitemapRoute {
   priority: number;
 }
 
+const safeDate = (dateStr?: string): Date => {
+  if (!dateStr) return new Date();
+  const parsed = new Date(dateStr);
+  return Number.isNaN(parsed.getTime()) ? new Date() : parsed;
+};
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
 
@@ -39,13 +45,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     try {
       const res = await fetch(`${apiUrl}/posts`);
       if (res.ok) {
-        const posts: SitemapPost[] = await res.json();
-        postRoutes = posts.map((post) => ({
-          url: `${baseUrl}/blog/${post.id}`,
-          lastModified: new Date(post.updated_at || post.published_at),
-          changeFrequency: "monthly" as const,
-          priority: 0.6,
-        }));
+        const posts = await res.json();
+        if (Array.isArray(posts)) {
+          postRoutes = posts.map((post: SitemapPost) => ({
+            url: `${baseUrl}/blog/${post.id}`,
+            lastModified: safeDate(post.updated_at || post.published_at),
+            changeFrequency: "monthly" as const,
+            priority: 0.6,
+          }));
+        }
       }
     } catch (e) {
       console.error("Sitemap post fetch error", e);

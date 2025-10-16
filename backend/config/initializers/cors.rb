@@ -7,11 +7,25 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    # 本番フロントエンドのドメインを設定 (環境変数CORS_ORIGINSを使用)
-    origins ENV.fetch("CORS_ORIGINS") { "http://localhost:3001" }
+    # Allowed origins whitelist
+    allowed_origins = [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://enje.dev",
+      "https://www.enje.dev",
+      # Vercel preview URLs securely over HTTPS
+      /\Ahttps:\/\/.*\.vercel\.app\z/
+    ]
+
+    # Add custom origins from CORS_ORIGINS environment variable if present (comma-separated)
+    if ENV["CORS_ORIGINS"].present?
+      allowed_origins += ENV["CORS_ORIGINS"].split(",").map(&:strip)
+    end
+
+    origins(*allowed_origins)
 
     resource "*",
-      headers: :any,
-      methods: [ :get, :post, :put, :patch, :delete, :options, :head ]
+      headers: ["content-type", "authorization"],
+      methods: [:get, :post, :patch, :delete, :options, :head]
   end
 end

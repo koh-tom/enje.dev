@@ -7,12 +7,8 @@ class ApplicationController < ActionController::API
     token = auth_header.split(" ").last if auth_header
 
     # 環境変数 ADMIN_API_TOKEN と一致するか確認
-    # 本番環境ではRenderの管理画面で設定します
-    admin_token = if Rails.env.production?
-      ENV.fetch("ADMIN_API_TOKEN")
-    else
-      ENV.fetch("ADMIN_API_TOKEN", "development_token")
-    end
+    # 環境変数に設定されていない場合は、安全のため起動時（アクセス時）にエラーを発生させます
+    admin_token = ENV.fetch("ADMIN_API_TOKEN")
 
     unless token == admin_token
       render json: { error: "Unauthorized" }, status: :unauthorized

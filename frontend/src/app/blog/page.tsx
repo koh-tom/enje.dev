@@ -42,7 +42,8 @@ async function getTags(): Promise<Tag[]> {
       next: { revalidate: 60 },
     });
     if (!res.ok) return [];
-    return res.json();
+    const tags = await res.json();
+    return Array.isArray(tags) ? tags : [];
   } catch (_error) {
     return [];
   }

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 // サーバーコンポーネント
 // 最新のプロジェクトをAPIから取得
 async function getLatestProjects(): Promise<Project[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
   if (!apiUrl) return [];
 
   try {

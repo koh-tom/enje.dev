@@ -3,7 +3,7 @@ import { type Project, ProjectCard } from "@/components/portfolio/ProjectCard";
 // サーバーサイドでプロジェクト一覧を取得
 // ISR (revalidate: 60) を設定して、高速表示とデータ鮮度を両立
 async function getProjects(): Promise<Project[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
   if (!apiUrl) {
     console.error(
       "API URLが設定されていません。フォールバックデータを使用します。",

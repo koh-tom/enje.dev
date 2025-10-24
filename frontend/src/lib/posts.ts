@@ -3,7 +3,7 @@ import type { Post, Tag } from "@/components/blog/BlogPostCard"; // 型を再利
 export type { Post, Tag }; // 他の場所からもインポートできるようにエクスポート
 
 export async function getPost(id: string): Promise<Post | null> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
   if (!apiUrl) {
     console.error("API URLが設定されていません。");
     return null;

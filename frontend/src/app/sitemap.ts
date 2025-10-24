@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // ブログ記事の動的取得 (エラー時は空配列)
   let postRoutes: SitemapRoute[] = [];
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
 
   if (apiUrl) {
     try {

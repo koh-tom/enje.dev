@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 // サーバーサイドで最新のブログ投稿を取得
 async function getLatestPosts(): Promise<Post[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
   if (!apiUrl) return [];
 
   try {

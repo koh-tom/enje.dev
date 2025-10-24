@@ -86,6 +86,7 @@ export function GalleryDetailView({
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     placeholder="blur"
                     blurDataURL={image.blurDataURL}
+                    unoptimized={image.src.endsWith(".svg")}
                   />
 
                   {/* Minimal Info on Hover */}

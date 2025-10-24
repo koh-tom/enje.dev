@@ -36,6 +36,7 @@ export function GalleryCard({ gallery, onClick, index }: GalleryCardProps) {
           className="object-cover transition-transform duration-500 group-hover:scale-110"
           placeholder="blur"
           blurDataURL={gallery.coverImage.blurDataURL}
+          unoptimized={gallery.coverImage.src.endsWith(".svg")}
         />
 
         {/* Subtle Overlay on Hover */}

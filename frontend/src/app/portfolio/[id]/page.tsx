@@ -14,7 +14,7 @@ type Props = {
 export default async function ProjectDetailPage({ params }: Props) {
   const { id } = await params;
   let project: Project | null = null;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
 
   if (apiUrl) {
     try {

@@ -3,7 +3,7 @@ import type { Post, Tag } from "@/components/blog/BlogPostCard";
 
 // サーバーサイドでブログ記事データを取得
 async function getPosts(): Promise<Post[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
   if (!apiUrl) {
     console.error(
       "API URLが設定されていません。フォールバックデータを使用します。",
@@ -34,7 +34,7 @@ async function getPosts(): Promise<Post[]> {
 
 // フィルターUI用に全タグを取得
 async function getTags(): Promise<Tag[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl = process.env.API_URL;
   if (!apiUrl) return [];
 
   try {

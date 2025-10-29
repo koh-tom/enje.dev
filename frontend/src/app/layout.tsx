@@ -19,12 +19,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://enje.dev"),
   title: {
     default: "enje.dev | Web開発 ⇔ FPGA研究",
     template: "%s | enje.dev",
   },
   description:
     "Web開発とFPGA研究に関するポートフォリオ＆技術ブログ。ポートフォリオ、制作したWebアプリケーションやFPGAなどのハードウェア開発に関するブログ記事、写真ギャラリーなどを掲載しています。",
+  keywords: [
+    "enje",
+    "enje.dev",
+    "Web開発",
+    "FPGA",
+    "ハードウェア開発",
+    "React",
+    "Next.js",
+    "Ruby on Rails",
+    "電子工作",
+    "技術ブログ",
+    "ポートフォリオ",
+  ],
+  authors: [{ name: "enje", url: "https://enje.dev" }],
+  creator: "enje",
   openGraph: {
     title: "enje.dev | Web開発 ⇔ FPGA研究",
     description:
@@ -33,14 +49,32 @@ export const metadata: Metadata = {
     siteName: "enje.dev",
     locale: "ja_JP",
     type: "website",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "enje.dev | Web開発 ⇔ FPGA研究",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "enje.dev | Web開発 ⇔ FPGA研究",
     description:
       "Web開発とFPGA研究に関するポートフォリオ＆技術ブログ。制作したWebアプリケーションやFPGAなどのハードウェア開発に関するブログ記事、写真ギャラリーなどを掲載しています。",
+    images: ["/images/og-image.png"],
   },
-  metadataBase: new URL("https://enje.dev"),
+  alternates: {
+    canonical: "https://enje.dev",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +11,41 @@ import { Button } from "@/components/ui/button";
 type Props = {
   params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const apiUrl = process.env.API_URL;
+
+  if (!apiUrl) {
+    return {
+      title: "Project Detail",
+      description: "制作実績の詳細ページです。",
+    };
+  }
+
+  try {
+    const res = await fetch(`${apiUrl}/projects/${id}`);
+    if (res.ok) {
+      const project = await res.json();
+      return {
+        title: project.name,
+        description: project.description || "制作実績の詳細ページです。",
+        openGraph: {
+          title: `${project.name} | enje.dev`,
+          description: project.description || "制作実績の詳細ページです。",
+          type: "article",
+        },
+      };
+    }
+  } catch (e) {
+    console.error("Failed to generate metadata for project", e);
+  }
+
+  return {
+    title: "Project Detail",
+    description: "制作実績の詳細ページです。",
+  };
+}
 
 export default async function ProjectDetailPage({ params }: Props) {
   const { id } = await params;

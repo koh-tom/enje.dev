@@ -1,7 +1,19 @@
+import type { Metadata } from "next";
 import { Achievements } from "@/components/about/Achievements";
 import { BentoGrid } from "@/components/about/BentoGrid";
 import { Philosophy } from "@/components/about/Philosophy";
 import { ProfileHero } from "@/components/about/ProfileHero";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "enjeの経歴、専門スキル、これまでの実績、およびものづくりに対する開発哲学について紹介するページです。Webシステム開発からFPGA設計まで幅広く対応しています。",
+  openGraph: {
+    title: "About | enje.dev",
+    description:
+      "enjeの経歴、専門スキル、これまでの実績、およびものづくりに対する開発哲学について紹介するページです。Webシステム開発からFPGA設計まで幅広く対応しています。",
+  },
+};
 
 export default function AboutPage() {
   return (

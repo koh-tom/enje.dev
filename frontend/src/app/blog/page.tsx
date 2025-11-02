@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import { BlogList } from "@/components/blog/BlogList";
 import type { Post, Tag } from "@/components/blog/BlogPostCard";
 
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "enjeの技術ブログです。Webシステム開発（Next.js, Railsなど）、FPGA設計、電子工作、および日々の技術的な学びや知見についてアウトプットしています。",
+  openGraph: {
+    title: "Blog | enje.dev",
+    description:
+      "enjeの技術ブログです。Webシステム開発（Next.js, Railsなど）、FPGA設計、電子工作、および日々の技術的な学びや知見についてアウトプットしています。",
+  },
+};
 // サーバーサイドでブログ記事データを取得
 async function getPosts(): Promise<Post[]> {
   const apiUrl = process.env.API_URL;

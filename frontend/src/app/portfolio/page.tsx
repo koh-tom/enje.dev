@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import { type Project, ProjectCard } from "@/components/portfolio/ProjectCard";
 
+export const metadata: Metadata = {
+  title: "Portfolio",
+  description:
+    "enjeの制作実績・プロジェクト一覧です。Next.jsやRuby on Railsを用いたモダンなWebアプリケーション開発から、FPGA/電子工作プロジェクトまで、幅広く手掛けた作品を掲載しています。",
+  openGraph: {
+    title: "Portfolio | enje.dev",
+    description:
+      "enjeの制作実績・プロジェクト一覧です。Next.jsやRuby on Railsを用いたモダンなWebアプリケーション開発から、FPGA/電子工作プロジェクトまで、幅広く手掛けた作品を掲載しています。",
+  },
+};
 // サーバーサイドでプロジェクト一覧を取得
 // ISR (revalidate: 60) を設定して、高速表示とデータ鮮度を両立
 async function getProjects(): Promise<Project[]> {

@@ -19,8 +19,65 @@ export default async function BlogPostPage({ params }: Props) {
     notFound(); // 404ページを表示
   }
 
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "image": [post.image_url],
+    "datePublished": post.published_at,
+    "dateModified": post.published_at,
+    "author": [{
+      "@type": "Person",
+      "name": "enje",
+      "url": "https://enje.dev/about"
+    }],
+    "publisher": {
+      "@type": "Organization",
+      "name": "enje.dev",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://enje.dev/favicon.ico"
+      }
+    },
+    "description": post.content.slice(0, 150)
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://enje.dev"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://enje.dev/blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": post.title,
+        "item": `https://enje.dev/blog/${id}`
+      }
+    ]
+  };
+
   return (
     <main className="container mx-auto px-4 py-12">
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <div className="max-w-3xl mx-auto">
         <Link
           href="/blog"

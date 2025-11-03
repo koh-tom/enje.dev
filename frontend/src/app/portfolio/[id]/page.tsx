@@ -76,8 +76,38 @@ export default async function ProjectDetailPage({ params }: Props) {
     notFound(); // 404ページを表示
   }
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://enje.dev"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Portfolio",
+        "item": "https://enje.dev/portfolio"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": project.name,
+        "item": `https://enje.dev/portfolio/${id}`
+      }
+    ]
+  };
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
+      {/* Breadcrumb List Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Link
         href="/portfolio"
         className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8"

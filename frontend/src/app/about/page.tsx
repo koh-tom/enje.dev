@@ -16,8 +16,27 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "enje",
+    "url": "https://enje.dev/about",
+    "image": "https://enje.dev/favicon.ico",
+    "jobTitle": "Web Developer & FPGA Researcher",
+    "description": "Next.jsやRuby on Railsを用いたモダンなWebシステム開発から、FPGAやハードウェア、電子工作設計まで幅広く手掛けるマルチスタックエンジニア。",
+    "sameAs": [
+      "https://github.com/enje",
+      "https://enje.dev"
+    ]
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">
+      {/* Person Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <main className="flex-grow">
         {/* プロフィールヒーロー: 写真と簡単な自己紹介 */}
         <ProfileHero />

@@ -20,7 +20,7 @@ const safeDate = (dateStr?: string): Date => {
 };
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://enje.dev";
 
   // 基本的なページ
   const routes = [

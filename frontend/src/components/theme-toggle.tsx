@@ -2,6 +2,7 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +14,23 @@ import {
 
 export function ModeToggle() {
   const { setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Radix UI の ID がサーバーとクライアントで異なるため、
+  // クライアントサイドでのみ DropdownMenu をレンダリング
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // SSR 時はプレースホルダーボタンを表示（同じサイズを維持）
+  if (!mounted) {
+    return (
+      <Button variant="outline" size="icon" aria-label="Toggle theme">
+        <Sun className="h-[1.2rem] w-[1.2rem]" />
+        <span className="sr-only">Toggle theme</span>
+      </Button>
+    );
+  }
 
   return (
     <DropdownMenu>

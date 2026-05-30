@@ -22,16 +22,44 @@ interface Achievement {
 
 const achievements: Achievement[] = [
   {
+    id: "heart-2026",
+    date: "2026.06",
+    title: "HEART 2026 WIP採択・ドイツ国際会議発表",
+    category: "talk",
+    description: "WIP論文が採択、ドイツにて国際会議発表",
+  },
+  {
+    id: "sechack-2026",
+    date: "2026.05",
+    title: "2026 SECHACK 世界観駆動",
+    category: "other",
+    description: "世界観駆動プロジェクトに参加",
+  },
+  {
+    id: "seccamp-connect-2026",
+    date: "2026.04",
+    title: "セキュリティ・キャンプコネクト2026 OSクラス参加",
+    category: "other",
+    description: "OSクラスに参加",
+  },
+  {
+    id: "qiita-adventcalendar-2025",
+    date: "2025.12",
+    title: "Qiita アドベントカレンダー 2025 1人完走",
+    category: "publication",
+    description: "25日間のアドベントカレンダーを1人で完走",
+  },
+  {
     id: "codeblue-2025",
     date: "2025.11",
-    title: "CODE BLUE学生スタッフ参加",
+    title: "CODE BLUE 2025 学生スタッフ参加",
     category: "staff",
     description: "学生スタッフとして参加",
   },
   {
     id: "ieee-epcr-2025",
     date: "2025.10",
-    title: "IEEE The 22nd EPCR Excellent Award",
+    title: "IEEE The 22nd EPCR英語プレゼン大会2025 Excellent Award",
     category: "award",
     description:
       "An emulator of path planning algorithms to evaluate pipelined FPGA accelerator architectures",

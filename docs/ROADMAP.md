@@ -9,7 +9,7 @@
 ### リポジトリ / CI
 - [ ] `backend/.github/` にある CI はリポジトリ直下でないため一度も動いていない
 - [ ] Dependabot も同様に無効
-- [ ] `backend/Booting` `backend/Rails` `backend/Run` は空ファイルのゴミ
+- [x] `backend/Booting` `backend/Rails` `backend/Run` は空ファイルのゴミ
 - [ ] `frontend/Dockerfile` が npm と `package-lock.json` 前提でビルド不能
 - [ ] `.env.example` がなく、必要な環境変数が README にも書かれていない
 - [ ] `turbo.json` に typecheck / test タスクがない
@@ -68,7 +68,7 @@
 - [x] `CLAUDE.md` と `docs/` の作成 `ca767ec`
 
 ### Phase 1: 土台の整理（6/2 〜 6/20）
-- [ ] 空ファイルと未使用ファイルの削除（`Booting` `Rails` `Run`、`next.svg` `vercel.svg` `window.svg`）
+- [x] 空ファイルと未使用ファイルの削除（`Booting` `Rails` `Run`、`next.svg` `vercel.svg` `window.svg`）
 - [ ] CI をリポジトリ直下 `.github/workflows/` へ移動し、FE / BE をジョブ分割
 - [ ] Dependabot をリポジトリ直下へ移動し、bun / bundler / actions を対象にする
 - [ ] `.env.example` を FE / BE に追加
@@ -166,3 +166,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 日付 | コミット | 内容 |
 | --- | --- | --- |
 | 2026-06-01 | `ca767ec` | docs: 設計方針とロードマップを追加 |
+| 2026-06-02 | `cb9c3ca` | docs: 編集体験とスタック更新方針を追記 |
+| 2026-06-02 | | chore: 空ファイルと未使用アセットを削除 |

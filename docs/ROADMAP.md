@@ -40,10 +40,32 @@
 - [ ] テストが 1 つもない
 - [ ] `debug-*` ページが本番ビルドに含まれる
 
+## 編集体験（日常運用の要件）
+
+記事とプロジェクトは日常的に追加・修正する。管理画面や外部 CMS は持たず、**Git がコンテンツの原本**という運用にする。理由は、オーナーが Neovim / VSCode で書く人であること、認証付き管理画面を持たないことで攻撃面が減ること、履歴と差分が Git で残ることの 3 点。
+
+1. `bin/rails content:new post "タイトル"` でフロントマター付きの Markdown が `backend/content/posts/YYYY-MM-DD-slug.md` に生成される（プロジェクトは `content:new project`）。
+2. `draft: true` の間は本番に出ない。ローカルの `bun run dev` では下書きも表示される。
+3. 画像は `frontend/public/images/posts/<slug>/` に置き、Markdown からは `/images/posts/<slug>/foo.png` で参照する。
+4. `git push` すると CI がフロントマターと Markdown を検証し、デプロイ時に `content:sync` が DB へ冪等反映、完了後に FE の ISR キャッシュを破棄する。数分で本番に反映される。
+5. 手元で本番同等の見た目を確認したいときは `bun run dev` のみ（Rails と Postgres は docker compose で自動起動）。
+
+## スタック更新方針
+
+| 領域 | 現状 | 目標 |
+| --- | --- | --- |
+| Ruby / Rails | 3.2.8 / 8.0 | 3.4 / 8.1 |
+| Next.js / React | 15.5 / 19.1 | 16 / 19.3 |
+| Tailwind / Biome | 4 / 2.2 | 4.3 / 2.5 |
+| シリアライザ | active_model_serializers | Alba |
+| Markdown | FE で react-markdown | BE で kramdown + rouge、サニタイズ済み HTML を返す |
+| テスト | なし（FE）/ 壊れている（BE） | Vitest + Playwright / Minitest |
+| コミット支援 | commitizen + git-cz | commitlint のみ（1 行メッセージ） |
+
 ## フェーズ
 
 ### Phase 0: 計画（6/1）
-- [ ] `CLAUDE.md` と `docs/` の作成
+- [x] `CLAUDE.md` と `docs/` の作成 `ca767ec`
 
 ### Phase 1: 土台の整理（6/2 〜 6/20）
 - [ ] 空ファイルと未使用ファイルの削除（`Booting` `Rails` `Run`、`next.svg` `vercel.svg` `window.svg`）
@@ -54,9 +76,11 @@
 - [ ] `turbo.json` に `typecheck` `test` を追加
 - [ ] husky pre-commit で biome と rubocop を staged ファイルに実行
 - [ ] `frontend/Dockerfile` を Bun 前提に書き直す
+- [ ] commitizen / git-cz を削除し、commitlint 設定をリポジトリ直下へ移動
 - [ ] ルート README を現状に合わせて書き直す
 
 ### Phase 2: Backend の再設計（6/21 〜 7/18）
+- [ ] Ruby 3.4 / Rails 8.1 へ更新
 - [ ] `config/application.rb` を `rails/all` から必要なフレームワークだけに絞る
 - [ ] 不要 gem の削除（`image_processing` `mini_magick` `solid_cable` `active_model_serializers`）と Alba / `rouge` / `strong_migrations` / `alba` の追加
 - [ ] `Api::V1` 名前空間と `ApplicationController` の `rescue_from`
@@ -66,6 +90,8 @@
 - [ ] `Post` に `published` スコープ、slug 自動生成、reading_time 自動計算
 - [ ] Markdown → HTML 変換サービス（kramdown + rouge + sanitize）
 - [ ] `content:sync` rake タスク（Markdown / YAML から冪等 upsert）と `seeds.rb` の縮小
+- [ ] `content:new` 生成タスクと `content:lint` 検証タスク（CI で実行）
+- [ ] `draft` フロントマターと開発環境でのみ下書きを返す仕組み
 - [ ] Alba シリアライザ（Post / Tag / Project）
 - [ ] 一覧 API のページネーションとタグ絞り込み
 - [ ] `fresh_when` と `Cache-Control` の付与
@@ -75,6 +101,7 @@
 - [ ] rack-attack のルールを新パスに合わせる
 
 ### Phase 3: Frontend の基盤（7/19 〜 8/12）
+- [ ] Next.js 16 / React 19.3 / Tailwind 4.3 / Biome 2.5 へ更新
 - [ ] `lib/env.ts` で環境変数を zod 検証
 - [ ] `lib/api/` クライアント（posts / projects / tags / contact）と zod スキーマ
 - [ ] `types/` へ型を集約
@@ -138,4 +165,4 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 
 | 日付 | コミット | 内容 |
 | --- | --- | --- |
-| 2026-06-01 | | docs: 設計方針とロードマップを追加 |
+| 2026-06-01 | `ca767ec` | docs: 設計方針とロードマップを追加 |

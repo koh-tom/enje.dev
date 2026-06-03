@@ -9,21 +9,15 @@
     "lint": "turbo lint",
     "format": "bun --cwd frontend format",
     "check": "bun --cwd frontend lint",
-    "prepare": "husky install",
-    "cz": "cz"
+    "prepare": "husky install"
   },
   "workspaces": [
     "frontend",
     "backend"
   ],
-  "config": {
-    "commitizen": {
-      "path": "git-cz"
-    }
-  },
   "devDependencies": {
-    "commitizen": "^4.3.1",
-    "git-cz": "^4.9.0",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "husky": "^9.1.7",
     "turbo": "^2.9.15"
   },

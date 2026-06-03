@@ -1,1 +1,2 @@
-bun x commitlint --edit $1 --config frontend/commitlint.config.js
+command -v bun >/dev/null 2>&1 || export PATH="$HOME/.bun/bin:$PATH"
+bun x commitlint --edit "$1"

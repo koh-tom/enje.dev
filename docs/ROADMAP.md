@@ -7,8 +7,8 @@
 ## 現状の問題点（着手前の棚卸し）
 
 ### リポジトリ / CI
-- [ ] `backend/.github/` にある CI はリポジトリ直下でないため一度も動いていない
-- [ ] Dependabot も同様に無効
+- [x] `backend/.github/` にある CI はリポジトリ直下でないため一度も動いていない
+- [x] Dependabot も同様に無効
 - [x] `backend/Booting` `backend/Rails` `backend/Run` は空ファイルのゴミ
 - [ ] `frontend/Dockerfile` が npm と `package-lock.json` 前提でビルド不能
 - [ ] `.env.example` がなく、必要な環境変数が README にも書かれていない
@@ -69,14 +69,14 @@
 
 ### Phase 1: 土台の整理（6/2 〜 6/20）
 - [x] 空ファイルと未使用ファイルの削除（`Booting` `Rails` `Run`、`next.svg` `vercel.svg` `window.svg`）
-- [ ] CI をリポジトリ直下 `.github/workflows/` へ移動し、FE / BE をジョブ分割
-- [ ] Dependabot をリポジトリ直下へ移動し、bun / bundler / actions を対象にする
+- [x] CI をリポジトリ直下 `.github/workflows/` へ移動し、FE / BE をジョブ分割
+- [x] Dependabot をリポジトリ直下へ移動し、bun / bundler / actions を対象にする
 - [ ] `.env.example` を FE / BE に追加
 - [ ] `docker-compose.yml` で開発用 PostgreSQL を用意
 - [ ] `turbo.json` に `typecheck` `test` を追加
 - [ ] husky pre-commit で biome と rubocop を staged ファイルに実行
 - [ ] `frontend/Dockerfile` を Bun 前提に書き直す
-- [ ] commitizen / git-cz を削除し、commitlint 設定をリポジトリ直下へ移動
+- [x] commitizen / git-cz を削除し、commitlint 設定をリポジトリ直下へ移動
 - [ ] ルート README を現状に合わせて書き直す
 
 ### Phase 2: Backend の再設計（6/21 〜 7/18）
@@ -167,4 +167,6 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | --- | --- | --- |
 | 2026-06-01 | `ca767ec` | docs: 設計方針とロードマップを追加 |
 | 2026-06-02 | `cb9c3ca` | docs: 編集体験とスタック更新方針を追記 |
-| 2026-06-02 | | chore: 空ファイルと未使用アセットを削除 |
+| 2026-06-02 | `563b013` | chore: 空ファイルと未使用アセットを削除 |
+| 2026-06-03 | `099cefa` | chore: commitizen を削除し commitlint をルートに移動 |
+| 2026-06-03 | | ci: GitHub Actions と Dependabot をリポジトリ直下へ移動 |

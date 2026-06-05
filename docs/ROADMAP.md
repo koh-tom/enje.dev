@@ -11,7 +11,7 @@
 - [x] Dependabot も同様に無効
 - [x] `backend/Booting` `backend/Rails` `backend/Run` は空ファイルのゴミ
 - [ ] `frontend/Dockerfile` が npm と `package-lock.json` 前提でビルド不能
-- [ ] `.env.example` がなく、必要な環境変数が README にも書かれていない
+- [x] `.env.example` がなく、必要な環境変数が README にも書かれていない
 - [ ] `turbo.json` に typecheck / test タスクがない
 - [ ] pre-commit フックがなく、lint を通さずにコミットできる
 
@@ -71,7 +71,7 @@
 - [x] 空ファイルと未使用ファイルの削除（`Booting` `Rails` `Run`、`next.svg` `vercel.svg` `window.svg`）
 - [x] CI をリポジトリ直下 `.github/workflows/` へ移動し、FE / BE をジョブ分割
 - [x] Dependabot をリポジトリ直下へ移動し、bun / bundler / actions を対象にする
-- [ ] `.env.example` を FE / BE に追加
+- [x] `.env.example` を FE / BE に追加
 - [ ] `docker-compose.yml` で開発用 PostgreSQL を用意
 - [ ] `turbo.json` に `typecheck` `test` を追加
 - [ ] husky pre-commit で biome と rubocop を staged ファイルに実行
@@ -169,4 +169,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-02 | `cb9c3ca` | docs: 編集体験とスタック更新方針を追記 |
 | 2026-06-02 | `563b013` | chore: 空ファイルと未使用アセットを削除 |
 | 2026-06-03 | `099cefa` | chore: commitizen を削除し commitlint をルートに移動 |
-| 2026-06-03 | | ci: GitHub Actions と Dependabot をリポジトリ直下へ移動 |
+| 2026-06-03 | `483f132` | ci: GitHub Actions と Dependabot をリポジトリ直下へ移動 |
+| 2026-06-05 | | chore: 環境変数のテンプレートを追加 |

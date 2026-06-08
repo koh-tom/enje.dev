@@ -9,7 +9,9 @@
     "lint": "turbo lint",
     "format": "bun --cwd frontend format",
     "check": "bun --cwd frontend lint",
-    "prepare": "husky install"
+    "db:up": "docker compose up -d db",
+    "db:down": "docker compose down",
+    "prepare": "husky"
   },
   "workspaces": [
     "frontend",

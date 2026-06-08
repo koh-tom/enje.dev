@@ -72,7 +72,7 @@
 - [x] CI をリポジトリ直下 `.github/workflows/` へ移動し、FE / BE をジョブ分割
 - [x] Dependabot をリポジトリ直下へ移動し、bun / bundler / actions を対象にする
 - [x] `.env.example` を FE / BE に追加
-- [ ] `docker-compose.yml` で開発用 PostgreSQL を用意
+- [x] `docker-compose.yml` で開発用 PostgreSQL を用意
 - [ ] `turbo.json` に `typecheck` `test` を追加
 - [ ] husky pre-commit で biome と rubocop を staged ファイルに実行
 - [ ] `frontend/Dockerfile` を Bun 前提に書き直す
@@ -170,4 +170,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-02 | `563b013` | chore: 空ファイルと未使用アセットを削除 |
 | 2026-06-03 | `099cefa` | chore: commitizen を削除し commitlint をルートに移動 |
 | 2026-06-03 | `483f132` | ci: GitHub Actions と Dependabot をリポジトリ直下へ移動 |
-| 2026-06-05 | | chore: 環境変数のテンプレートを追加 |
+| 2026-06-05 | `0b34cdb` | chore: 環境変数のテンプレートを追加 |
+| 2026-06-08 | | chore: 開発用 PostgreSQL を docker compose で用意 |

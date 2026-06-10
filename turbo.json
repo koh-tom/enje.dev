@@ -1,16 +1,19 @@
 {
-    "$schema": "https://turbo.build/schema.json",
-    "tasks": {
-        "dev": {
-            "cache": false,
-            "persistent": true
-        },
-        "build": {
-            "outputs": [
-                ".next/**",
-                "!.next/cache/**"
-            ]
-        },
-        "lint": {}
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "env": ["API_URL", "NEXT_PUBLIC_SITE_URL", "REVALIDATE_SECRET"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "lint": {},
+    "typecheck": {},
+    "test": {
+      "dependsOn": ["^build"]
     }
+  }
 }

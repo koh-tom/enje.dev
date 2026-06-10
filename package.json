@@ -11,7 +11,9 @@
     "check": "bun --cwd frontend lint",
     "db:up": "docker compose up -d db",
     "db:down": "docker compose down",
-    "prepare": "husky"
+    "prepare": "husky",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test"
   },
   "workspaces": [
     "frontend",

@@ -12,7 +12,7 @@
 - [x] `backend/Booting` `backend/Rails` `backend/Run` は空ファイルのゴミ
 - [ ] `frontend/Dockerfile` が npm と `package-lock.json` 前提でビルド不能
 - [x] `.env.example` がなく、必要な環境変数が README にも書かれていない
-- [ ] `turbo.json` に typecheck / test タスクがない
+- [x] `turbo.json` に typecheck / test タスクがない
 - [ ] pre-commit フックがなく、lint を通さずにコミットできる
 
 ### Backend
@@ -73,7 +73,7 @@
 - [x] Dependabot をリポジトリ直下へ移動し、bun / bundler / actions を対象にする
 - [x] `.env.example` を FE / BE に追加
 - [x] `docker-compose.yml` で開発用 PostgreSQL を用意
-- [ ] `turbo.json` に `typecheck` `test` を追加
+- [x] `turbo.json` に `typecheck` `test` を追加
 - [ ] husky pre-commit で biome と rubocop を staged ファイルに実行
 - [ ] `frontend/Dockerfile` を Bun 前提に書き直す
 - [x] commitizen / git-cz を削除し、commitlint 設定をリポジトリ直下へ移動
@@ -171,4 +171,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-03 | `099cefa` | chore: commitizen を削除し commitlint をルートに移動 |
 | 2026-06-03 | `483f132` | ci: GitHub Actions と Dependabot をリポジトリ直下へ移動 |
 | 2026-06-05 | `0b34cdb` | chore: 環境変数のテンプレートを追加 |
-| 2026-06-08 | | chore: 開発用 PostgreSQL を docker compose で用意 |
+| 2026-06-08 | `551a4e4` | chore: 開発用 PostgreSQL を docker compose で用意 |
+| 2026-06-10 | | chore: turbo に typecheck と test を追加 |

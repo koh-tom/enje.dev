@@ -1,0 +1,12 @@
+command -v bun >/dev/null 2>&1 || export PATH="$HOME/.bun/bin:$PATH"
+
+# frontend: ステージ済みファイルだけ biome で検査
+if git diff --cached --name-only --diff-filter=ACMR | grep -q '^frontend/'; then
+  (cd frontend && bun x biome check --staged --no-errors-on-unmatched) || exit 1
+fi
+
+# backend: ステージ済みの Ruby ファイルだけ rubocop で検査
+rb_files=$(git diff --cached --name-only --diff-filter=ACMR | grep '^backend/.*\.rb$' | sed 's#^backend/##')
+if [ -n "$rb_files" ]; then
+  (cd backend && bundle exec rubocop --force-exclusion $rb_files) || exit 1
+fi

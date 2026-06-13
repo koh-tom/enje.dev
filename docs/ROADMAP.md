@@ -13,7 +13,7 @@
 - [ ] `frontend/Dockerfile` が npm と `package-lock.json` 前提でビルド不能
 - [x] `.env.example` がなく、必要な環境変数が README にも書かれていない
 - [x] `turbo.json` に typecheck / test タスクがない
-- [ ] pre-commit フックがなく、lint を通さずにコミットできる
+- [x] pre-commit フックがなく、lint を通さずにコミットできる
 
 ### Backend
 - [ ] テストが通らない（`posts.yml` に削除済み `tags` カラム、認証ヘッダー未送信、`ADMIN_API_TOKEN` 未設定で KeyError）
@@ -74,7 +74,7 @@
 - [x] `.env.example` を FE / BE に追加
 - [x] `docker-compose.yml` で開発用 PostgreSQL を用意
 - [x] `turbo.json` に `typecheck` `test` を追加
-- [ ] husky pre-commit で biome と rubocop を staged ファイルに実行
+- [x] husky pre-commit で biome と rubocop を staged ファイルに実行
 - [ ] `frontend/Dockerfile` を Bun 前提に書き直す
 - [x] commitizen / git-cz を削除し、commitlint 設定をリポジトリ直下へ移動
 - [ ] ルート README を現状に合わせて書き直す
@@ -172,4 +172,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-03 | `483f132` | ci: GitHub Actions と Dependabot をリポジトリ直下へ移動 |
 | 2026-06-05 | `0b34cdb` | chore: 環境変数のテンプレートを追加 |
 | 2026-06-08 | `551a4e4` | chore: 開発用 PostgreSQL を docker compose で用意 |
-| 2026-06-10 | | chore: turbo に typecheck と test を追加 |
+| 2026-06-10 | `9b13286` | chore: turbo に typecheck と test を追加 |
+| 2026-06-13 | | chore: pre-commit で biome と rubocop を実行 |

@@ -155,7 +155,6 @@ backend/.coverage/
 
 # Docker volumes
 docker-compose.override.yml
-.dockerignore
 
 # ===================================================================
 # Testing & Coverage

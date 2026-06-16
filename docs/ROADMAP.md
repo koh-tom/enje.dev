@@ -10,7 +10,7 @@
 - [x] `backend/.github/` にある CI はリポジトリ直下でないため一度も動いていない
 - [x] Dependabot も同様に無効
 - [x] `backend/Booting` `backend/Rails` `backend/Run` は空ファイルのゴミ
-- [ ] `frontend/Dockerfile` が npm と `package-lock.json` 前提でビルド不能
+- [x] `frontend/Dockerfile` が npm と `package-lock.json` 前提でビルド不能
 - [x] `.env.example` がなく、必要な環境変数が README にも書かれていない
 - [x] `turbo.json` に typecheck / test タスクがない
 - [x] pre-commit フックがなく、lint を通さずにコミットできる
@@ -75,7 +75,7 @@
 - [x] `docker-compose.yml` で開発用 PostgreSQL を用意
 - [x] `turbo.json` に `typecheck` `test` を追加
 - [x] husky pre-commit で biome と rubocop を staged ファイルに実行
-- [ ] `frontend/Dockerfile` を Bun 前提に書き直す
+- [x] `frontend/Dockerfile` を Bun 前提に書き直す
 - [x] commitizen / git-cz を削除し、commitlint 設定をリポジトリ直下へ移動
 - [ ] ルート README を現状に合わせて書き直す
 
@@ -173,4 +173,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-05 | `0b34cdb` | chore: 環境変数のテンプレートを追加 |
 | 2026-06-08 | `551a4e4` | chore: 開発用 PostgreSQL を docker compose で用意 |
 | 2026-06-10 | `9b13286` | chore: turbo に typecheck と test を追加 |
-| 2026-06-13 | | chore: pre-commit で biome と rubocop を実行 |
+| 2026-06-13 | `f6cf94c` | chore: pre-commit で biome と rubocop を実行 |
+| 2026-06-16 | | chore: frontend の Dockerfile を Bun 対応に書き直し |

@@ -1,125 +1,74 @@
 # enje.dev
 
+ポートフォリオ兼技術ブログ。Next.js のフロントエンドと Rails API のバックエンドを Bun + Turborepo のモノレポで管理している。
+
+設計方針・規約・作業計画は [`docs/`](docs/) にまとめている。
+
+| ドキュメント | 内容 |
+| --- | --- |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | 作業計画と進捗 |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 構成と API 契約 |
+| [docs/DESIGN.md](docs/DESIGN.md) | デザインシステム |
+| [docs/CONVENTIONS.md](docs/CONVENTIONS.md) | コーディング規約 |
+
 ## 技術スタック
 
-### Frontend
-- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
-- **Language**: TypeScript
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
-- **UI Libraries**:
-  - [Framer Motion](https://www.framer.com/motion/) (Animations)
-  - [Three.js](https://threejs.org/) / React Three Fiber (3D Graphics)
-  - [Radix UI](https://www.radix-ui.com/) (Headless Components)
+| 領域 | 採用 |
+| --- | --- |
+| Frontend | Next.js (App Router) / TypeScript / Tailwind CSS v4 / Biome |
+| Backend | Ruby on Rails (API モード) / PostgreSQL |
+| ツール | Bun / Turborepo / husky + commitlint / GitHub Actions |
+| ホスティング | Vercel (frontend) / Render (backend, PostgreSQL) |
 
-### Backend
-- **Framework**: [Ruby on Rails 8](https://rubyonrails.org/) (API Mode)
-- **Database**: PostgreSQL
-- **Language**: Ruby 3.2+
+## セットアップ
 
-### Tool
-- **Monorepo Manager**: [Turborepo](https://turbo.build/)
-- **Package Manager**: [Bun](https://bun.sh/)
-
-
-## 環境構築
-
-### 前提条件
-- **Bun**
-- **Ruby**
-- **PostgreSQL**
-
-### インストール & セットアップ
-
-1. **依存パッケージのインストール**
-   ```bash
-   bun install
-   ```
-
-2. **データベースのセットアップ**
-   ```bash
-   cd backend
-   bin/rails db:create db:migrate db:seed
-   cd ..
-   ```
-
-
-## 開発サーバー起動
+前提: Bun 1.3 以上、Ruby（`backend/.ruby-version` 参照）、Docker。
 
 ```bash
-bun run dev
+bun install                      # JS 依存関係
+cp frontend/.env.example frontend/.env.local
+cp backend/.env.example backend/.env
+bun run db:up                    # PostgreSQL を docker compose で起動（localhost:5433）
+cd backend && bundle install && bin/rails db:prepare && cd ..
 ```
 
-| Application             | URL                   | Port   |
-| ----------------------- | --------------------- | ------ |
-| **Frontend** (Next.js)  | http://localhost:3001 | `3001` |
-| **Backend** (Rails API) | http://localhost:3000 | `3000` |
-
-## 開発コマンド
-
-### 基本コマンド（ルートから実行）
-
-| コマンド        | 説明                                       |
-| --------------- | ------------------------------------------ |
-| `bun run dev`   | 開発サーバー起動 (frontend + backend 同時) |
-| `bun run build` | 本番用ビルド                               |
-| `bun run lint`  | リント実行 (frontend + backend)            |
-| `bun run cz`    | Commitizen でコミット作成                  |
-
-### Frontend (Biome)
+## 開発
 
 ```bash
-cd frontend
-
-# リント
-bun run lint              # コードチェック
-
-# フォーマット
-bun run format            # 自動フォーマット
-
-# 安全な自動修正（未使用import削除など）
-bunx biome check --write
-
-# 安全でない修正も含めて自動修正
-bunx biome check --write --unsafe
+bun run dev        # frontend (3001) と backend (3000) を同時起動
+bun run check      # frontend の lint
+bun run typecheck  # frontend の型検査
+bun run test       # 各ワークスペースのテスト
+bun run db:down    # PostgreSQL を停止
 ```
 
-### Backend (RuboCop)
+Backend 単体:
 
 ```bash
 cd backend
-
-# リント
-bundle exec rubocop       # コードチェック
-
-# 自動修正
-bundle exec rubocop -a    # 安全な自動修正
-bundle exec rubocop -A    # 全ての自動修正（aggressive）
+bin/rails test
+bin/rubocop
+bin/brakeman
 ```
 
-
-## ディレクトリ構造
+## ディレクトリ
 
 ```
-enje.dev/
-├── frontend/             # Next.js アプリケーション
-│   ├── src/
-│   │   ├── app/        # App Router ページ
-│   │   ├── components/ # React コンポーネント
-│   │   └── lib/        # ユーティリティ関数
-│   └── ...
-├── backend/              # Ruby on Rails API アプリケーション
+.
+├── .github/workflows/   # CI（frontend / backend を変更パスでジョブ分割）
+├── docs/                # 設計・規約・ロードマップ
+├── frontend/            # Next.js
+│   └── src/{app,components,lib,types}
+├── backend/             # Rails API
 │   ├── app/
 │   ├── config/
 │   ├── db/
-│   └── content/         # ブログ記事のMarkdownファイル
-├── package.json          # ルートパッケージ設定 (Turborepo Workspaces)
-└── turbo.json            # Turborepo パイプライン設定
+│   └── content/         # 記事・プロジェクトの Markdown（原本）
+├── docker-compose.yml   # 開発用 PostgreSQL
+├── turbo.json
+└── package.json
 ```
 
-## 主な機能
+## コミット
 
-- **インタラクティブUI**: Magnetic Buttons, Three.js
-- **ブログシステム**: Markdownベースの記事管理、RailsによるAPI提供
-- **ポートフォリオ**: プロジェクト紹介機能・技術記事投稿
-- **ギャラリー**: 写真ギャラリー機能
-- **ダークモード**: Next-themesによるテーマ切り替え
+メッセージは `type: 短い一文` の 1 行。type は `feat` `fix` `refactor` `docs` `chore` `test` `ci` `style` `perf`。commit-msg フックで commitlint が検査し、pre-commit フックで biome と rubocop がステージ済みファイルを検査する。

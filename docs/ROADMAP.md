@@ -77,7 +77,7 @@
 - [x] husky pre-commit で biome と rubocop を staged ファイルに実行
 - [x] `frontend/Dockerfile` を Bun 前提に書き直す
 - [x] commitizen / git-cz を削除し、commitlint 設定をリポジトリ直下へ移動
-- [ ] ルート README を現状に合わせて書き直す
+- [x] ルート README を現状に合わせて書き直す
 
 ### Phase 2: Backend の再設計（6/21 〜 7/18）
 - [ ] Ruby 3.4 / Rails 8.1 へ更新
@@ -174,4 +174,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-08 | `551a4e4` | chore: 開発用 PostgreSQL を docker compose で用意 |
 | 2026-06-10 | `9b13286` | chore: turbo に typecheck と test を追加 |
 | 2026-06-13 | `f6cf94c` | chore: pre-commit で biome と rubocop を実行 |
-| 2026-06-16 | | chore: frontend の Dockerfile を Bun 対応に書き直し |
+| 2026-06-16 | `3a45139` | chore: frontend の Dockerfile を Bun 対応に書き直し |
+| 2026-06-19 | | docs: README を現状に合わせて書き直し |

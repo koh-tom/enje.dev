@@ -80,7 +80,7 @@
 - [x] ルート README を現状に合わせて書き直す
 
 ### Phase 2: Backend の再設計（6/21 〜 7/18）
-- [ ] Ruby 3.4 / Rails 8.1 へ更新
+- [x] Ruby 3.4 / Rails 8.1 へ更新
 - [ ] `config/application.rb` を `rails/all` から必要なフレームワークだけに絞る
 - [ ] 不要 gem の削除（`image_processing` `mini_magick` `solid_cable` `active_model_serializers`）と Alba / `rouge` / `strong_migrations` / `alba` の追加
 - [ ] `Api::V1` 名前空間と `ApplicationController` の `rescue_from`
@@ -175,4 +175,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-10 | `9b13286` | chore: turbo に typecheck と test を追加 |
 | 2026-06-13 | `f6cf94c` | chore: pre-commit で biome と rubocop を実行 |
 | 2026-06-16 | `3a45139` | chore: frontend の Dockerfile を Bun 対応に書き直し |
-| 2026-06-19 | | docs: README を現状に合わせて書き直し |
+| 2026-06-19 | `18df417` | docs: README を現状に合わせて書き直し |
+| 2026-06-22 | | chore: Ruby 3.4 と Rails 8.1 に更新 |

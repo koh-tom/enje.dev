@@ -22,8 +22,8 @@
 - [ ] 下書き / 公開の区別がなく、`published_at` が未来でも返る
 - [ ] DB 制約がほぼない（`null: false` も unique index もない）
 - [ ] `seeds.rb` が `destroy_all` してから作り直すため、本番で使えない
-- [ ] `active_model_serializers` 0.10 はメンテナンス停止
-- [ ] `rails/all` で不要なフレームワーク（Action Cable, Active Storage など）を読み込んでいる
+- [x] `active_model_serializers` 0.10 はメンテナンス停止
+- [x] `rails/all` で不要なフレームワーク（Action Cable, Active Storage など）を読み込んでいる
 - [ ] トークン比較が `==` でタイミング攻撃に弱い
 - [ ] `RecordNotFound` が JSON でなく HTML 500 になる経路がある
 - [ ] Markdown を生のまま返し、FE 側で毎回パースしている
@@ -81,8 +81,8 @@
 
 ### Phase 2: Backend の再設計（6/21 〜 7/18）
 - [x] Ruby 3.4 / Rails 8.1 へ更新
-- [ ] `config/application.rb` を `rails/all` から必要なフレームワークだけに絞る
-- [ ] 不要 gem の削除（`image_processing` `mini_magick` `solid_cable` `active_model_serializers`）と Alba / `rouge` / `strong_migrations` / `alba` の追加
+- [x] `config/application.rb` を `rails/all` から必要なフレームワークだけに絞る
+- [x] 不要 gem の削除（`image_processing` `mini_magick` `solid_cable` `active_model_serializers`）と Alba / `rouge` / `strong_migrations` / `alba` の追加
 - [ ] `Api::V1` 名前空間と `ApplicationController` の `rescue_from`
 - [ ] 必須環境変数を起動時に検証する initializer
 - [ ] `secure_compare` による認証
@@ -176,4 +176,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-13 | `f6cf94c` | chore: pre-commit で biome と rubocop を実行 |
 | 2026-06-16 | `3a45139` | chore: frontend の Dockerfile を Bun 対応に書き直し |
 | 2026-06-19 | `18df417` | docs: README を現状に合わせて書き直し |
-| 2026-06-22 | | chore: Ruby 3.4 と Rails 8.1 に更新 |
+| 2026-06-22 | `13c4486` | chore: Ruby 3.4 と Rails 8.1 に更新 |
+| 2026-06-24 | | refactor: 不要なフレームワークと gem を削除 |

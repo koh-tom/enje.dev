@@ -43,6 +43,6 @@ class Rack::Attack
       retry_after_seconds: match_data[:period]
     }.to_json
 
-    [429, headers, [body]]
+    [ 429, headers, [ body ] ]
   end
 end

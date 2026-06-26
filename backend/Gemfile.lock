@@ -118,7 +118,7 @@ GEM
       prism (>= 1.3.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
-    json (3.0.2)
+    json (2.21.2)
     kramdown (2.5.2)
       rexml (>= 3.4.4)
     kramdown-parser-gfm (1.1.0)
@@ -300,6 +300,7 @@ DEPENDENCIES
   brakeman
   debug
   dotenv-rails
+  json (~> 2.15)
   kramdown
   kramdown-parser-gfm
   pg (~> 1.6)

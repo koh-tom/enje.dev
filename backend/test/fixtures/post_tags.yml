@@ -1,9 +1,11 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+published_ruby:
+  post: published
+  tag: ruby
 
-one:
-  post: one
-  tag: one
+older_ruby:
+  post: older
+  tag: ruby
 
-two:
-  post: two
-  tag: two
+draft_fpga:
+  post: draft
+  tag: fpga

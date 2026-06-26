@@ -1,17 +1,17 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+site:
+  slug: enje-dev
+  name: enje.dev
+  summary: このサイト
+  body_markdown: "Next.js と Rails で作ったポートフォリオ。"
+  body_html: "<p>Next.js と Rails で作ったポートフォリオ。</p>\n"
+  period: "2025.08 -"
+  tech_stack: ["Next.js", "Rails"]
+  github_url: https://github.com/koh-tom/enje.dev
+  status: 1
+  position: 1
 
-one:
-  name: MyString
-  duration: MyString
-  tech_stack: MyString
-  description: MyText
-  github_link: MyString
-  demo_link: MyString
-
-two:
-  name: MyString
-  duration: MyString
-  tech_stack: MyString
-  description: MyText
-  github_link: MyString
-  demo_link: MyString
+hidden:
+  slug: hidden-project
+  name: 非公開プロジェクト
+  status: 0
+  position: 2

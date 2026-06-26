@@ -1,13 +1,36 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+published:
+  slug: hello-world
+  title: はじめての記事
+  excerpt: 最初の記事です。
+  body_markdown: "# はじめに\n\n最初の記事です。\n"
+  body_html: "<h1 id=\"はじめに\">はじめに</h1>\n<p>最初の記事です。</p>\n"
+  status: 1
+  published_at: <%= 2.days.ago.iso8601 %>
+  reading_time: 1
 
-one:
-  title: MyString
-  content: MyText
-  published_at: 2025-09-28 02:53:58
-  tags: MyString
+older:
+  slug: older-post
+  title: 古い記事
+  excerpt: 古い記事です。
+  body_markdown: "古い記事です。"
+  body_html: "<p>古い記事です。</p>\n"
+  status: 1
+  published_at: <%= 10.days.ago.iso8601 %>
+  reading_time: 1
 
-two:
-  title: MyString
-  content: MyText
-  published_at: 2025-09-28 02:53:58
-  tags: MyString
+draft:
+  slug: draft-post
+  title: 下書き
+  body_markdown: "まだ書きかけ"
+  body_html: "<p>まだ書きかけ</p>\n"
+  status: 0
+  reading_time: 1
+
+scheduled:
+  slug: scheduled-post
+  title: 予約投稿
+  body_markdown: "未来の記事"
+  body_html: "<p>未来の記事</p>\n"
+  status: 1
+  published_at: <%= 2.days.from_now.iso8601 %>
+  reading_time: 1

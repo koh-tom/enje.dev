@@ -17,15 +17,15 @@
 
 ### Backend
 - [x] テストが通らない（`posts.yml` に削除済み `tags` カラム、認証ヘッダー未送信、`ADMIN_API_TOKEN` 未設定で KeyError）
-- [ ] `index` が `limit` しか見ていないのに FE は `_sort` `_order` `_limit` を送っている
+- [x] `index` が `limit` しか見ていないのに FE は `_sort` `_order` `_limit` を送っている
 - [x] ID ベースの URL（`/blog/3`）で、記事の差し替えに弱い
 - [x] 下書き / 公開の区別がなく、`published_at` が未来でも返る
 - [x] DB 制約がほぼない（`null: false` も unique index もない）
 - [ ] `seeds.rb` が `destroy_all` してから作り直すため、本番で使えない
 - [x] `active_model_serializers` 0.10 はメンテナンス停止
 - [x] `rails/all` で不要なフレームワーク（Action Cable, Active Storage など）を読み込んでいる
-- [ ] トークン比較が `==` でタイミング攻撃に弱い
-- [ ] `RecordNotFound` が JSON でなく HTML 500 になる経路がある
+- [x] トークン比較が `==` でタイミング攻撃に弱い
+- [x] `RecordNotFound` が JSON でなく HTML 500 になる経路がある
 - [x] Markdown を生のまま返し、FE 側で毎回パースしている
 
 ### Frontend
@@ -83,18 +83,18 @@
 - [x] Ruby 3.4 / Rails 8.1 へ更新
 - [x] `config/application.rb` を `rails/all` から必要なフレームワークだけに絞る
 - [x] 不要 gem の削除（`image_processing` `mini_magick` `solid_cable` `active_model_serializers`）と Alba / `rouge` / `strong_migrations` / `alba` の追加
-- [ ] `Api::V1` 名前空間と `ApplicationController` の `rescue_from`
-- [ ] 必須環境変数を起動時に検証する initializer
-- [ ] `secure_compare` による認証
+- [x] `Api::V1` 名前空間と `ApplicationController` の `rescue_from`
+- [x] 必須環境変数を起動時に検証する initializer
+- [x] `secure_compare` による認証
 - [x] マイグレーション: `posts.slug` `posts.excerpt` `posts.body_html` `posts.status`、`tags.slug`、`projects.slug` `projects.position` `projects.summary`、`null: false`、unique index、複合 index
 - [x] `Post` に `published` スコープ、slug 自動生成、reading_time 自動計算
 - [x] Markdown → HTML 変換サービス（kramdown + rouge + sanitize）
 - [ ] `content:sync` rake タスク（Markdown / YAML から冪等 upsert）と `seeds.rb` の縮小
 - [ ] `content:new` 生成タスクと `content:lint` 検証タスク（CI で実行）
 - [x] `draft` フロントマターと開発環境でのみ下書きを返す仕組み
-- [ ] Alba シリアライザ（Post / Tag / Project）
-- [ ] 一覧 API のページネーションとタグ絞り込み
-- [ ] `fresh_when` と `Cache-Control` の付与
+- [x] Alba シリアライザ（Post / Tag / Project）
+- [x] 一覧 API のページネーションとタグ絞り込み
+- [x] `fresh_when` と `Cache-Control` の付与
 - [ ] `POST /api/v1/contacts` と Mailer（Resend）
 - [ ] FE 再検証を呼ぶ `Revalidate` サービス
 - [ ] フィクスチャとテストの全面書き直し（request / model）
@@ -178,5 +178,6 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-19 | `18df417` | docs: README を現状に合わせて書き直し |
 | 2026-06-22 | `13c4486` | chore: Ruby 3.4 と Rails 8.1 に更新 |
 | 2026-06-24 | `0044430` | refactor: 不要なフレームワークと gem を削除 |
-| 2026-06-26 | | feat: slug と公開状態を持つスキーマに作り直し |
-| 2026-06-26 | | feat: Markdown を HTML に変換して保存する |
+| 2026-06-26 | `2bfec6f` | feat: slug と公開状態を持つスキーマに作り直し |
+| 2026-06-26 | `6a32835` | feat: Markdown を HTML に変換して保存する |
+| 2026-06-29 | | feat: API を v1 名前空間に移し JSON エラーとキャッシュを統一 |

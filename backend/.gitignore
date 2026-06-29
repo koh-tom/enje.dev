@@ -7,8 +7,11 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore all environment files.
-/.env*
+# 環境変数。.env.development と .env.test は非秘密の既定値なのでコミットする
+/.env
+/.env.local
+/.env.*.local
+/.env.production
 
 # Ignore all logfiles and tempfiles.
 /log/*

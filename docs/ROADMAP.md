@@ -180,4 +180,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-24 | `0044430` | refactor: 不要なフレームワークと gem を削除 |
 | 2026-06-26 | `2bfec6f` | feat: slug と公開状態を持つスキーマに作り直し |
 | 2026-06-26 | `6a32835` | feat: Markdown を HTML に変換して保存する |
-| 2026-06-29 | | feat: API を v1 名前空間に移し JSON エラーとキャッシュを統一 |
+| 2026-06-29 | `16a823e` | feat: API を v1 名前空間に移し JSON エラーとキャッシュを統一 |
+| 2026-07-01 | | chore: Solid Queue と Solid Cache を単一データベースに載せる |

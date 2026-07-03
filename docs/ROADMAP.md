@@ -21,7 +21,7 @@
 - [x] ID ベースの URL（`/blog/3`）で、記事の差し替えに弱い
 - [x] 下書き / 公開の区別がなく、`published_at` が未来でも返る
 - [x] DB 制約がほぼない（`null: false` も unique index もない）
-- [ ] `seeds.rb` が `destroy_all` してから作り直すため、本番で使えない
+- [x] `seeds.rb` が `destroy_all` してから作り直すため、本番で使えない
 - [x] `active_model_serializers` 0.10 はメンテナンス停止
 - [x] `rails/all` で不要なフレームワーク（Action Cable, Active Storage など）を読み込んでいる
 - [x] トークン比較が `==` でタイミング攻撃に弱い
@@ -89,8 +89,8 @@
 - [x] マイグレーション: `posts.slug` `posts.excerpt` `posts.body_html` `posts.status`、`tags.slug`、`projects.slug` `projects.position` `projects.summary`、`null: false`、unique index、複合 index
 - [x] `Post` に `published` スコープ、slug 自動生成、reading_time 自動計算
 - [x] Markdown → HTML 変換サービス（kramdown + rouge + sanitize）
-- [ ] `content:sync` rake タスク（Markdown / YAML から冪等 upsert）と `seeds.rb` の縮小
-- [ ] `content:new` 生成タスクと `content:lint` 検証タスク（CI で実行）
+- [x] `content:sync` rake タスク（Markdown / YAML から冪等 upsert）と `seeds.rb` の縮小
+- [x] `content:new` 生成タスクと `content:lint` 検証タスク（CI で実行）
 - [x] `draft` フロントマターと開発環境でのみ下書きを返す仕組み
 - [x] Alba シリアライザ（Post / Tag / Project）
 - [x] 一覧 API のページネーションとタグ絞り込み
@@ -181,4 +181,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-26 | `2bfec6f` | feat: slug と公開状態を持つスキーマに作り直し |
 | 2026-06-26 | `6a32835` | feat: Markdown を HTML に変換して保存する |
 | 2026-06-29 | `16a823e` | feat: API を v1 名前空間に移し JSON エラーとキャッシュを統一 |
-| 2026-07-01 | | chore: Solid Queue と Solid Cache を単一データベースに載せる |
+| 2026-07-01 | `7029fdb` | chore: Solid Queue と Solid Cache を単一データベースに載せる |
+| 2026-07-03 | | feat: Markdown から記事とプロジェクトを同期する content タスク |

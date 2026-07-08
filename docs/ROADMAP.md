@@ -96,8 +96,8 @@
 - [x] 一覧 API のページネーションとタグ絞り込み
 - [x] `fresh_when` と `Cache-Control` の付与
 - [x] `POST /api/v1/contacts` と Mailer（Resend）
-- [ ] FE 再検証を呼ぶ `Revalidate` サービス
-- [ ] フィクスチャとテストの全面書き直し（request / model）
+- [x] FE 再検証を呼ぶ `Revalidate` サービス
+- [x] フィクスチャとテストの全面書き直し（request / model）
 - [ ] rack-attack のルールを新パスに合わせる
 
 ### Phase 3: Frontend の基盤（7/19 〜 8/12）
@@ -183,4 +183,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-06-29 | `16a823e` | feat: API を v1 名前空間に移し JSON エラーとキャッシュを統一 |
 | 2026-07-01 | `7029fdb` | chore: Solid Queue と Solid Cache を単一データベースに載せる |
 | 2026-07-03 | `8df65c9` | feat: Markdown から記事とプロジェクトを同期する content タスク |
-| 2026-07-06 | | feat: お問い合わせをメールで受け取る API |
+| 2026-07-06 | `6dabadd` | feat: お問い合わせをメールで受け取る API |
+| 2026-07-08 | | feat: ISR 再検証と同期の管理 API |

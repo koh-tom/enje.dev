@@ -98,7 +98,7 @@
 - [x] `POST /api/v1/contacts` と Mailer（Resend）
 - [x] FE 再検証を呼ぶ `Revalidate` サービス
 - [x] フィクスチャとテストの全面書き直し（request / model）
-- [ ] rack-attack のルールを新パスに合わせる
+- [x] rack-attack のルールを新パスに合わせる
 
 ### Phase 3: Frontend の基盤（7/19 〜 8/12）
 - [ ] Next.js 16 / React 19.3 / Tailwind 4.3 / Biome 2.5 へ更新
@@ -184,4 +184,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-07-01 | `7029fdb` | chore: Solid Queue と Solid Cache を単一データベースに載せる |
 | 2026-07-03 | `8df65c9` | feat: Markdown から記事とプロジェクトを同期する content タスク |
 | 2026-07-06 | `6dabadd` | feat: お問い合わせをメールで受け取る API |
-| 2026-07-08 | | feat: ISR 再検証と同期の管理 API |
+| 2026-07-08 | `dd954f4` | feat: ISR 再検証と同期の管理 API |
+| 2026-07-10 | | feat: レート制限と CORS を新しい API に合わせる |

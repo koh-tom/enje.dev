@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1
 
-# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
+# RUBY_VERSION は .ruby-version と合わせる
 ARG RUBY_VERSION=3.4.10
 FROM ruby:$RUBY_VERSION-slim as base
 
@@ -18,7 +18,7 @@ FROM base as build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config libyaml-dev libvips-dev
+    apt-get install --no-install-recommends -y build-essential git libpq-dev pkg-config libyaml-dev
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -40,7 +40,7 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libvips libyaml-0-2 postgresql-client && \
+    apt-get install --no-install-recommends -y curl libyaml-0-2 postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
@@ -55,6 +55,8 @@ USER rails:rails
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Start the server by default, this can be overwritten at runtime
+# Solid Queue を Puma 内で動かす（単一サービス構成）
+ENV SOLID_QUEUE_IN_PUMA="1"
+
 EXPOSE 3000
 CMD ["./bin/rails", "server"]

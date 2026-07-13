@@ -92,3 +92,5 @@ jobs:
         run: bin/brakeman --no-pager -q
       - name: Test
         run: bin/rails db:test:prepare test
+      - name: Content lint
+        run: bin/rails content:lint

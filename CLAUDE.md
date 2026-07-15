@@ -8,6 +8,7 @@ enje.dev のポートフォリオブログ。Bun + Turborepo のモノレポで�
 - `docs/ARCHITECTURE.md` 目標アーキテクチャと API 契約
 - `docs/DESIGN.md` デザインシステム（手書き風・Tottenham カラー）
 - `docs/CONVENTIONS.md` FE / BE / DB のコーディング規約
+- `docs/CONTENT.md` 記事・プロジェクトの書き方（フロントマター仕様）
 
 ## 作業ルール
 

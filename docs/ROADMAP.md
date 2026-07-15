@@ -186,4 +186,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-07-06 | `6dabadd` | feat: お問い合わせをメールで受け取る API |
 | 2026-07-08 | `dd954f4` | feat: ISR 再検証と同期の管理 API |
 | 2026-07-10 | `2b132eb` | feat: レート制限と CORS を新しい API に合わせる |
-| 2026-07-13 | | chore: デプロイ時に content:sync を実行し CI で content:lint を走らせる |
+| 2026-07-13 | `6696b7c` | chore: デプロイ時に content:sync を実行し CI で content:lint を走らせる |
+| 2026-07-15 | | docs: コンテンツの書き方と API 契約を実装に合わせる |

@@ -10,6 +10,7 @@
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | 構成と API 契約 |
 | [docs/DESIGN.md](docs/DESIGN.md) | デザインシステム |
 | [docs/CONVENTIONS.md](docs/CONVENTIONS.md) | コーディング規約 |
+| [docs/CONTENT.md](docs/CONTENT.md) | 記事・プロジェクトの書き方 |
 
 ## 技術スタック
 
@@ -49,7 +50,11 @@ cd backend
 bin/rails test
 bin/rubocop
 bin/brakeman
+bin/rails content:lint   # Markdown の検証
+bin/rails content:sync   # Markdown を DB に反映
 ```
+
+記事を書くときは [docs/CONTENT.md](docs/CONTENT.md) を参照。
 
 ## ディレクトリ
 

@@ -11,7 +11,7 @@
 - Next.js はサーバーコンポーネントから Rails API を呼び、ISR でキャッシュする。
 - ブラウザから Rails を直接叩かない。CORS は開発用途に限定する。
 - Rails は記事・プロジェクト・タグ・お問い合わせを扱う JSON API に徹する。
-- コンテンツの原本は `backend/content/` の Markdown。`rake content:sync` で DB に冪等反映する。
+- コンテンツの原本は `backend/content/` の Markdown。`bin/rails content:sync` で DB に冪等反映する。書き方は `docs/CONTENT.md`。
 
 ## ディレクトリ構成（目標）
 
@@ -34,14 +34,14 @@ enje.dev/
 │       └── styles/         # globals.css とトークン
 └── backend/
     ├── app/
-    │   ├── controllers/api/v1/
-    │   ├── models/
-    │   ├── serializers/    # Alba
-    │   ├── services/       # ContentSync, ReadingTime, Revalidate
+    │   ├── controllers/api/v1/   # 公開 API と admin/
+    │   ├── models/               # Post, Tag, Project, Contact（フォームオブジェクト）
+    │   ├── resources/            # Alba シリアライザ
+    │   ├── services/             # MarkdownRenderer, ReadingTime, ContentFile, ContentSync, Revalidator
     │   └── mailers/
-    ├── content/posts/      # 記事 Markdown（原本）
-    ├── content/projects/   # プロジェクト YAML（原本）
-    └── lib/tasks/content.rake
+    ├── content/posts/            # 記事 Markdown（原本）
+    ├── content/projects/         # プロジェクト Markdown（原本）
+    └── lib/tasks/content.rake    # content:new / lint / sync
 ```
 
 ## API 契約（v1）
@@ -52,36 +52,58 @@ enje.dev/
 | --- | --- | --- | --- |
 | GET | `/posts` | 不要 | 公開済み記事一覧。`?tag=slug&page=1&per=20` |
 | GET | `/posts/:slug` | 不要 | 記事詳細 |
-| GET | `/tags` | 不要 | タグ一覧（記事数付き） |
-| GET | `/projects` | 不要 | プロジェクト一覧 |
+| GET | `/tags` | 不要 | 公開記事を持つタグ一覧（記事数付き） |
+| GET | `/projects` | 不要 | プロジェクト一覧（`position` 順） |
 | GET | `/projects/:slug` | 不要 | プロジェクト詳細 |
-| POST | `/contacts` | 不要（レート制限） | お問い合わせ送信 |
-| POST | `/admin/revalidate` | Bearer | FE の ISR キャッシュを破棄 |
+| POST | `/contacts` | 不要（1 時間 5 回 / IP） | お問い合わせ送信。202 を返す |
+| POST | `/admin/revalidate` | Bearer | FE の ISR キャッシュを破棄。`{ "tags": ["posts"] }` |
+| POST | `/admin/sync` | Bearer | `content/` を DB に反映してキャッシュを破棄 |
 | GET | `/up` | 不要 | ヘルスチェック |
 
 - 作成・更新・削除の管理系エンドポイントは持たない。コンテンツは Markdown → `content:sync` で反映する。
 - ID ではなく `slug` で参照する。URL は `/blog/rrt-star` のようになる。
-- 一覧は `{ data: [...], meta: { page, per, total } }`、詳細は `{ data: {...} }` で包む。
-- エラーは `{ error: { code, message } }`。404 は `not_found`、422 は `invalid`、429 は `rate_limited`。
+- 一覧は `{ data: [...], meta: { page, per, total, total_pages } }`、詳細は `{ data: {...} }` で包む。
+- エラーは `{ error: { code, message, details? } }`。`not_found` `invalid` `unauthorized` `rate_limited`。
+- 公開 API は `Cache-Control: public, max-age=60, s-maxage=60, stale-while-revalidate=600`。詳細は ETag も返す。
+- 開発環境（`RAILS_ENV=development`）では下書きも返る。
 
-### Post
+### Post（一覧）
 
 ```json
 {
   "slug": "rrt-star",
   "title": "RRT* アルゴリズムを理解する",
   "excerpt": "先頭 160 文字",
-  "body_html": "<p>…</p>",
-  "published_at": "2025-10-06",
-  "updated_at": "2025-10-07T12:00:00Z",
   "reading_time": 5,
-  "cover_image": "/images/posts/rrt-star.png",
+  "cover_image": "/images/posts/rrt-star/cover.png",
+  "status": "published",
+  "published_at": "2025-10-06T00:00:00+09:00",
+  "updated_at": "2025-10-07T12:00:00+09:00",
   "tags": [{ "slug": "algorithm", "name": "Algorithm" }]
 }
 ```
 
-- `body_html` は Rails 側で Markdown を HTML に変換し、サニタイズ済みで返す。FE は `react-markdown` を持たない。
-- `reading_time` は保存時に本文から自動計算する。
+### Post（詳細）
+
+一覧の項目に加えて次を返す。
+
+```json
+{
+  "body_html": "<h2 id=\"概要\">概要</h2><p>…</p>",
+  "toc": [{ "id": "概要", "level": 2, "text": "概要" }],
+  "previous_post": { "slug": "older", "title": "古い記事" },
+  "next_post": null
+}
+```
+
+- `body_html` は Rails 側で kramdown（GFM）+ rouge で HTML 化し、サニタイズ済み。FE は `react-markdown` を持たない。
+- コードブロックは `<div class="language-ruby highlighter-rouge"><pre class="highlight"><code>` で包まれ、トークンは `class` 付き `<span>`。
+
+### Tag
+
+```json
+{ "slug": "ruby", "name": "Ruby", "posts_count": 3 }
+```
 
 ### Project
 
@@ -90,20 +112,31 @@ enje.dev/
   "slug": "enje-dev",
   "name": "enje.dev",
   "summary": "一行説明",
-  "body_html": "<p>…</p>",
   "period": "2025.08 -",
   "tech_stack": ["Next.js", "Rails"],
   "links": { "github": "https://…", "demo": "https://…" },
-  "cover_image": "/images/projects/enje-dev.png",
-  "position": 1
+  "cover_image": "/images/projects/enje-dev/cover.png",
+  "position": 1,
+  "status": "published",
+  "updated_at": "…"
 }
 ```
+
+詳細では `body_html` が加わる。
+
+### Contact（リクエスト）
+
+```json
+{ "contact": { "name": "…", "email": "…", "subject": "…", "message": "…", "website": "" } }
+```
+
+`website` は honeypot。値が入っていれば 422。
 
 ## キャッシュ戦略
 
 - FE の fetch は `next: { tags: ["posts"] }` のようにタグ付けし、`revalidate` は 1 時間。
-- Rails の `content:sync` 完了時に `POST /api/v1/admin/revalidate` 相当の処理として、FE の `/api/revalidate` を `REVALIDATE_SECRET` 付きで呼ぶ。
-- Rails 側も `fresh_when` で ETag を返し、`Cache-Control: public, s-maxage=60, stale-while-revalidate=600` を付ける。
+- Rails の `admin/sync` 完了時に `Revalidator` が FE の `/api/revalidate` を `x-revalidate-secret` 付きで呼ぶ。デプロイ時の `content:sync` は entrypoint から実行され、FE 側は次回アクセスの ISR で追いつく。
+- Rails 側は `stale?` で ETag を返し、`Cache-Control: public, max-age=60, s-maxage=60, stale-while-revalidate=600` を付ける。
 
 ## 環境変数
 
@@ -115,7 +148,9 @@ enje.dev/
 | `DATABASE_URL` | BE | PostgreSQL |
 | `ADMIN_API_TOKEN` | BE | 管理系エンドポイント |
 | `CONTACT_TO` | BE | お問い合わせ送信先 |
-| `RESEND_API_KEY` | BE | メール送信 |
+| `MAIL_FROM` | BE | 送信元（既定 `enje.dev <noreply@enje.dev>`） |
+| `RESEND_API_KEY` | BE | メール送信（本番のみ必須） |
+| `SECRET_KEY_BASE` | BE | 本番のみ必須 |
 | `CORS_ORIGINS` | BE | 追加許可オリジン（開発用） |
 
 `.env.example` を FE / BE 双方に置き、起動時に zod / `ENV.fetch` で必須を検証する。
@@ -123,5 +158,5 @@ enje.dev/
 ## デプロイ
 
 - FE: Vercel。`output: "standalone"` は Docker 用に残すが Vercel では不要。
-- BE: Render の Docker デプロイ。`bin/docker-entrypoint` で `db:prepare` と `content:sync` を実行。
-- DB: Render PostgreSQL。日次バックアップを有効化。
+- BE: Render の Docker デプロイ。`bin/docker-entrypoint` で `db:prepare` と `content:sync` を実行。Solid Queue は `SOLID_QUEUE_IN_PUMA=1` で Puma 内に同居。
+- DB: Render PostgreSQL 1 つ。Solid Queue / Solid Cache のテーブルも同じ DB に置く。日次バックアップを有効化。

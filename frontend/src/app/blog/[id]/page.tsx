@@ -22,49 +22,51 @@ export default async function BlogPostPage({ params }: Props) {
   const blogJsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": post.title,
-    "image": [post.image_url],
-    "datePublished": post.published_at,
-    "dateModified": post.published_at,
-    "author": [{
-      "@type": "Person",
-      "name": "enje",
-      "url": "https://enje.dev/about"
-    }],
-    "publisher": {
+    headline: post.title,
+    image: [post.image_url],
+    datePublished: post.published_at,
+    dateModified: post.published_at,
+    author: [
+      {
+        "@type": "Person",
+        name: "enje",
+        url: "https://enje.dev/about",
+      },
+    ],
+    publisher: {
       "@type": "Organization",
-      "name": "enje.dev",
-      "logo": {
+      name: "enje.dev",
+      logo: {
         "@type": "ImageObject",
-        "url": "https://enje.dev/favicon.ico"
-      }
+        url: "https://enje.dev/favicon.ico",
+      },
     },
-    "description": post.content.slice(0, 150)
+    description: post.content.slice(0, 150),
   };
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://enje.dev"
+        position: 1,
+        name: "Home",
+        item: "https://enje.dev",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Blog",
-        "item": "https://enje.dev/blog"
+        position: 2,
+        name: "Blog",
+        item: "https://enje.dev/blog",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": post.title,
-        "item": `https://enje.dev/blog/${id}`
-      }
-    ]
+        position: 3,
+        name: post.title,
+        item: `https://enje.dev/blog/${id}`,
+      },
+    ],
   };
 
   return (

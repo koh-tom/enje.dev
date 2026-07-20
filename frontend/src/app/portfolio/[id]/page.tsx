@@ -1,8 +1,9 @@
+import { ArrowLeft, ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
-import { ArrowLeft, ExternalLink, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FaGithub as Github } from "react-icons/fa6";
 // Project型を再利用
 import type { Project } from "@/components/portfolio/ProjectCard";
 import { Badge } from "@/components/ui/badge";
@@ -79,26 +80,26 @@ export default async function ProjectDetailPage({ params }: Props) {
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://enje.dev"
+        position: 1,
+        name: "Home",
+        item: "https://enje.dev",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Portfolio",
-        "item": "https://enje.dev/portfolio"
+        position: 2,
+        name: "Portfolio",
+        item: "https://enje.dev/portfolio",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": project.name,
-        "item": `https://enje.dev/portfolio/${id}`
-      }
-    ]
+        position: 3,
+        name: project.name,
+        item: `https://enje.dev/portfolio/${id}`,
+      },
+    ],
   };
 
   return (

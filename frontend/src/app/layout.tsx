@@ -69,10 +69,7 @@ export const metadata: Metadata = {
     canonical: "https://enje.dev",
   },
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon.ico", sizes: "any" },
-    ],
+    icon: [{ url: "/favicon.ico" }, { url: "/favicon.ico", sizes: "any" }],
     apple: "/apple-touch-icon.png",
   },
 };
@@ -85,16 +82,16 @@ export default function RootLayout({
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "enje.dev",
-    "url": "https://enje.dev",
-    "potentialAction": {
+    name: "enje.dev",
+    url: "https://enje.dev",
+    potentialAction: {
       "@type": "SearchAction",
-      "target": {
+      target: {
         "@type": "EntryPoint",
-        "urlTemplate": "https://enje.dev/blog?q={search_term_string}"
+        urlTemplate: "https://enje.dev/blog?q={search_term_string}",
       },
-      "query-input": "required name=search_term_string"
-    }
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return (

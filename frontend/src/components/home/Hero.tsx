@@ -153,6 +153,7 @@ const BinaryRain = () => {
   ];
 
   // Generate stable content once on mount to avoid hydration issues
+  // biome-ignore lint/correctness/useExhaustiveDependencies: codeSnippets は定数
   const columnsData = useMemo(() => {
     if (!mounted) return [];
     return Array.from({ length: columns }).map((_, i) => ({

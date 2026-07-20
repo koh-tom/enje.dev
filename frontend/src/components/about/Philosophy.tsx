@@ -88,9 +88,9 @@ export function Philosophy() {
               <ToolIcon IconComponent={tool.IconComponent} color={tool.color} />
               <h3 className="text-lg font-bold mb-2">{tool.title}</h3>
               <div className="text-gray-400 text-sm leading-relaxed">
-                {tool.description.split("\n").map((line, i) => (
+                {tool.description.split("\n").map((line) => (
                   <p
-                    key={`${tool.title}-line-${i}`}
+                    key={`${tool.title}-${line}`}
                     className={line.trim() ? "" : "h-2"}
                   >
                     {line}

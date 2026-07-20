@@ -61,9 +61,7 @@ export function ContactForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">
-                  メールアドレス
-                </FormLabel>
+                <FormLabel className="text-gray-300">メールアドレス</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
@@ -100,9 +98,7 @@ export function ContactForm() {
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">
-                  メッセージ本文
-                </FormLabel>
+                <FormLabel className="text-gray-300">メッセージ本文</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="メッセージ内容を入力してください"

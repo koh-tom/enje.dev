@@ -68,11 +68,11 @@ function SkillCard({ skill }: { skill: (typeof skills)[0] }) {
       <p className="font-semibold text-white">{skill.name}</p>
       {/* 習熟度を表す5段階のドット表示 */}
       <div className="flex justify-center mt-2 gap-1">
-        {Array.from({ length: 5 }).map((_, i) => (
+        {[1, 2, 3, 4, 5].map((level) => (
           <span
-            key={`${skill.name}-dot-${i}`}
+            key={`${skill.name}-dot-${level}`}
             className={`block w-3 h-3 rounded-full ${
-              i < skill.proficiency ? "bg-blue-500" : "bg-gray-600"
+              level <= skill.proficiency ? "bg-blue-500" : "bg-gray-600"
             }`}
           />
         ))}

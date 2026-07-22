@@ -102,10 +102,10 @@
 
 ### Phase 3: Frontend の基盤（7/19 〜 8/12）
 - [x] Next.js 16 / React 19.3 / Tailwind 4.3 / Biome 2.5 へ更新
-- [ ] `lib/env.ts` で環境変数を zod 検証
-- [ ] `lib/api/` クライアント（posts / projects / tags / contact）と zod スキーマ
-- [ ] `types/` へ型を集約
-- [ ] `lib/seo.ts`（`buildMetadata` / `jsonLd`）
+- [x] `lib/env.ts` で環境変数を zod 検証
+- [x] `lib/api/` クライアント（posts / projects / tags / contact）と zod スキーマ
+- [x] `types/` へ型を集約
+- [x] `lib/seo.ts`（`buildMetadata` / `jsonLd`）
 - [ ] フォールバックデータの全削除と空状態コンポーネント
 - [ ] Three.js / react-masonry-css / react-markdown / react-icons の削除
 - [ ] `next/font` で Zen Kurenaido / Caveat / JetBrains Mono を読み込む
@@ -188,4 +188,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-07-10 | `2b132eb` | feat: レート制限と CORS を新しい API に合わせる |
 | 2026-07-13 | `6696b7c` | chore: デプロイ時に content:sync を実行し CI で content:lint を走らせる |
 | 2026-07-15 | `12a4395` | docs: コンテンツの書き方と API 契約を実装に合わせる |
-| 2026-07-20 | | chore: Next.js 16 と React 19.3 に更新 |
+| 2026-07-20 | `a3a0e15` | chore: Next.js 16 と React 19.3 に更新 |
+| 2026-07-22 | | feat: zod で検証する API クライアントと SEO ヘルパー |

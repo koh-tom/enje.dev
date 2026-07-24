@@ -110,9 +110,9 @@
 - [ ] Three.js / react-masonry-css / react-markdown / react-icons の削除
 - [ ] `next/font` で Zen Kurenaido / Caveat / JetBrains Mono を読み込む
 - [ ] `globals.css` をトークンベースに置き換え（paper / ink / rule / mark）
-- [ ] 禁止クラス検出スクリプト `check:design`
-- [ ] お問い合わせを Server Action 経由で BE に送る（honeypot 付き）
-- [ ] `app/api/revalidate` ルート
+- [x] 禁止クラス検出スクリプト `check:design`
+- [x] お問い合わせを Server Action 経由で BE に送る（honeypot 付き）
+- [x] `app/api/revalidate` ルート
 - [ ] `debug-*` ページの削除（Storybook 的な確認は `/dev` 配下を `NODE_ENV` で除外）
 - [ ] Vitest + Testing Library の導入と `lib/` のテスト
 - [ ] Playwright のスモークテスト
@@ -189,4 +189,6 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-07-13 | `6696b7c` | chore: デプロイ時に content:sync を実行し CI で content:lint を走らせる |
 | 2026-07-15 | `12a4395` | docs: コンテンツの書き方と API 契約を実装に合わせる |
 | 2026-07-20 | `a3a0e15` | chore: Next.js 16 と React 19.3 に更新 |
-| 2026-07-22 | | feat: zod で検証する API クライアントと SEO ヘルパー |
+| 2026-07-22 | `e677d0c` | feat: zod で検証する API クライアントと SEO ヘルパー |
+| 2026-07-24 | | feat: ISR 再検証ルートとお問い合わせの Server Action |
+| 2026-07-24 | | ci: モック API でビルドし禁止クラスを検出する |

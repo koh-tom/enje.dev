@@ -54,10 +54,14 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
       - name: Build
-        run: bun run build
+        run: |
+          bun run mock:api &
+          sleep 1
+          bun run build
         env:
           API_URL: http://localhost:3000/api/v1
           NEXT_PUBLIC_SITE_URL: https://enje.dev
+          REVALIDATE_SECRET: ci-dummy-secret
 
   backend:
     needs: changes

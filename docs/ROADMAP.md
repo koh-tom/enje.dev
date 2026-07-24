@@ -190,5 +190,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-07-15 | `12a4395` | docs: コンテンツの書き方と API 契約を実装に合わせる |
 | 2026-07-20 | `a3a0e15` | chore: Next.js 16 と React 19.3 に更新 |
 | 2026-07-22 | `e677d0c` | feat: zod で検証する API クライアントと SEO ヘルパー |
-| 2026-07-24 | | feat: ISR 再検証ルートとお問い合わせの Server Action |
-| 2026-07-24 | | ci: モック API でビルドし禁止クラスを検出する |
+| 2026-07-24 | `9b3cee9` | feat: ISR 再検証ルートとお問い合わせの Server Action |
+| 2026-07-24 | | ci: モック API を立ててビルドする |

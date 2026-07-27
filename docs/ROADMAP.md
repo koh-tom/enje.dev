@@ -37,7 +37,7 @@
 - [ ] ギャラリーの表示切替ボタンが何も切り替えない
 - [ ] 型定義がコンポーネントから export されている
 - [ ] お問い合わせフォームが `console.log` のみ
-- [ ] テストが 1 つもない
+- [x] テストが 1 つもない
 - [ ] `debug-*` ページが本番ビルドに含まれる
 
 ## 編集体験（日常運用の要件）
@@ -114,8 +114,8 @@
 - [x] お問い合わせを Server Action 経由で BE に送る（honeypot 付き）
 - [x] `app/api/revalidate` ルート
 - [ ] `debug-*` ページの削除（Storybook 的な確認は `/dev` 配下を `NODE_ENV` で除外）
-- [ ] Vitest + Testing Library の導入と `lib/` のテスト
-- [ ] Playwright のスモークテスト
+- [x] Vitest + Testing Library の導入と `lib/` のテスト
+- [x] Playwright のスモークテスト
 - [ ] CSP などセキュリティヘッダーを `next.config.ts` に追加
 
 ### Phase 4: デザイン刷新（8/13 〜 9/6）
@@ -191,4 +191,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-07-20 | `a3a0e15` | chore: Next.js 16 と React 19.3 に更新 |
 | 2026-07-22 | `e677d0c` | feat: zod で検証する API クライアントと SEO ヘルパー |
 | 2026-07-24 | `9b3cee9` | feat: ISR 再検証ルートとお問い合わせの Server Action |
-| 2026-07-24 | | ci: モック API を立ててビルドする |
+| 2026-07-24 | `730dc6e` | ci: モック API を立ててビルドする |
+| 2026-07-27 | | test: Vitest を導入し API クライアントと Server Action を検証 |

@@ -2,10 +2,10 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { submitContact } from "@/lib/actions/contact";
 import { ApiError } from "@/lib/api/client";
 
-const sendContact = vi.fn();
+const { sendContact } = vi.hoisted(() => ({ sendContact: vi.fn() }));
 vi.mock("@/lib/api/contact", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@/lib/api/contact")>()),
-  sendContact: (...args: unknown[]) => sendContact(...args),
+  sendContact,
 }));
 
 const form = (fields: Record<string, string>) => {
@@ -21,11 +21,13 @@ const valid = {
   message: "本文",
 };
 
-beforeEach(() => sendContact.mockReset());
+beforeEach(() => {
+  sendContact.mockClear();
+  sendContact.mockImplementation(async () => undefined);
+});
 
 describe("submitContact", () => {
   it("正しい入力なら送信して sent", async () => {
-    sendContact.mockResolvedValue(undefined);
     const state = await submitContact({ status: "idle" }, form(valid));
     expect(state.status).toBe("sent");
     expect(sendContact).toHaveBeenCalledWith(
@@ -55,9 +57,9 @@ describe("submitContact", () => {
   });
 
   it("レート制限は専用メッセージ", async () => {
-    sendContact.mockImplementation(() =>
-      Promise.reject(new ApiError(429, "rate_limited", "x")),
-    );
+    sendContact.mockImplementation(() => {
+      throw new ApiError(429, "rate_limited", "x");
+    });
     const state = await submitContact({ status: "idle" }, form(valid));
     expect(state.status).toBe("error");
     expect(state.message).toMatch(/送信回数/);

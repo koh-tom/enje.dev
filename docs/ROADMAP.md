@@ -192,4 +192,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-07-22 | `e677d0c` | feat: zod で検証する API クライアントと SEO ヘルパー |
 | 2026-07-24 | `9b3cee9` | feat: ISR 再検証ルートとお問い合わせの Server Action |
 | 2026-07-24 | `730dc6e` | ci: モック API を立ててビルドする |
-| 2026-07-27 | | test: Vitest を導入し API クライアントと Server Action を検証 |
+| 2026-07-27 | `4e16ab3` | test: Vitest を導入し API クライアントと Server Action を検証 |
+| 2026-07-29 | | test: Playwright のスモークテストを追加 |

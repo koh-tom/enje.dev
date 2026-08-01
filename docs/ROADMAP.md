@@ -30,7 +30,7 @@
 
 ### Frontend
 - [ ] API 失敗時にダミー記事・ダミープロジェクトを表示してしまう
-- [ ] 4.5 秒固定のローディング画面が LCP を壊している
+- [x] 4.5 秒固定のローディング画面が LCP を壊している
 - [ ] Three.js、framer-motion、react-masonry-css、react-icons と lucide の二重持ちなど依存が重い
 - [ ] `metadata.openGraph.images` が存在しない `/images/og-image.png` を指している
 - [ ] 記事ページのタイトルが「My Portfolio」のままでテンプレートと不整合
@@ -38,7 +38,7 @@
 - [ ] 型定義がコンポーネントから export されている
 - [ ] お問い合わせフォームが `console.log` のみ
 - [x] テストが 1 つもない
-- [ ] `debug-*` ページが本番ビルドに含まれる
+- [x] `debug-*` ページが本番ビルドに含まれる
 
 ## 編集体験（日常運用の要件）
 
@@ -113,10 +113,10 @@
 - [x] 禁止クラス検出スクリプト `check:design`
 - [x] お問い合わせを Server Action 経由で BE に送る（honeypot 付き）
 - [x] `app/api/revalidate` ルート
-- [ ] `debug-*` ページの削除（Storybook 的な確認は `/dev` 配下を `NODE_ENV` で除外）
+- [x] `debug-*` ページの削除（Storybook 的な確認は `/dev` 配下を `NODE_ENV` で除外）
 - [x] Vitest + Testing Library の導入と `lib/` のテスト
 - [x] Playwright のスモークテスト
-- [ ] CSP などセキュリティヘッダーを `next.config.ts` に追加
+- [x] CSP などセキュリティヘッダーを `next.config.ts` に追加
 
 ### Phase 4: デザイン刷新（8/13 〜 9/6）
 - [ ] `components/ui/` の手書き部品（Button / Tag / Rule / Frame / Input / EmptyState）
@@ -193,4 +193,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-07-24 | `9b3cee9` | feat: ISR 再検証ルートとお問い合わせの Server Action |
 | 2026-07-24 | `730dc6e` | ci: モック API を立ててビルドする |
 | 2026-07-27 | `4e16ab3` | test: Vitest を導入し API クライアントと Server Action を検証 |
-| 2026-07-29 | | test: Playwright のスモークテストを追加 |
+| 2026-07-29 | `64145c1` | test: Playwright のスモークテストを追加 |
+| 2026-08-01 | | feat: セキュリティヘッダーを追加しデバッグページとローディング画面を削除 |

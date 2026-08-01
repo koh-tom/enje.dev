@@ -3,10 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClientHeader } from "@/components/layout/ClientHeader";
 import { Footer } from "@/components/layout/Footer";
-import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { ThemeProvider } from "@/components/theme-provider";
-import { BackToTop } from "@/components/ui/BackToTop";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -110,14 +107,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <LoadingScreen />
-          <ScrollProgress />
           <ClientHeader />
           <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {children}
           </main>
           <Footer />
-          <BackToTop />
         </ThemeProvider>
       </body>
     </html>

@@ -1,114 +1,77 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { ClientHeader } from "@/components/layout/ClientHeader";
+import type { Metadata, Viewport } from "next";
+import { Caveat, JetBrains_Mono, Zen_Kurenaido } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import "@/styles/globals.css";
+import { JsonLd } from "@/components/JsonLd";
 import { Footer } from "@/components/layout/Footer";
-import { ThemeProvider } from "@/components/theme-provider";
+import { Header } from "@/components/layout/Header";
+import { buildMetadata, jsonLd, SITE } from "@/lib/seo";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const body = Zen_Kurenaido({
+  weight: "400",
   subsets: ["latin"],
+  preload: false,
+  variable: "--font-body",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const display = Caveat({
   subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://enje.dev"),
-  title: {
-    default: "enje.dev | Web開発 ⇔ FPGA研究",
-    template: "%s | enje.dev",
-  },
-  description:
-    "Web開発とFPGA研究に関するポートフォリオ＆技術ブログ。ポートフォリオ、制作したWebアプリケーションやFPGAなどのハードウェア開発に関するブログ記事、写真ギャラリーなどを掲載しています。",
-  keywords: [
-    "enje",
-    "enje.dev",
-    "Web開発",
-    "FPGA",
-    "ハードウェア開発",
-    "React",
-    "Next.js",
-    "Ruby on Rails",
-    "電子工作",
-    "技術ブログ",
-    "ポートフォリオ",
+  metadataBase: new URL(SITE.url),
+  ...buildMetadata({ path: "" }),
+  title: { default: SITE.title, template: `%s | ${SITE.name}` },
+  authors: [{ name: SITE.author, url: SITE.url }],
+  creator: SITE.author,
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#132257" },
   ],
-  authors: [{ name: "enje", url: "https://enje.dev" }],
-  creator: "enje",
-  openGraph: {
-    title: "enje.dev | Web開発 ⇔ FPGA研究",
-    description:
-      "Web開発とFPGA研究に関するポートフォリオ＆技術ブログ。制作したWebアプリケーションやFPGAなどのハードウェア開発に関するブログ記事、写真ギャラリーなどを掲載しています。",
-    url: "https://enje.dev",
-    siteName: "enje.dev",
-    locale: "ja_JP",
-    type: "website",
-    images: [
-      {
-        url: "/images/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "enje.dev | Web開発 ⇔ FPGA研究",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "enje.dev | Web開発 ⇔ FPGA研究",
-    description:
-      "Web開発とFPGA研究に関するポートフォリオ＆技術ブログ。制作したWebアプリケーションやFPGAなどのハードウェア開発に関するブログ記事、写真ギャラリーなどを掲載しています。",
-    images: ["/images/og-image.png"],
-  },
-  alternates: {
-    canonical: "https://enje.dev",
-  },
-  icons: {
-    icon: [{ url: "/favicon.ico" }, { url: "/favicon.ico", sizes: "any" }],
-    apple: "/apple-touch-icon.png",
-  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const websiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "enje.dev",
-    url: "https://enje.dev",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: "https://enje.dev/blog?q={search_term_string}",
-      },
-      "query-input": "required name=search_term_string",
-    },
-  };
-
+}) {
   return (
-    <html lang="ja" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
-      >
-        {/* WebSite Structured Data for SEO */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
+    <html
+      lang="ja"
+      suppressHydrationWarning
+      className={`${body.variable} ${display.variable} ${mono.variable}`}
+    >
+      <body className="flex min-h-dvh flex-col">
+        <JsonLd data={jsonLd.website()} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <ClientHeader />
-          <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-paper focus:px-3 focus:py-2 focus:outline-2"
+          >
+            本文へ移動
+          </a>
+          <Header />
+          <main
+            id="main"
+            className="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6"
+          >
             {children}
           </main>
           <Footer />

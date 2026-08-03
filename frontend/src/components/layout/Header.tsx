@@ -1,260 +1,110 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { ModeToggle } from "@/components/theme-toggle";
-import { Magnetic } from "@/components/ui/magnetic";
+import { useEffect, useId, useState } from "react";
+import { Icon } from "@/components/ui/Icon";
+import { navLinks } from "@/lib/site";
+import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToggle";
 
-/*
- * ナビゲーションリンクの定義
- */
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/blog", label: "Blog" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
+function isActive(pathname: string, href: string) {
+  return href === "/"
+    ? pathname === "/"
+    : pathname === href || pathname.startsWith(`${href}/`);
+}
 
-/*
- * ヘッダーコンポーネント
- *
- * サイトのグローバルナビゲーション。
- * デスクトップとモバイルでレイアウトが変わります。
- */
-export const Header = ({ title }: { title?: string }) => {
+export function Header() {
   const pathname = usePathname();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const menuId = useId();
 
-  // ページ遷移時にメニューを閉じる
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname is used as a trigger on route change
+  // ページ遷移で閉じる
+  // biome-ignore lint/correctness/useExhaustiveDependencies: pathname の変化をトリガーにする
+  useEffect(() => setOpen(false), [pathname]);
+
   useEffect(() => {
-    setIsMenuOpen(false);
-  }, [pathname]);
-
-  // メニューが開いている時はスクロールを無効化
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isMenuOpen]);
-
-  const handleOverlayClick = () => {
-    setIsMenuOpen(false);
-  };
-
-  const handleOverlayKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
-      setIsMenuOpen(false);
-    }
-  };
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
-    <>
-      <header className="sticky top-0 z-50 w-full bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/80 border-b border-gray-800">
-        <div className="container mx-auto flex h-16 items-center justify-between px-6 md:px-12">
-          {/* ロゴまたはサイト名 - ターミナル風 */}
-          <div className="z-10">
-            <Magnetic>
+    <header className="border-b-2 border-ink bg-paper">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+        <Link
+          href="/"
+          className="font-display text-3xl leading-none no-underline hover:underline-wavy"
+        >
+          enje.dev
+        </Link>
+
+        <nav aria-label="メイン" className="hidden items-center gap-5 md:flex">
+          {navLinks.map((link) => {
+            const active = isActive(pathname, link.href);
+            return (
               <Link
-                href="/"
-                className="group flex items-center text-sm md:text-base font-mono text-white hover:text-gray-200 transition-colors bg-gray-900/50 border border-gray-700/50 rounded-md px-3 py-1.5 hover:border-cyan-500/50 hover:bg-gray-800/50"
+                key={link.href}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "font-display text-xl no-underline hover:underline-wavy",
+                  active && "underline decoration-2 underline-offset-4",
+                )}
               >
-                <span className="text-green-400 mr-1.5">❯</span>
-                <span className="text-gray-500 mr-1">cd</span>
-                <span className="text-cyan-400">~/enje.dev</span>
-                <span className="animate-blink text-cyan-400 ml-0.5">▌</span>
+                {link.label}
               </Link>
-            </Magnetic>
-          </div>
+            );
+          })}
+          <ThemeToggle />
+        </nav>
 
-          {/* ページタイトル (title prop がある場合のみ中央に表示) - デスクトップのみ */}
-          {title && (
-            <h1 className="hidden md:block absolute left-1/2 -translate-x-1/2 text-xl font-bold tracking-wider text-white text-center max-w-xs truncate z-0">
-              {title.length > 30 ? `${title.substring(0, 30)}...` : title}
-            </h1>
-          )}
-
-          {/* デスクトップナビゲーション */}
-          <div className="hidden md:flex items-center gap-8 z-10">
-            <nav>
-              <ul className="flex items-center gap-6 text-sm font-medium text-gray-300">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <NavLink href={link.href} pathname={pathname}>
-                      {link.label}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-
-            {/* テーマ切り替え */}
-            <Magnetic>
-              <div className="inline-block">
-                <ModeToggle />
-              </div>
-            </Magnetic>
-          </div>
-
-          {/* モバイル: テーマ切り替え + ハンバーガーボタン */}
-          <div className="flex md:hidden items-center gap-4 z-10">
-            <ModeToggle />
-            <button
-              type="button"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative w-8 h-8 flex items-center justify-center"
-              aria-label={isMenuOpen ? "メニューを閉じる" : "メニューを開く"}
-            >
-              <div className="relative w-6 h-5">
-                <span
-                  className={`absolute left-0 w-full h-0.5 bg-white transition-all duration-300 ${
-                    isMenuOpen ? "top-2 rotate-45" : "top-0"
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 top-2 w-full h-0.5 bg-white transition-all duration-300 ${
-                    isMenuOpen ? "opacity-0" : "opacity-100"
-                  }`}
-                />
-                <span
-                  className={`absolute left-0 w-full h-0.5 bg-white transition-all duration-300 ${
-                    isMenuOpen ? "top-2 -rotate-45" : "top-4"
-                  }`}
-                />
-              </div>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* モバイルメニューオーバーレイ */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 md:hidden"
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls={menuId}
+            aria-label={open ? "メニューを閉じる" : "メニューを開く"}
+            className="inline-flex size-9 items-center justify-center border-2 border-ink hover:bg-mark hover:text-paper"
           >
-            {/* 背景オーバーレイ */}
-            <button
-              type="button"
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer border-none"
-              onClick={handleOverlayClick}
-              onKeyDown={handleOverlayKeyDown}
-              aria-label="メニューを閉じる"
-            />
+            <Icon name={open ? "close" : "menu"} />
+          </button>
+        </div>
+      </div>
 
-            {/* メニューコンテンツ */}
-            <motion.nav
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="absolute right-0 top-16 bottom-0 w-72 bg-gray-950 border-l border-gray-800 p-6"
-            >
-              <ul className="flex flex-col gap-2">
-                {navLinks.map((link, index) => (
-                  <motion.li
-                    key={link.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <MobileNavLink href={link.href} pathname={pathname}>
-                      {link.label}
-                    </MobileNavLink>
-                  </motion.li>
-                ))}
-              </ul>
-
-              {/* フッター情報 */}
-              <div className="mt-8 pt-8 border-t border-gray-800">
-                <p className="text-sm text-gray-500">
-                  © {new Date().getFullYear()} enje.dev
-                </p>
-              </div>
-            </motion.nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
-};
-
-/*
- * デスクトップ用ナビゲーションリンク
- */
-const NavLink = ({
-  href,
-  pathname,
-  children,
-}: {
-  href: string;
-  pathname: string;
-  children: React.ReactNode;
-}) => {
-  const isActive =
-    href === "/"
-      ? pathname === "/"
-      : pathname === href || pathname.startsWith(`${href}/`);
-
-  return (
-    <Magnetic>
-      <Link
-        href={href}
-        className={`group relative block py-2 px-3 transition-colors ${
-          isActive ? "text-white" : "text-gray-400 hover:text-white"
-        }`}
+      <nav
+        id={menuId}
+        aria-label="メイン（モバイル）"
+        hidden={!open}
+        className="border-t border-rule bg-paper md:hidden"
       >
-        {children}
-        <span
-          className={`absolute bottom-1 left-1/2 h-[2px] -translate-x-1/2 bg-gradient-to-r from-cyan-500 to-sky-600 transition-all duration-300 ease-out ${
-            isActive ? "w-1/2" : "w-0 group-hover:w-1/2"
-          }`}
-        />
-      </Link>
-    </Magnetic>
+        <ul className="mx-auto max-w-5xl px-4 py-2 sm:px-6">
+          {navLinks.map((link) => {
+            const active = isActive(pathname, link.href);
+            return (
+              <li
+                key={link.href}
+                className="border-b border-rule last:border-b-0"
+              >
+                <Link
+                  href={link.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "flex items-baseline justify-between py-3 no-underline",
+                    active && "font-bold",
+                  )}
+                >
+                  <span className="font-display text-2xl">{link.label}</span>
+                  <span className="text-sm text-ink-soft">{link.ja}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </header>
   );
-};
-
-/*
- * モバイル用ナビゲーションリンク
- */
-const MobileNavLink = ({
-  href,
-  pathname,
-  children,
-}: {
-  href: string;
-  pathname: string;
-  children: React.ReactNode;
-}) => {
-  const isActive =
-    href === "/"
-      ? pathname === "/"
-      : pathname === href || pathname.startsWith(`${href}/`);
-
-  return (
-    <Link
-      href={href}
-      className={`block py-3 px-4 rounded-lg text-lg font-medium transition-all ${
-        isActive
-          ? "bg-gradient-to-r from-cyan-500/20 to-sky-600/20 text-white border-l-2 border-cyan-500"
-          : "text-gray-400 hover:text-white hover:bg-gray-800/50"
-      }`}
-    >
-      {children}
-    </Link>
-  );
-};
+}

@@ -29,14 +29,14 @@
 - [x] Markdown を生のまま返し、FE 側で毎回パースしている
 
 ### Frontend
-- [ ] API 失敗時にダミー記事・ダミープロジェクトを表示してしまう
+- [x] API 失敗時にダミー記事・ダミープロジェクトを表示してしまう
 - [x] 4.5 秒固定のローディング画面が LCP を壊している
-- [ ] Three.js、framer-motion、react-masonry-css、react-icons と lucide の二重持ちなど依存が重い
-- [ ] `metadata.openGraph.images` が存在しない `/images/og-image.png` を指している
-- [ ] 記事ページのタイトルが「My Portfolio」のままでテンプレートと不整合
-- [ ] ギャラリーの表示切替ボタンが何も切り替えない
-- [ ] 型定義がコンポーネントから export されている
-- [ ] お問い合わせフォームが `console.log` のみ
+- [x] Three.js、framer-motion、react-masonry-css、react-icons と lucide の二重持ちなど依存が重い
+- [x] `metadata.openGraph.images` が存在しない `/images/og-image.png` を指している
+- [x] 記事ページのタイトルが「My Portfolio」のままでテンプレートと不整合
+- [x] ギャラリーの表示切替ボタンが何も切り替えない
+- [x] 型定義がコンポーネントから export されている
+- [x] お問い合わせフォームが `console.log` のみ
 - [x] テストが 1 つもない
 - [x] `debug-*` ページが本番ビルドに含まれる
 
@@ -106,10 +106,10 @@
 - [x] `lib/api/` クライアント（posts / projects / tags / contact）と zod スキーマ
 - [x] `types/` へ型を集約
 - [x] `lib/seo.ts`（`buildMetadata` / `jsonLd`）
-- [ ] フォールバックデータの全削除と空状態コンポーネント
-- [ ] Three.js / react-masonry-css / react-markdown / react-icons の削除
-- [ ] `next/font` で Zen Kurenaido / Caveat / JetBrains Mono を読み込む
-- [ ] `globals.css` をトークンベースに置き換え（paper / ink / rule / mark）
+- [x] フォールバックデータの全削除と空状態コンポーネント
+- [x] Three.js / react-masonry-css / react-markdown / react-icons の削除
+- [x] `next/font` で Zen Kurenaido / Caveat / JetBrains Mono を読み込む
+- [x] `globals.css` をトークンベースに置き換え（paper / ink / rule / mark）
 - [x] 禁止クラス検出スクリプト `check:design`
 - [x] お問い合わせを Server Action 経由で BE に送る（honeypot 付き）
 - [x] `app/api/revalidate` ルート
@@ -119,18 +119,18 @@
 - [x] CSP などセキュリティヘッダーを `next.config.ts` に追加
 
 ### Phase 4: デザイン刷新（8/13 〜 9/6）
-- [ ] `components/ui/` の手書き部品（Button / Tag / Rule / Frame / Input / EmptyState）
-- [ ] ヘッダーとフッター
-- [ ] トップページ（自己紹介、最近の記事、プロジェクト、スキル表）
-- [ ] 記事一覧（検索、タグ絞り込み、ページネーション）
-- [ ] 記事詳細（目次、コードブロック、前後記事）
-- [ ] プロジェクト一覧と詳細
-- [ ] ギャラリー（表示切替を実際に動かす、Lightbox は自前の `<dialog>`）
-- [ ] About ページ
-- [ ] お問い合わせページ
-- [ ] 404 / error ページ
-- [ ] ダークモード（紙とインクの反転）
-- [ ] OG 画像を新デザインに合わせる
+- [x] `components/ui/` の手書き部品（Button / Tag / Rule / Frame / Input / EmptyState）
+- [x] ヘッダーとフッター
+- [x] トップページ（自己紹介、最近の記事、プロジェクト、スキル表）
+- [x] 記事一覧（検索、タグ絞り込み、ページネーション）
+- [x] 記事詳細（目次、コードブロック、前後記事）
+- [x] プロジェクト一覧と詳細
+- [x] ギャラリー（表示切替を実際に動かす、Lightbox は自前の `<dialog>`）
+- [x] About ページ
+- [x] お問い合わせページ
+- [x] 404 / error ページ
+- [x] ダークモード（紙とインクの反転）
+- [x] OG 画像を新デザインに合わせる
 
 ### Phase 5: 仕上げ（9/7 〜 9/14）
 - [ ] アクセシビリティ監査（axe、キーボード操作、reduced-motion）
@@ -194,4 +194,13 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-07-24 | `730dc6e` | ci: モック API を立ててビルドする |
 | 2026-07-27 | `4e16ab3` | test: Vitest を導入し API クライアントと Server Action を検証 |
 | 2026-07-29 | `64145c1` | test: Playwright のスモークテストを追加 |
-| 2026-08-01 | | feat: セキュリティヘッダーを追加しデバッグページとローディング画面を削除 |
+| 2026-08-01 | `40b6b97` | feat: セキュリティヘッダーを追加しデバッグページとローディング画面を削除 |
+| 2026-08-03 | | feat: 紙とインクの 2 色トークンと手書きフォントを導入 |
+| 2026-08-05 | | feat: トップページを自己紹介・記事・制作物・スキル表に作り直し |
+| 2026-08-07 | | feat: 記事一覧と記事ページを新デザインで作り直し |
+| 2026-08-10 | | feat: 制作物の一覧と詳細ページ |
+| 2026-08-12 | | feat: About ページを実績・趣味・開発環境の表に整理 |
+| 2026-08-14 | | feat: お問い合わせフォームを Server Action に接続 |
+| 2026-08-17 | | feat: 写真ギャラリーを段組と格子で切り替えられるように |
+| 2026-08-19 | | feat: 404 とエラーページを手書きの一言に |
+| 2026-08-21 | | feat: OG 画像・アイコン・サイトマップを 2 色デザインに統一 |

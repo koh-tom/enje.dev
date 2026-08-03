@@ -1,0 +1,322 @@
+@import "tailwindcss";
+
+/* ダークモードは html.dark で切り替える（next-themes） */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * デザイントークン（docs/DESIGN.md）
+ * 色は紙とインクの 2 色だけ。Tailwind の既定パレット・角丸・影は無効化し、
+ * 禁止クラス（text-gray-400 や rounded-lg）をそもそも存在させない。
+ */
+@theme {
+  --color-*: initial;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rule: var(--rule);
+  --color-mark: var(--mark);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --blur-*: initial;
+
+  --font-sans:
+    var(--font-body), "Zen Kurenaido", "Hiragino Sans", "Noto Sans JP",
+    sans-serif;
+  --font-display: var(--font-display), "Caveat", "Zen Kurenaido", cursive;
+  --font-mono: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+
+  --text-h1: 2.5rem;
+  --text-h1--line-height: 1.3;
+  --text-h2: 1.75rem;
+  --text-h2--line-height: 1.3;
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.4;
+}
+
+:root {
+  --paper: #ffffff;
+  --ink: #132257;
+  --ink-soft: color-mix(in srgb, #132257 60%, transparent);
+  --rule: color-mix(in srgb, #132257 25%, transparent);
+  --grid: color-mix(in srgb, #132257 7%, transparent);
+  --mark: #132257;
+  color-scheme: light;
+}
+
+.dark {
+  --paper: #132257;
+  --ink: #ffffff;
+  --ink-soft: color-mix(in srgb, #ffffff 70%, transparent);
+  --rule: color-mix(in srgb, #ffffff 30%, transparent);
+  --grid: color-mix(in srgb, #ffffff 6%, transparent);
+  --mark: #ffffff;
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  /* 方眼ノートの背景。色のグラデーションではなく罫線の描画 */
+  body {
+    min-height: 100dvh;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+  }
+
+  a {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  a:hover {
+    text-decoration-style: wavy;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: var(--ink);
+    color: var(--paper);
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  em {
+    font-style: normal;
+    text-decoration: underline wavy;
+    text-underline-offset: 0.2em;
+  }
+
+  code,
+  kbd,
+  pre {
+    font-family: var(--font-mono);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      /* biome-ignore lint/complexity/noImportantStyles: 動きを止める指定は全てに優先させる */
+      animation-duration: 0.01ms !important;
+      /* biome-ignore lint/complexity/noImportantStyles: 同上 */
+      animation-iteration-count: 1 !important;
+      /* biome-ignore lint/complexity/noImportantStyles: 同上 */
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+/* 波線の下線。強調やホバーに使う */
+@utility underline-wavy {
+  text-decoration: underline wavy;
+  text-underline-offset: 0.25em;
+}
+
+/* 手書きの枠。少しだけ傾けて紙に貼った感じを出す */
+@utility frame {
+  border: 2px solid var(--ink);
+  background-color: var(--paper);
+}
+
+/*
+ * 記事本文（Rails が返すサニタイズ済み HTML）
+ */
+@layer components {
+  .prose-hand {
+    font-size: 1.0625rem;
+    line-height: 2;
+  }
+
+  .prose-hand > * + * {
+    margin-top: 1.25em;
+  }
+
+  .prose-hand h2 {
+    margin-top: 2.5em;
+    padding-bottom: 0.25em;
+    border-bottom: 2px solid var(--ink);
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+  }
+
+  .prose-hand h3 {
+    margin-top: 2em;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    text-decoration: underline wavy;
+    text-underline-offset: 0.3em;
+  }
+
+  .prose-hand h4 {
+    margin-top: 1.5em;
+    font-size: 1.1rem;
+  }
+
+  .prose-hand ul,
+  .prose-hand ol {
+    padding-left: 1.5em;
+  }
+
+  .prose-hand ul {
+    list-style: "— ";
+  }
+
+  .prose-hand ol {
+    list-style: decimal;
+  }
+
+  .prose-hand li + li {
+    margin-top: 0.4em;
+  }
+
+  .prose-hand blockquote {
+    padding-left: 1em;
+    border-left: 3px solid var(--ink);
+    color: var(--ink-soft);
+  }
+
+  .prose-hand hr {
+    border: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .prose-hand img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 2px solid var(--ink);
+  }
+
+  .prose-hand table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+  }
+
+  .prose-hand th,
+  .prose-hand td {
+    padding: 0.5em 0.75em;
+    border: 1px solid var(--rule);
+    text-align: left;
+  }
+
+  .prose-hand th {
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .prose-hand :not(pre) > code {
+    padding: 0.1em 0.4em;
+    border: 1px solid var(--rule);
+    font-size: 0.9em;
+  }
+
+  .prose-hand .highlighter-rouge {
+    margin-top: 1.5em;
+  }
+
+  .prose-hand pre.highlight {
+    overflow-x: auto;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--ink);
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  /*
+   * rouge のトークン。色を増やせないので太さ・斜体・濃さで区別する
+   *   k*: キーワード / s*: 文字列 / c*: コメント / m*: 数値 / n*: 名前
+   */
+  .highlight .k,
+  .highlight .kd,
+  .highlight .kn,
+  .highlight .kr,
+  .highlight .kt,
+  .highlight .kp,
+  .highlight .o,
+  .highlight .ow {
+    font-weight: 700;
+  }
+
+  .highlight .s,
+  .highlight .s1,
+  .highlight .s2,
+  .highlight .sb,
+  .highlight .sh,
+  .highlight .sr,
+  .highlight .si,
+  .highlight .sx,
+  .highlight .ss {
+    font-style: italic;
+  }
+
+  .highlight .c,
+  .highlight .c1,
+  .highlight .cm,
+  .highlight .cp,
+  .highlight .cs {
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .highlight .m,
+  .highlight .mi,
+  .highlight .mf,
+  .highlight .mh {
+    font-weight: 700;
+  }
+
+  .highlight .nf,
+  .highlight .nc,
+  .highlight .nn {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 0.2em;
+  }
+
+  .highlight .gd {
+    text-decoration: line-through;
+  }
+
+  .highlight .gi {
+    font-weight: 700;
+  }
+}

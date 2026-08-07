@@ -1,109 +1,93 @@
 import type { Metadata } from "next";
-import { BlogList } from "@/components/blog/BlogList";
-import type { Post, Tag } from "@/components/blog/BlogPostCard";
+import { Pagination } from "@/components/blog/Pagination";
+import { PostList } from "@/components/blog/PostList";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { SectionTitle } from "@/components/ui/SectionTitle";
+import { TagLink } from "@/components/ui/Tag";
+import { getPosts, getTags } from "@/lib/api";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const revalidate = 3600;
+
+const description =
+  "enjeの技術ブログです。Webシステム開発（Next.js, Railsなど）、FPGA設計、電子工作、および日々の技術的な学びや知見についてアウトプットしています。";
+
+export const metadata: Metadata = buildMetadata({
   title: "Blog",
-  description:
-    "enjeの技術ブログです。Webシステム開発（Next.js, Railsなど）、FPGA設計、電子工作、および日々の技術的な学びや知見についてアウトプットしています。",
-  openGraph: {
-    title: "Blog | enje.dev",
-    description:
-      "enjeの技術ブログです。Webシステム開発（Next.js, Railsなど）、FPGA設計、電子工作、および日々の技術的な学びや知見についてアウトプットしています。",
-  },
-};
-// サーバーサイドでブログ記事データを取得
-async function getPosts(): Promise<Post[]> {
-  const apiUrl = process.env.API_URL;
-  if (!apiUrl) {
-    console.error(
-      "API URLが設定されていません。フォールバックデータを使用します。",
-    );
-    return fallbackPosts;
-  }
+  description,
+  path: "/blog",
+});
 
-  try {
-    const res = await fetch(`${apiUrl}/posts`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) {
-      console.error("記事取得失敗、フォールバックデータを使用");
-      return fallbackPosts;
-    }
-    const posts = await res.json();
-    // APIに新しいフィールドがない場合、プレースホルダーを追加
-    return posts.map((p: Post) => ({
-      ...p,
-      image_url: p.image_url || "/images/placeholder-blog.png",
-      reading_time: p.reading_time || Math.ceil(p.content.length / 1000),
-    }));
-  } catch (_error) {
-    console.error("API接続エラー、フォールバックデータを使用", _error);
-    return fallbackPosts;
-  }
+type SearchParams = Promise<{ tag?: string; page?: string }>;
+
+function parsePage(value: string | undefined) {
+  const n = Number(value);
+  return Number.isInteger(n) && n > 0 ? n : 1;
 }
 
-// フィルターUI用に全タグを取得
-async function getTags(): Promise<Tag[]> {
-  const apiUrl = process.env.API_URL;
-  if (!apiUrl) return [];
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const { tag, page: rawPage } = await searchParams;
+  const page = parsePage(rawPage);
+  const [{ data: posts, meta }, tags] = await Promise.all([
+    getPosts({ tag, page }),
+    getTags(),
+  ]);
 
-  try {
-    const res = await fetch(`${apiUrl}/tags`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) return [];
-    const tags = await res.json();
-    return Array.isArray(tags) ? tags : [];
-  } catch (_error) {
-    return [];
-  }
-}
-
-// APIが利用できない場合のフォールバックデータ
-const fallbackPosts: Post[] = [
-  {
-    id: 1,
-    title: "My First Blog Post",
-    content:
-      "This is the content of my first blog post. It talks about Ruby and Rails.",
-    published_at: new Date().toISOString(),
-    tags: [
-      { id: 1, name: "Ruby" },
-      { id: 2, name: "Rails" },
-    ],
-    image_url: "/images/placeholder-blog.png",
-    reading_time: 5,
-  },
-  {
-    id: 2,
-    title: "Building a Portfolio with Next.js",
-    content:
-      "This post details the process of building a modern portfolio site using Next.js, React, and TypeScript.",
-    published_at: new Date().toISOString(),
-    tags: [
-      { id: 3, name: "Next.js" },
-      { id: 4, name: "React" },
-    ],
-    image_url: "/images/placeholder-blog.png",
-    reading_time: 8,
-  },
-];
-
-export default async function BlogPage() {
-  const posts = await getPosts();
-  const tags = await getTags();
+  const buildHref = (p: number) => {
+    const params = new URLSearchParams();
+    if (tag) params.set("tag", tag);
+    if (p > 1) params.set("page", String(p));
+    const qs = params.toString();
+    return qs ? `/blog?${qs}` : "/blog";
+  };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <header className="mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight">Blog / ブログ</h1>
-        <p className="text-lg text-muted-foreground mt-2">
-          技術や開発、日常についての思考を綴っています。
-        </p>
-      </header>
+    <div className="flex flex-col gap-8">
+      <SectionTitle as="h1" sub="Blog">
+        記事
+      </SectionTitle>
 
-      <BlogList initialPosts={posts} tags={tags} />
+      {tags.length > 0 && (
+        <nav
+          aria-label="タグで絞り込む"
+          className="flex flex-wrap items-center gap-2"
+        >
+          <TagLink href="/blog" active={!tag}>
+            すべて
+          </TagLink>
+          {tags.map((t) => (
+            <TagLink
+              key={t.slug}
+              href={`/blog?tag=${encodeURIComponent(t.slug)}`}
+              active={tag === t.slug}
+            >
+              {t.name}
+              {t.posts_count != null && (
+                <span className="ml-1 text-xs opacity-70">{t.posts_count}</span>
+              )}
+            </TagLink>
+          ))}
+        </nav>
+      )}
+
+      {posts.length === 0 ? (
+        <EmptyState
+          title="まだ記事がありません"
+          description={
+            tag
+              ? "このタグの記事はまだありません。"
+              : "最初の記事を準備中です。"
+          }
+        />
+      ) : (
+        <PostList posts={posts} />
+      )}
+
+      <Pagination meta={meta} buildHref={buildHref} />
     </div>
   );
 }

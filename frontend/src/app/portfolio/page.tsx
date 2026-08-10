@@ -1,98 +1,40 @@
 import type { Metadata } from "next";
-import { type Project, ProjectCard } from "@/components/portfolio/ProjectCard";
+import { ProjectCard } from "@/components/portfolio/ProjectCard";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { SectionTitle } from "@/components/ui/SectionTitle";
+import { getProjects } from "@/lib/api";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Portfolio",
-  description:
-    "enjeの制作実績・プロジェクト一覧です。Next.jsやRuby on Railsを用いたモダンなWebアプリケーション開発から、FPGA/電子工作プロジェクトまで、幅広く手掛けた作品を掲載しています。",
-  openGraph: {
-    title: "Portfolio | enje.dev",
-    description:
-      "enjeの制作実績・プロジェクト一覧です。Next.jsやRuby on Railsを用いたモダンなWebアプリケーション開発から、FPGA/電子工作プロジェクトまで、幅広く手掛けた作品を掲載しています。",
-  },
-};
-// サーバーサイドでプロジェクト一覧を取得
-// ISR (revalidate: 60) を設定して、高速表示とデータ鮮度を両立
-async function getProjects(): Promise<Project[]> {
-  const apiUrl = process.env.API_URL;
-  if (!apiUrl) {
-    console.error(
-      "API URLが設定されていません。フォールバックデータを使用します。",
-    );
-    return fallbackProjects;
-  }
+export const revalidate = 3600;
 
-  try {
-    const res = await fetch(`${apiUrl}/projects`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) {
-      return [];
-    }
-    const data = await res.json();
-    // APIに画像がない場合、プレースホルダーを使用
-    return data.map((p: Project) => ({
-      ...p,
-      image_url: p.image_url || "/images/placeholder-project.png",
-    }));
-  } catch (error) {
-    console.error("API接続エラー、フォールバックデータを使用", error);
-    return fallbackProjects;
-  }
-}
+const description =
+  "enjeの制作実績・プロジェクト一覧です。Next.jsやRuby on Railsを用いたモダンなWebアプリケーション開発から、FPGA/電子工作プロジェクトまで、幅広く手掛けた作品を掲載しています。";
 
-// APIが利用できない場合のフォールバックデータ
-const fallbackProjects: Project[] = [
-  {
-    id: 1,
-    name: "Project Alpha",
-    description:
-      "A web application for managing tasks and collaborating with teams.",
-    image_url: "/images/placeholder-project.png",
-    tech_stack: "Built with Next.js, TypeScript, Ruby on Rails",
-    github_link: "#",
-    demo_link: "#",
-  },
-  {
-    id: 2,
-    name: "Project Beta",
-    description:
-      "An e-commerce platform with a focus on user experience and performance.",
-    image_url: "/images/placeholder-project.png",
-    tech_stack: "React,Node.js,PostgreSQL",
-    github_link: "#",
-    demo_link: "#",
-  },
-  {
-    id: 3,
-    name: "Project Gamma",
-    description: "A mobile app for tracking fitness goals and daily activity.",
-    image_url: "/images/placeholder-project.png",
-    tech_stack: "React Native,Firebase,GraphQL",
-    github_link: "#",
-    demo_link: "#",
-  },
-];
+export const metadata: Metadata = buildMetadata({
+  title: "Works",
+  description,
+  path: "/portfolio",
+});
 
 export default async function PortfolioPage() {
   const projects = await getProjects();
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <header className="mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight">
-          Portfolio / 制作実績
-        </h1>
-        <p className="text-lg text-muted-foreground mt-2">
-          これまでに制作したプロジェクトを紹介します。
-        </p>
-      </header>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </div>
+    <div className="flex flex-col gap-8">
+      <SectionTitle as="h1" sub="Works">
+        制作物
+      </SectionTitle>
+      {projects.length === 0 ? (
+        <EmptyState title="まだ制作物がありません" description="準備中です。" />
+      ) : (
+        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <li key={project.slug}>
+              <ProjectCard project={project} headingLevel="h2" />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

@@ -1,162 +1,31 @@
-"use client";
+import { Tag } from "@/components/ui/Tag";
+import { achievementLabels, achievements } from "@/content/profile";
 
-import { motion } from "framer-motion";
-import { Award, BookOpen, Code, Mic, Star, Trophy, User } from "lucide-react";
-
-type AchievementCategory =
-  | "award"
-  | "certification"
-  | "talk"
-  | "publication"
-  | "competition"
-  | "staff"
-  | "other";
-
-interface Achievement {
-  id: string; // ユニークなID
-  date: string; // "2023.05" 形式
-  title: string;
-  category: AchievementCategory;
-  description?: string;
-}
-
-const achievements: Achievement[] = [
-  {
-    id: "heart-2026",
-    date: "2026.06",
-    title: "HEART 2026 WIP採択・ドイツ国際会議発表",
-    category: "talk",
-    description: "WIP論文が採択、ドイツにて国際会議発表",
-  },
-  {
-    id: "sechack-2026",
-    date: "2026.05",
-    title: "2026 SECHACK 世界観駆動",
-    category: "other",
-    description: "世界観駆動プロジェクトに参加",
-  },
-  {
-    id: "seccamp-connect-2026",
-    date: "2026.04",
-    title: "セキュリティ・キャンプコネクト2026 OSクラス参加",
-    category: "other",
-    description: "OSクラスに参加",
-  },
-  {
-    id: "qiita-adventcalendar-2025",
-    date: "2025.12",
-    title: "Qiita アドベントカレンダー 2025 1人完走",
-    category: "publication",
-    description: "25日間のアドベントカレンダーを1人で完走",
-  },
-  {
-    id: "codeblue-2025",
-    date: "2025.11",
-    title: "CODE BLUE 2025 学生スタッフ参加",
-    category: "staff",
-    description: "学生スタッフとして参加",
-  },
-  {
-    id: "ieee-epcr-2025",
-    date: "2025.10",
-    title: "IEEE The 22nd EPCR英語プレゼン大会2025 Excellent Award",
-    category: "award",
-    description:
-      "An emulator of path planning algorithms to evaluate pipelined FPGA accelerator architectures",
-  },
-  {
-    id: "toeic-2022",
-    date: "2022.08",
-    title: "TOEIC 930点",
-    category: "certification",
-  },
-];
-
-const categoryConfig: Record<
-  AchievementCategory,
-  { icon: typeof Trophy; color: string; label: string }
-> = {
-  award: { icon: Trophy, color: "text-yellow-400", label: "受賞" },
-  certification: { icon: Award, color: "text-blue-400", label: "資格" },
-  talk: { icon: Mic, color: "text-purple-400", label: "登壇" },
-  publication: { icon: BookOpen, color: "text-green-400", label: "執筆" },
-  competition: { icon: Code, color: "text-orange-400", label: "競技" },
-  staff: { icon: User, color: "text-orange-400", label: "スタッフ" },
-  other: { icon: Star, color: "text-gray-400", label: "その他" },
-};
-
+/** 実績を古い順に並べた表 */
 export function Achievements() {
-  if (achievements.length === 0) {
-    return null; // 実績がない場合は表示しない
-  }
-
-  // 日付を古い順にソート（時系列順）
-  const sortedAchievements = [...achievements].sort((a, b) =>
-    a.date.localeCompare(b.date),
-  );
-
+  const sorted = [...achievements].sort((a, b) => a.date.localeCompare(b.date));
+  if (sorted.length === 0) return null;
   return (
-    <section className="py-24 px-4 md:px-8 bg-gray-900 text-white">
-      <div className="container mx-auto max-w-4xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+    <ol className="flex flex-col">
+      {sorted.map((item) => (
+        <li
+          key={`${item.date}-${item.title}`}
+          className="grid gap-x-4 gap-y-1 border-b border-rule py-3 sm:grid-cols-[6rem_1fr_auto] sm:items-baseline"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Achievements / 実績
-          </h2>
-        </motion.div>
-
-        <div className="space-y-4">
-          {sortedAchievements.map((achievement, index) => {
-            const config = categoryConfig[achievement.category];
-            const Icon = config.icon;
-
-            return (
-              <motion.div
-                key={achievement.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-                className="flex items-center gap-4 p-6 bg-gray-900/40 rounded-2xl border border-gray-800 hover:border-gray-700 transition-all"
-              >
-                {/* 日付 */}
-                <div className="flex-shrink-0 w-20 text-sm font-mono text-gray-400">
-                  {achievement.date}
-                </div>
-
-                {/* アイコン */}
-                <div
-                  className={`flex-shrink-0 w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center ${config.color}`}
-                >
-                  <Icon size={20} />
-                </div>
-
-                {/* 内容 */}
-                <div className="flex-grow min-w-0">
-                  <h3 className="text-white font-bold">{achievement.title}</h3>
-                  {achievement.description && (
-                    <p className="text-gray-400 text-sm mt-1 truncate">
-                      {achievement.description}
-                    </p>
-                  )}
-                </div>
-
-                {/* カテゴリラベル */}
-                <div
-                  className={`flex-shrink-0 text-xs px-3 py-1.5 rounded-full ${config.color} bg-gray-800`}
-                >
-                  {config.label}
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+          <span className="font-display text-xl text-ink-soft">
+            {item.date}
+          </span>
+          <div>
+            <p className="font-bold">{item.title}</p>
+            {item.description && (
+              <p className="text-sm text-ink-soft">{item.description}</p>
+            )}
+          </div>
+          <Tag className="justify-self-start">
+            {achievementLabels[item.category]}
+          </Tag>
+        </li>
+      ))}
+    </ol>
   );
 }

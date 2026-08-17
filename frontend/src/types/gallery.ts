@@ -1,33 +1,18 @@
-/**
- * Gallery type definitions for travel photo galleries
- */
-
-export interface GalleryImage {
-  id: string;
+export type GalleryImage = {
   src: string;
-  thumbnail: string;
   alt: string;
   width: number;
   height: number;
-  blurDataURL?: string; // LQIP (Low Quality Image Placeholder) for progressive loading
-}
+};
 
-export interface TravelGallery {
-  id: string;
+export type Gallery = {
+  slug: string;
   title: string;
   location: string;
-  date: string; // ISO 8601 format (YYYY-MM-DD)
+  /** YYYY-MM-DD */
+  date: string;
   description?: string;
-  coverImage: GalleryImage;
-  images: GalleryImage[];
   tags: string[];
-}
-
-export interface GalleryFilterOptions {
-  location?: string;
-  dateRange?: {
-    start: string;
-    end: string;
-  };
-  tags?: string[];
-}
+  cover: GalleryImage;
+  images: GalleryImage[];
+};

@@ -1,79 +1,26 @@
-"use client";
+import type { Metadata } from "next";
+import { GalleryBrowser } from "@/components/gallery/GalleryBrowser";
+import { SectionTitle } from "@/components/ui/SectionTitle";
+import { galleries } from "@/content/gallery";
+import { buildMetadata } from "@/lib/seo";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
-import { FilterBar } from "@/components/gallery/FilterBar";
-import { GalleryGrid } from "@/components/gallery/GalleryGrid";
-import { ViewModeToggle } from "@/components/gallery/ViewModeToggle";
-import { filterGalleries, galleryData } from "@/data/galleryData";
+const description =
+  "訪れた場所の美しい瞬間を写真で記録。日本各地の風景、文化、思い出のギャラリー。";
 
-/**
- * Gallery Page - Geek Visualisation Style
- */
+export const metadata: Metadata = buildMetadata({
+  title: "Gallery",
+  description,
+  path: "/gallery",
+});
 
 export default function GalleryPage() {
-  const [filters, setFilters] = useState<{
-    location?: string;
-    tags?: string[];
-  }>({});
-  const [viewMode, setViewMode] = useState<"masonry" | "grid">("masonry");
-
-  const filteredGalleries = filterGalleries(galleryData, filters);
-
+  const sorted = [...galleries].sort((a, b) => b.date.localeCompare(a.date));
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950 py-12 relative">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Page Header */}
-        <div className="mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-gray-100 dark:border-gray-800"
-          >
-            <div>
-              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-2 tracking-tight">
-                旅のギャラリー / Travel Gallery
-              </h1>
-              <p className="text-gray-500 dark:text-gray-400">
-                旅先での思い出や瞬間を記録したコレクションです。
-              </p>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <ViewModeToggle mode={viewMode} onModeChange={setViewMode} />
-            </div>
-          </motion.div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-          {/* Sidebar */}
-          <aside className="lg:col-span-1">
-            <div className="sticky top-24">
-              <FilterBar onFilterChange={setFilters} />
-            </div>
-          </aside>
-
-          {/* Main Content Area */}
-          <main className="lg:col-span-3">
-            {filteredGalleries.length > 0 ? (
-              <GalleryGrid galleries={filteredGalleries} />
-            ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-20 bg-gray-50 dark:bg-gray-900/30 rounded-3xl border border-dashed border-gray-200 dark:border-gray-800"
-              >
-                <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
-                  写真が見つかりませんでした
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400">
-                  フィルター設定を変更して再検索してみてください。
-                </p>
-              </motion.div>
-            )}
-          </main>
-        </div>
-      </div>
+    <div className="flex flex-col gap-8">
+      <SectionTitle as="h1" sub="Gallery">
+        写真
+      </SectionTitle>
+      <GalleryBrowser galleries={sorted} />
     </div>
   );
 }

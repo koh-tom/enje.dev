@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, ButtonLink } from "@/components/ui/Button";
 
 export default function ErrorPage({
   error,
@@ -15,24 +15,20 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-      <h2 className="text-4xl font-bold mb-4 text-red-500">
-        Something went wrong!
-      </h2>
-      <p className="text-muted-foreground max-w-md mb-8">
-        予期せぬエラーが発生しました。時間を置いて再度お試しください。
+    <div className="mx-auto flex max-w-xl flex-col items-center gap-6 py-16 text-center">
+      <p className="font-display text-6xl leading-none">Oops.</p>
+      <h1 className="text-h2">表示できませんでした</h1>
+      <p className="text-ink-soft">
+        一時的な問題かもしれません。少し待ってから再読み込みしてください。
       </p>
-      <div className="flex gap-4">
-        <Button
-          onClick={() => reset()}
-          variant="outline"
-          className="rounded-full"
-        >
+      {error.digest && (
+        <p className="font-mono text-xs text-ink-soft">ref: {error.digest}</p>
+      )}
+      <div className="flex flex-wrap justify-center gap-3">
+        <Button variant="solid" onClick={() => reset()}>
           再読み込み
         </Button>
-        <Button asChild className="rounded-full">
-          <a href="/">トップページに戻る</a>
-        </Button>
+        <ButtonLink href="/">トップへ戻る</ButtonLink>
       </div>
     </div>
   );

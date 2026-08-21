@@ -1,64 +1,52 @@
 import type { MetadataRoute } from "next";
+import { getPosts, getProjects } from "@/lib/api";
+import { SITE } from "@/lib/seo";
 
-interface SitemapPost {
-  id: string;
-  updated_at?: string;
-  published_at: string;
-}
-
-interface SitemapRoute {
-  url: string;
-  lastModified: Date;
-  changeFrequency: "weekly" | "monthly";
-  priority: number;
-}
-
-const safeDate = (dateStr?: string): Date => {
-  if (!dateStr) return new Date();
-  const parsed = new Date(dateStr);
-  return Number.isNaN(parsed.getTime()) ? new Date() : parsed;
-};
+const staticRoutes = [
+  "",
+  "/blog",
+  "/portfolio",
+  "/gallery",
+  "/about",
+  "/contact",
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://enje.dev";
-
-  // 基本的なページ
-  const routes = [
-    "",
-    "/blog",
-    "/portfolio",
-    "/about",
-    "/contact",
-    "/gallery",
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: route === "" ? 1 : 0.8,
+  const now = new Date();
+  const entries: MetadataRoute.Sitemap = staticRoutes.map((path) => ({
+    url: `${SITE.url}${path}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: path === "" ? 1 : 0.8,
   }));
 
-  // ブログ記事の動的取得 (エラー時は空配列)
-  let postRoutes: SitemapRoute[] = [];
-  const apiUrl = process.env.API_URL;
-
-  if (apiUrl) {
-    try {
-      const res = await fetch(`${apiUrl}/posts`);
-      if (res.ok) {
-        const posts = await res.json();
-        if (Array.isArray(posts)) {
-          postRoutes = posts.map((post: SitemapPost) => ({
-            url: `${baseUrl}/blog/${post.id}`,
-            lastModified: safeDate(post.updated_at || post.published_at),
-            changeFrequency: "monthly" as const,
-            priority: 0.6,
-          }));
-        }
-      }
-    } catch (e) {
-      console.error("Sitemap post fetch error", e);
+  // 記事は全ページ分をたどる
+  let page = 1;
+  let totalPages = 1;
+  do {
+    const { data, meta } = await getPosts({ page, per: 100 });
+    totalPages = meta.total_pages;
+    for (const post of data) {
+      if (post.status !== "published") continue;
+      entries.push({
+        url: `${SITE.url}/blog/${post.slug}`,
+        lastModified: new Date(post.updated_at),
+        changeFrequency: "monthly",
+        priority: 0.6,
+      });
     }
+    page += 1;
+  } while (page <= totalPages);
+
+  for (const project of await getProjects()) {
+    if (project.status !== "published") continue;
+    entries.push({
+      url: `${SITE.url}/portfolio/${project.slug}`,
+      lastModified: new Date(project.updated_at),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    });
   }
 
-  return [...routes, ...postRoutes];
+  return entries;
 }

@@ -55,6 +55,8 @@ jobs:
         run: bun run typecheck
       - name: Unit test
         run: bun run test
+      - name: Design check
+        run: bun run check:design
       - name: Build
         run: |
           bun run mock:api &

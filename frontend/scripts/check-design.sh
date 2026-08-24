@@ -4,7 +4,8 @@ cd "$(dirname "$0")/.." || exit 1
 
 pattern='\b(rounded-(sm|md|lg|xl|2xl|3xl)|shadow-(sm|md|lg|xl|2xl)|bg-gradient-to-|blur-\[|backdrop-blur|drop-shadow)\b|\b(text|bg|border)-(gray|slate|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-[0-9]{2,3}\b|\b(text|bg|border)-\[#[0-9a-fA-F]{3,8}\]'
 
-if grep -rEn "$pattern" src --include='*.tsx' --include='*.ts' --include='*.css'; then
+# トークン定義ファイルは対象外
+if grep -rEn "$pattern" src --include='*.tsx' --include='*.ts' --include='*.css' --exclude=globals.css; then
   echo ""
   echo "design: 禁止クラスがあります（docs/DESIGN.md）。トークン（paper / ink / rule / mark）を使ってください。"
   exit 1

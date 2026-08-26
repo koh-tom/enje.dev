@@ -36,6 +36,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  // OG 画像のフォントを standalone / Vercel の出力に含める
+  outputFileTracingIncludes: { "/**": ["./src/lib/og/*.woff"] },
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24,

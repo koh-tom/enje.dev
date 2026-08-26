@@ -253,3 +253,7 @@ secrets.json
 # - Docker: --build-arg, -e, --env-file
 # - CI/CD: GitHub Secrets, GitLab CI Variables
 # - Cloud: Vercel Environment Variables, AWS Secrets Manager, etc.
+
+# Playwright
+frontend/test-results/
+frontend/playwright-report/

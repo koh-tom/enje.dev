@@ -7,7 +7,8 @@ export const contentType = "image/png";
 
 export default function Image() {
   return renderOgImage({
-    title: SITE.title,
+    // ⇔ は同梱フォントに無いので OG では / にする
+    title: SITE.title.replace("⇔", "/"),
     kicker: "Portfolio & Blog",
     tags: ["Web", "FPGA", "Algorithm"],
   });

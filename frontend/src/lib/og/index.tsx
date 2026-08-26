@@ -1,18 +1,23 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
 import { SITE } from "@/lib/seo";
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
-const FONT_URL =
-  "https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-jp@5.0.19/files/noto-sans-jp-japanese-700-normal.woff";
+/**
+ * OG 用フォントはリポジトリに同梱する（Noto Sans JP 700、日本語サブセット）。
+ * ビルド時や実行時にネットワークへ依存させない。
+ * next.config.ts の outputFileTracingIncludes で standalone にも含める。
+ */
+const FONT_PATH = path.join(process.cwd(), "src/lib/og/NotoSansJP-700.woff");
+let fontCache: Promise<ArrayBuffer> | null = null;
 
-async function loadFont() {
-  try {
-    const res = await fetch(FONT_URL, { cache: "no-store" }); // 2MB 超はデータキャッシュに入らない
-    return res.ok ? await res.arrayBuffer() : null;
-  } catch {
-    return null;
-  }
+function loadFont(): Promise<ArrayBuffer> {
+  fontCache ??= readFile(FONT_PATH).then((buf) =>
+    buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
+  );
+  return fontCache;
 }
 
 type OgProps = {

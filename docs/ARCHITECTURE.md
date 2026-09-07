@@ -20,18 +20,25 @@ enje.dev/
 ├── .github/workflows/      # CI（FE / BE を paths でジョブ分割）
 ├── docs/                   # 本ドキュメント群
 ├── frontend/
+│   ├── e2e/                # Playwright スモーク
+│   ├── scripts/            # mock-api.ts（CI / E2E 用）, check-design.sh
 │   └── src/
 │       ├── app/            # ルーティングとページのみ。データ取得は lib へ委譲
+│       │   └── api/revalidate/  # Rails からの ISR 再検証を受ける
 │       ├── components/
-│       │   ├── ui/         # 汎用部品（Button, Tag, Rule, Frame…）
-│       │   └── <feature>/  # 機能単位（blog, portfolio, gallery, contact）
+│       │   ├── ui/         # 汎用部品（Button, Tag, Rule, Frame, Field, Icon…）
+│       │   ├── layout/     # Header, Footer, ThemeToggle
+│       │   └── <feature>/  # home, blog, portfolio, about, gallery, contact
+│       ├── content/        # オーナーが編集する中身（profile.ts, gallery.ts）
 │       ├── lib/
 │       │   ├── api/        # Rails クライアント。zod でレスポンス検証
+│       │   ├── actions/    # Server Action（お問い合わせ）
+│       │   ├── og/         # OG 画像の描画と同梱フォント
 │       │   ├── env.ts      # 環境変数の検証
-│       │   ├── markdown.ts # Markdown → HTML（サーバー側）
-│       │   └── seo.ts      # metadata / JSON-LD の生成
-│       ├── types/          # API 契約から導出した型
-│       └── styles/         # globals.css とトークン
+│       │   ├── seo.ts      # metadata / JSON-LD の生成
+│       │   └── site.ts     # ナビと SNS リンク
+│       ├── types/          # API 契約から導出した zod スキーマと型
+│       └── styles/         # globals.css（トークン、prose、highlight）
 └── backend/
     ├── app/
     │   ├── controllers/api/v1/   # 公開 API と admin/
@@ -157,6 +164,6 @@ enje.dev/
 
 ## デプロイ
 
-- FE: Vercel。`output: "standalone"` は Docker 用に残すが Vercel では不要。
+- FE: Vercel。`output: "standalone"` は Docker 用に残すが Vercel では不要。セキュリティヘッダー（CSP など）は `next.config.ts`。
 - BE: Render の Docker デプロイ。`bin/docker-entrypoint` で `db:prepare` と `content:sync` を実行。Solid Queue は `SOLID_QUEUE_IN_PUMA=1` で Puma 内に同居。
 - DB: Render PostgreSQL 1 つ。Solid Queue / Solid Cache のテーブルも同じ DB に置く。日次バックアップを有効化。

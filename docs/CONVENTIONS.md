@@ -19,16 +19,18 @@
 
 ### スタイル
 
-- Tailwind v4 を使う。色は `globals.css` のトークン（`--paper` `--ink` など）経由でのみ指定する。`text-gray-400` のようなパレット直指定は禁止。
-- 禁止クラス: `rounded-*`（`rounded-full` の円形アバターのみ例外）、`shadow-*`、`bg-gradient-*`、`blur-*`、`backdrop-blur-*`。Biome の `noRestrictedImports` では拾えないため、`bun run check:design` で grep して CI で落とす。
-- 任意値 `text-[#xxxxxx]` は使わない。
+- Tailwind v4 を使う。色は `styles/globals.css` のトークン（`paper` `ink` `ink-soft` `rule` `mark`）経由でのみ指定する。既定パレットは `@theme` で無効化してあるので `text-gray-400` は効かない。
+- 禁止クラス: `rounded-*`、`shadow-*`、`bg-gradient-*`、`blur-*`、`backdrop-blur-*`、`text-[#xxxxxx]`。`bun run check:design` で grep して CI で落とす。
+- 記事本文のスタイルは `.prose-hand`、コードは rouge のクラスに対する `.highlight` 指定。どちらも `globals.css` にある。
 
 ### コンポーネント
 
 - Props は `type XxxProps = {...}` で先頭に定義する。
 - `key` に配列 index を使わない。
 - 画像は `next/image`。`width` / `height` または `fill` + `sizes` を必ず指定する。
-- アニメーションは CSS transition を基本とし、framer-motion は本当に必要な箇所だけに残す。`prefers-reduced-motion` を CSS 側で一括制御する。
+- アニメーションは CSS transition のみ。アニメーションライブラリは入れない。`prefers-reduced-motion` は `globals.css` で一括して止める。
+- アイコンは `components/ui/Icon.tsx` に線画 SVG を追加する。アイコンライブラリは入れない。
+- オーナーが編集する中身は `src/content/`（`profile.ts` `gallery.ts`）に置く。コンポーネントに文章を直書きしない。
 
 ### メタデータと SEO
 
@@ -38,9 +40,9 @@
 
 ### テスト
 
-- 単体: Vitest + Testing Library。`lib/` と `components/ui/` を優先して書く。
-- E2E: Playwright。トップ、記事一覧、記事詳細、404 のスモークのみ。
-- `bun run test` で両方走る。
+- 単体: Vitest。`lib/` を優先して書く（`bun run test`）。
+- E2E: Playwright。`scripts/mock-api.ts` を API の代わりに立て、ビルドした Next.js に対してスモークを流す（`bun run test:e2e`、初回は `bunx playwright install chromium`）。
+- API の契約を変えたら `scripts/fixtures/api.ts` も更新する。
 
 ## Backend
 

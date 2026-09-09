@@ -14,7 +14,8 @@ enje.dev のポートフォリオブログ。Bun + Turborepo のモノレポで�
 
 - 中身（記事本文、プロフィール文、実績など）はオーナーが手動で書く。AI は骨組み・仕組み・品質を担当する。
 - 変更は小さく分け、1 コミット 1 目的。
-- 動作確認は `bun run check` と `bun run test`（各ワークスペース）を通してから。
+- 動作確認は `bun run check`、`bun run typecheck`、`bun run test`、`bun run check:design`（frontend）と `bin/rails test`、`bin/rubocop`（backend）を通してから。
+- 中身の置き場所: 記事とプロジェクトは `backend/content/`（`docs/CONTENT.md`）、プロフィールと写真は `frontend/src/content/`。
 - 既存のダミーデータやフォールバックを「それっぽく埋める」ことはしない。空状態は空状態として設計する。
 
 ## コミットルール
@@ -29,7 +30,7 @@ enje.dev のポートフォリオブログ。Bun + Turborepo のモノレポで�
 ## デザインルール（要約）
 
 - グラデーション、box-shadow、角丸、ぼかし、パララックス、3D は使わない。
-- 色は Tottenham の navy `#132257` と white `#FFFFFF` を軸にする。詳細は `docs/DESIGN.md`。
+- 色は Tottenham の navy `#132257` と white `#FFFFFF` だけ。Tailwind の既定パレットは無効化済みで、トークンは `paper` `ink` `ink-soft` `rule` `mark`。詳細は `docs/DESIGN.md`。
 - 罫線は 1〜2px の実線。手書きの紙とペンのような質感を目指す。
 - アニメーションは意味のあるものだけ。`prefers-reduced-motion` を必ず尊重する。
 
@@ -37,8 +38,11 @@ enje.dev のポートフォリオブログ。Bun + Turborepo のモノレポで�
 
 ```bash
 bun install                 # 依存関係
+bun run db:up               # PostgreSQL（docker compose, 5433）
 bun run dev                 # FE(3001) + BE(3000)
 bun run check               # FE lint（biome）
-bun run format              # FE format
-cd backend && bin/rails test && bin/rubocop
+bun run typecheck           # FE 型検査
+bun run test                # FE Vitest / BE Minitest
+cd frontend && bun run test:e2e && bun run check:design
+cd backend && bin/rails test && bin/rubocop && bin/rails content:lint
 ```

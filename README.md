@@ -16,8 +16,8 @@
 
 | 領域 | 採用 |
 | --- | --- |
-| Frontend | Next.js (App Router) / TypeScript / Tailwind CSS v4 / Biome |
-| Backend | Ruby on Rails (API モード) / PostgreSQL |
+| Frontend | Next.js 16 (App Router) / React 19 / TypeScript / Tailwind CSS v4 / Biome / Vitest / Playwright |
+| Backend | Ruby 3.4 / Rails 8.1 (API モード) / PostgreSQL / Alba / kramdown + rouge |
 | ツール | Bun / Turborepo / husky + commitlint / GitHub Actions |
 | ホスティング | Vercel (frontend) / Render (backend, PostgreSQL) |
 
@@ -43,6 +43,17 @@ bun run test       # 各ワークスペースのテスト
 bun run db:down    # PostgreSQL を停止
 ```
 
+Frontend 単体:
+
+```bash
+cd frontend
+bun run test:e2e      # Playwright（初回は bunx playwright install chromium）
+bun run check:design  # 禁止クラスの検出（docs/DESIGN.md）
+bun run mock:api      # Rails なしで動かすモック API
+```
+
+プロフィール文や写真ギャラリーの中身は `frontend/src/content/` を編集する。
+
 Backend 単体:
 
 ```bash
@@ -63,7 +74,7 @@ bin/rails content:sync   # Markdown を DB に反映
 ├── .github/workflows/   # CI（frontend / backend を変更パスでジョブ分割）
 ├── docs/                # 設計・規約・ロードマップ
 ├── frontend/            # Next.js
-│   └── src/{app,components,lib,types}
+│   └── src/{app,components,content,lib,styles,types}
 ├── backend/             # Rails API
 │   ├── app/
 │   ├── config/

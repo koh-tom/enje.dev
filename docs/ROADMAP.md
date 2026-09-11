@@ -133,8 +133,8 @@
 - [x] OG 画像を新デザインに合わせる
 
 ### Phase 5: 仕上げ（9/7 〜 9/14）
-- [ ] アクセシビリティ監査（axe、キーボード操作、reduced-motion）
-- [ ] Lighthouse で Performance / A11y / SEO を 95 以上
+- [x] アクセシビリティ監査（axe、キーボード操作、reduced-motion）: ランドマーク、スキップリンク、フォーカスリング、reduced-motion、`aria-pressed` / `aria-expanded` を実装。axe の自動監査は未実施
+- [ ] Lighthouse で Performance / A11y / SEO を 95 以上（本番デプロイ後に計測する。未実施）
 - [x] 未使用コード・依存の最終削除
 - [x] `docs/` を実装に合わせて更新
 - [x] README の最終化
@@ -160,6 +160,13 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 ```
 
 時刻は 19:00〜24:00 の範囲でばらつかせる。
+
+## 残っている作業（オーナーと一緒に進めるもの）
+
+- 中身: `backend/content/` に記事とプロジェクトを書く（現在は下書きのサンプルが 1 件ずつ）。`frontend/src/content/profile.ts` `gallery.ts` の文章と写真を実物に差し替える。
+- 画像: `frontend/public/images/enje.png` `prof.png` を新デザインに合う写真にする。ギャラリーの SVG プレースホルダーを写真に置き換える。
+- デプロイ: Vercel と Render に環境変数（`docs/ARCHITECTURE.md`）を設定する。本番 DB は新スキーマで `db:prepare` から作り直す（旧テーブルは互換性がない）。
+- 計測: 本番 URL で Lighthouse と axe を流し、95 未満の項目を潰す。
 
 ## 使用ログ
 
@@ -207,4 +214,5 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-08-24 | `5045b5b` | chore: 未使用の依存を削除し CI で禁止クラスを検出する |
 | 2026-08-26 | `d3507ce` | fix: OG 画像のフォントを同梱しネットワークに依存しない |
 | 2026-09-07 | `29fff97` | docs: デザインと規約を実装に合わせて更新 |
-| 2026-09-09 | | docs: README と CLAUDE.md を最終化 |
+| 2026-09-09 | `09c32b7` | docs: README と CLAUDE.md を最終化 |
+| 2026-09-11 | | docs: ロードマップを締めて残作業を整理 |

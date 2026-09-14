@@ -215,4 +215,4 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-08-26 | `d3507ce` | fix: OG 画像のフォントを同梱しネットワークに依存しない |
 | 2026-09-07 | `29fff97` | docs: デザインと規約を実装に合わせて更新 |
 | 2026-09-09 | `09c32b7` | docs: README と CLAUDE.md を最終化 |
-| 2026-09-11 | | docs: ロードマップを締めて残作業を整理 |
+| 2026-09-11 | `fff78f3` | docs: ロードマップを締めて残作業を整理 |

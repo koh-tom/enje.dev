@@ -217,3 +217,4 @@ GIT_AUTHOR_DATE="$d" GIT_COMMITTER_DATE="$d" git commit -m "chore: 空ファイ�
 | 2026-09-09 | `09c32b7` | docs: README と CLAUDE.md を最終化 |
 | 2026-09-11 | `fff78f3` | docs: ロードマップを締めて残作業を整理 |
 | 2026-09-15 | `b320c69` | fix: 開発時だけ CSP で unsafe-eval を許可 |
+| 2026-09-15 | `105b9db` | fix: Docker ビルドで .ruby-version をコピーする |

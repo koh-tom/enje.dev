@@ -52,6 +52,7 @@
 - ビジネスロジックはモデルか `app/services/` に置く。コントローラは 10 行以内を目安にする。
 - シリアライザは Alba。`as_json` の手書きはしない。
 - 認証は `ActiveSupport::SecurityUtils.secure_compare` を使う。環境変数未設定時は起動時に `config/initializers/required_env.rb` で落とす。
+- `config/initializers/*.rb` から `app/` 配下のクラス（モデル、メイラーなど）を参照しない。Zeitwerk のオートロードが確実に効く保証がなく、条件分岐の奥で一度も実行されないパス（例: `if Rails.env.production?`）は開発・テストでは通らずに検証をすり抜ける。判定には `ENV` を直接見るか、`Rails.application.config.to_prepare` に包む。
 
 ### モデル
 

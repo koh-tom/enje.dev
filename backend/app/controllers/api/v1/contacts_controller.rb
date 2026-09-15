@@ -3,6 +3,10 @@ module Api
     class ContactsController < ApplicationController
       # POST /api/v1/contacts
       def create
+        unless ContactMailer.configured?
+          return render_error(:unavailable, "現在お問い合わせは受け付けていません", status: :service_unavailable)
+        end
+
         contact = Contact.new(contact_params)
         if contact.valid?
           ContactMailer.with(contact: contact.to_h).notify.deliver_later

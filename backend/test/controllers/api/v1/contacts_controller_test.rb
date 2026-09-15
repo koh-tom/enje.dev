@@ -27,6 +27,15 @@ class Api::V1::ContactsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_content
   end
 
+  test "宛先が未設定なら 503" do
+    original = ENV.delete("CONTACT_TO")
+    post api_v1_contacts_url, params: { contact: VALID }, as: :json
+    assert_response :service_unavailable
+    assert_equal "unavailable", response.parsed_body.dig("error", "code")
+  ensure
+    ENV["CONTACT_TO"] = original
+  end
+
   test "contact パラメータが無ければ 422" do
     post api_v1_contacts_url, params: {}, as: :json
     assert_response :unprocessable_content

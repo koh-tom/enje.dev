@@ -51,7 +51,9 @@ export async function submitContact(
     const message =
       error instanceof ApiError && error.code === "rate_limited"
         ? "送信回数が多すぎます。しばらく待ってから再度お試しください"
-        : "送信に失敗しました。時間をおいて再度お試しください";
+        : error instanceof ApiError && error.code === "unavailable"
+          ? "現在お問い合わせは受け付けていません。GitHub や Bluesky からご連絡ください"
+          : "送信に失敗しました。時間をおいて再度お試しください";
     return { status: "error", message, values: raw };
   }
 }

@@ -154,9 +154,9 @@ enje.dev/
 | `REVALIDATE_SECRET` | FE / BE | ISR 再検証の共有秘密 |
 | `DATABASE_URL` | BE | PostgreSQL |
 | `ADMIN_API_TOKEN` | BE | 管理系エンドポイント |
-| `CONTACT_TO` | BE | お問い合わせ送信先 |
+| `CONTACT_TO` | BE | お問い合わせ送信先。`RESEND_API_KEY` と揃うまで `/contacts` は 503 |
 | `MAIL_FROM` | BE | 送信元（既定 `enje.dev <noreply@enje.dev>`） |
-| `RESEND_API_KEY` | BE | メール送信（本番のみ必須） |
+| `RESEND_API_KEY` | BE | メール送信。未設定でも起動はする |
 | `SECRET_KEY_BASE` | BE | 本番のみ必須 |
 | `CORS_ORIGINS` | BE | 追加許可オリジン（開発用） |
 

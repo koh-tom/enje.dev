@@ -3,10 +3,13 @@ import type { NextConfig } from "next";
 /**
  * セキュリティヘッダー。
  * CSP は ISR を維持するため nonce を使わず、インラインスクリプトは Next.js の分だけ許可する。
+ * 開発時だけ 'unsafe-eval' を足す（React の開発モードが eval を使う。本番では使わない）。
  */
+const isDev = process.env.NODE_ENV === "development";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",

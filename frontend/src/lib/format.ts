@@ -1,21 +1,37 @@
+/**
+ * 日付は常に日本時間で扱う。
+ * Rails は 0 時 JST（"2026-09-15T00:00:00+09:00"）で返すため、
+ * 実行環境（Vercel は UTC）のタイムゾーンで読むと前日にずれる。
+ */
+const TIME_ZONE = "Asia/Tokyo";
+
+const ymd = new Intl.DateTimeFormat("en-CA", {
+  timeZone: TIME_ZONE,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+
+function toYmd(iso: string | null | undefined) {
+  if (!iso) return null;
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return null;
+  const parts = Object.fromEntries(
+    ymd.formatToParts(date).map((p) => [p.type, p.value]),
+  );
+  return { y: parts.year, m: parts.month, d: parts.day };
+}
+
 /** 日付を "2026.09.15" 形式にする。null は空文字 */
 export function formatDate(iso: string | null | undefined): string {
-  if (!iso) return "";
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "";
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}.${m}.${d}`;
+  const date = toYmd(iso);
+  return date ? `${date.y}.${date.m}.${date.d}` : "";
 }
 
 /** 日付を <time dateTime> 用の YYYY-MM-DD にする */
 export function toDateTimeAttr(
   iso: string | null | undefined,
 ): string | undefined {
-  if (!iso) return undefined;
-  const date = new Date(iso);
-  return Number.isNaN(date.getTime())
-    ? undefined
-    : date.toISOString().slice(0, 10);
+  const date = toYmd(iso);
+  return date ? `${date.y}-${date.m}-${date.d}` : undefined;
 }

@@ -15,9 +15,18 @@ class Post < ApplicationRecord
 
   def to_param = slug
 
-  # 前後の記事（公開済みのみ）
-  def previous_post = Post.published.where(published_at: ...published_at).newest_first.first
-  def next_post = Post.published.where(published_at: (published_at + 1.second)..).order(:published_at).first
+  # 前後の記事（公開済みのみ）。公開日時が同じ記事は id で順序を決める
+  def previous_post
+    Post.published
+      .where("(posts.published_at, posts.id) < (?, ?)", published_at, id)
+      .newest_first.first
+  end
+
+  def next_post
+    Post.published
+      .where("(posts.published_at, posts.id) > (?, ?)", published_at, id)
+      .order(:published_at, :id).first
+  end
 
   private
 

@@ -47,4 +47,13 @@ class PostTest < ActiveSupport::TestCase
     assert_nil posts(:published).next_post
     assert_equal posts(:published), posts(:older).next_post
   end
+
+  test "同じ公開日時の記事も前後でつながる" do
+    at = posts(:published).published_at
+    same_day = Post.create!(slug: "same-day", title: "同じ日", status: :published, published_at: at)
+
+    assert_equal posts(:published), same_day.previous_post
+    assert_equal same_day, posts(:published).next_post
+    assert_nil same_day.next_post
+  end
 end

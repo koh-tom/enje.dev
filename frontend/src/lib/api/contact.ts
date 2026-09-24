@@ -23,6 +23,9 @@ export const contactInputSchema = z.object({
 
 export type ContactInput = z.infer<typeof contactInputSchema>;
 
-export async function sendContact(input: ContactInput): Promise<void> {
-  await apiPost("/contacts", { contact: input }, z.null());
+export async function sendContact(
+  input: ContactInput,
+  { clientIp }: { clientIp?: string | null } = {},
+): Promise<void> {
+  await apiPost("/contacts", { contact: input }, z.null(), { clientIp });
 }

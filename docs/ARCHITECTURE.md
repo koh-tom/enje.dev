@@ -73,6 +73,7 @@ enje.dev/
 - エラーは `{ error: { code, message, details? } }`。`not_found` `invalid` `unauthorized` `rate_limited`。
 - 公開 API は `Cache-Control: public, max-age=60, s-maxage=60, stale-while-revalidate=600`。詳細は ETag も返す。
 - 開発環境（`RAILS_ENV=development`）では下書きも返る。
+- レート制限は Rack::Attack。本番の呼び出し元は Next.js のサーバーなので、FE は全リクエストに `X-Frontend-Secret`、お問い合わせには利用者の IP を `X-Client-IP` で付ける。秘密が一致したときだけ BE は `X-Client-IP` で数え、読み取りの制限（120 回/分）からも外す。
 
 ### Post（一覧）
 
@@ -151,7 +152,7 @@ enje.dev/
 | --- | --- | --- |
 | `API_URL` | FE | Rails のベース URL（`https://api.enje.dev/api/v1`） |
 | `NEXT_PUBLIC_SITE_URL` | FE | 正規 URL（`https://enje.dev`） |
-| `REVALIDATE_SECRET` | FE / BE | ISR 再検証の共有秘密 |
+| `REVALIDATE_SECRET` | FE / BE | FE と BE の共有秘密。ISR 再検証と、FE から BE への `X-Frontend-Secret` に使う |
 | `DATABASE_URL` | BE | PostgreSQL |
 | `ADMIN_API_TOKEN` | BE | 管理系エンドポイント |
 | `CONTACT_TO` | BE | お問い合わせ送信先。`RESEND_API_KEY` と揃うまで `/contacts` は 503 |

@@ -35,6 +35,14 @@ type GetOptions = {
   searchParams?: Record<string, string | number | undefined>;
 };
 
+/**
+ * Rails に Next.js のサーバーからのリクエストだと伝えるヘッダー。
+ * Rails はこれを見て ISR の取得をレート制限から外し、X-Client-IP を信じる
+ */
+function frontendHeaders() {
+  return { "x-frontend-secret": env.REVALIDATE_SECRET };
+}
+
 function buildUrl(path: string, searchParams?: GetOptions["searchParams"]) {
   const url = new URL(`${env.API_URL}${path}`);
   for (const [key, value] of Object.entries(searchParams ?? {})) {
@@ -70,22 +78,33 @@ export async function apiGet<T extends z.ZodType>(
   { tags, revalidate = 3600, searchParams }: GetOptions,
 ): Promise<z.infer<T>> {
   const response = await fetch(buildUrl(path, searchParams), {
-    headers: { accept: "application/json" },
+    headers: { accept: "application/json", ...frontendHeaders() },
     next: { tags, revalidate },
   });
   if (!response.ok) throw await toApiError(response);
   return schema.parse(await response.json());
 }
 
+type PostOptions = {
+  /** 利用者の IP。Rails のレート制限に使う */
+  clientIp?: string | null;
+};
+
 /** POST。キャッシュしない */
 export async function apiPost<T extends z.ZodType>(
   path: string,
   body: unknown,
   schema: T,
+  { clientIp }: PostOptions = {},
 ): Promise<z.infer<T>> {
   const response = await fetch(buildUrl(path), {
     method: "POST",
-    headers: { "content-type": "application/json", accept: "application/json" },
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+      ...frontendHeaders(),
+      ...(clientIp ? { "x-client-ip": clientIp } : {}),
+    },
     body: JSON.stringify(body),
     cache: "no-store",
   });

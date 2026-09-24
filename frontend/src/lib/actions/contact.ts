@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import {
   ApiError,
   type ContactInput,
@@ -13,6 +14,13 @@ export type ContactState = {
   fieldErrors?: Partial<Record<keyof ContactInput, string>>;
   values?: Partial<ContactInput>;
 };
+
+/** 利用者の IP。Vercel は x-forwarded-for の先頭に接続元を入れる */
+async function clientIp() {
+  const list = await headers();
+  const forwarded = list.get("x-forwarded-for")?.split(",")[0]?.trim();
+  return forwarded || list.get("x-real-ip");
+}
 
 /** お問い合わせフォームの Server Action。検証してから Rails に送る */
 export async function submitContact(
@@ -45,7 +53,7 @@ export async function submitContact(
   }
 
   try {
-    await sendContact(parsed.data);
+    await sendContact(parsed.data, { clientIp: await clientIp() });
     return { status: "sent" };
   } catch (error) {
     const message =

@@ -3,6 +3,10 @@ import { submitContact } from "@/lib/actions/contact";
 import { ApiError } from "@/lib/api/client";
 
 const { sendContact } = vi.hoisted(() => ({ sendContact: vi.fn() }));
+vi.mock("next/headers", () => ({
+  headers: async () =>
+    new Headers({ "x-forwarded-for": "198.51.100.1, 10.0.0.1" }),
+}));
 vi.mock("@/lib/api/contact", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@/lib/api/contact")>()),
   sendContact,
@@ -32,6 +36,7 @@ describe("submitContact", () => {
     expect(state.status).toBe("sent");
     expect(sendContact).toHaveBeenCalledWith(
       expect.objectContaining({ name: "太郎" }),
+      { clientIp: "198.51.100.1" },
     );
   });
 

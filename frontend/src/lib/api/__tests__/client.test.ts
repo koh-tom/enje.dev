@@ -30,6 +30,7 @@ describe("apiGet", () => {
       "http://localhost:3000/api/v1/posts?tag=ruby&per=5",
     );
     expect(init.next).toEqual({ tags: ["posts"], revalidate: 3600 });
+    expect(init.headers["x-frontend-secret"]).toBe("test-secret-value");
   });
 
   it("404 は ApiError（isNotFound）になる", async () => {
@@ -63,6 +64,15 @@ describe("apiPost", () => {
     expect(init.method).toBe("POST");
     expect(init.body).toBe(JSON.stringify({ a: 1 }));
     expect(init.cache).toBe("no-store");
+    expect(init.headers["x-frontend-secret"]).toBe("test-secret-value");
+    expect(init.headers).not.toHaveProperty("x-client-ip");
+  });
+
+  it("利用者の IP を x-client-ip で渡す", async () => {
+    fetchMock.mockResolvedValue(new Response(null, { status: 202 }));
+    await apiPost("/contacts", {}, z.null(), { clientIp: "198.51.100.1" });
+    const [, init] = fetchMock.mock.calls[0];
+    expect(init.headers["x-client-ip"]).toBe("198.51.100.1");
   });
 
   it("422 は details 付きの ApiError", async () => {

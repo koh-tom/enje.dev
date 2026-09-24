@@ -8,9 +8,12 @@ class RackAttackTest < ActionDispatch::IntegrationTest
     Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
     @secret = ENV["REVALIDATE_SECRET"]
     ENV["REVALIDATE_SECRET"] = SECRET
+    # カウンタは時間の区切りごとにリセットされるので、区切りをまたがないよう時刻を止める
+    travel_to Time.zone.local(2026, 1, 1, 12, 30, 30)
   end
 
   teardown do
+    travel_back
     Rack::Attack.cache.store = @store
     ENV["REVALIDATE_SECRET"] = @secret
   end

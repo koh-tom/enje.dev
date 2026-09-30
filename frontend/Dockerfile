@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package.json bun.lock turbo.json ./
 COPY frontend/package.json ./frontend/
 COPY backend/package.json ./backend/
-RUN bun install --frozen-lockfile --filter enje.dev
+RUN bun install --frozen-lockfile --filter frontend
 
 FROM oven/bun:1.3-alpine AS builder
 WORKDIR /app

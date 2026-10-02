@@ -1,5 +1,7 @@
 # ビルドコンテキストはリポジトリ直下:
-#   docker build -f frontend/Dockerfile --build-arg API_URL=... .
+#   docker build -f frontend/Dockerfile --build-arg API_URL=... --build-arg REVALIDATE_SECRET=... .
+# 実行時も同じ値を渡す（ISR と再検証ルートが使う）:
+#   docker run -e API_URL=... -e NEXT_PUBLIC_SITE_URL=... -e REVALIDATE_SECRET=... enje-frontend
 # Vercel にデプロイする場合は使わない。自前ホスティング用。
 
 FROM oven/bun:1.3-alpine AS deps
@@ -11,11 +13,18 @@ RUN bun install --frozen-lockfile --filter frontend
 
 FROM oven/bun:1.3-alpine AS builder
 WORKDIR /app
+# next build は Node で動かす（node が無いと bun が代わりに動き、musl 上で終了時に落ちる）
+RUN apk add --no-cache nodejs
 ARG API_URL
 ARG NEXT_PUBLIC_SITE_URL=https://enje.dev
+ARG REVALIDATE_SECRET
 ENV API_URL=$API_URL \
     NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+    REVALIDATE_SECRET=$REVALIDATE_SECRET \
     NEXT_TELEMETRY_DISABLED=1
+# bun の依存は /app/node_modules/.bun への symlink なので、lockfile を置いて
+# Next.js のワークスペースルートを /app にする（無いと /app/frontend になり next を解決できない）
+COPY package.json bun.lock ./
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/frontend/node_modules ./frontend/node_modules
 COPY frontend ./frontend

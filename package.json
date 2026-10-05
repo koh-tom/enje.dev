@@ -20,13 +20,13 @@
     "backend"
   ],
   "devDependencies": {
-    "@commitlint/cli": "^20.1.0",
-    "@commitlint/config-conventional": "^20.0.0",
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
     "husky": "^9.1.7",
-    "turbo": "^2.9.15"
+    "turbo": "^2.11.6"
   },
   "dependencies": {
-    "postcss": "^8.5.15"
+    "postcss": "^8.5.28"
   },
   "overrides": {
     "postcss": "^8.5.15"

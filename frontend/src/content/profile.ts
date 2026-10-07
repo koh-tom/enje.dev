@@ -112,6 +112,13 @@ export type Achievement = {
 
 /** date は "YYYY.MM"。表示時に古い順へ並べ替える */
 export const achievements: Achievement[] = [
+  { date: "2026.09", title: "RECONF研究会 若手講演賞", category: "award" },
+  {
+    date: "2026.08",
+    title: "セキュリティキャンプネクスト修了",
+    category: "other",
+  },
+  { date: "2026.04", title: "大学院博士前期課程進学", category: "other" },
   {
     date: "2026.06",
     title: "HEART 2026 WIP採択・ドイツ国際会議発表",

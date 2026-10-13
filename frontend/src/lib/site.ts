@@ -19,6 +19,12 @@ export const socialLinks = [
   { name: "sizu.me", href: "https://sizu.me/enje", icon: "book" },
 ] as const;
 
+/** トップの「最近の記事」に Qiita の記事も並べる */
+export const qiita = {
+  user: "lamela",
+  url: "https://qiita.com/lamela",
+} as const;
+
 export const owner = {
   name: "Koh TOMITA",
   handle: "enje",

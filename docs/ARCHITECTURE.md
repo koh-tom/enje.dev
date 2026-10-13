@@ -12,6 +12,7 @@
 - ブラウザから Rails を直接叩かない。CORS は開発用途に限定する。
 - Rails は記事・プロジェクト・タグ・お問い合わせを扱う JSON API に徹する。
 - コンテンツの原本は `backend/content/` の Markdown。`bin/rails content:sync` で DB に冪等反映する。書き方は `docs/CONTENT.md`。
+- トップの「最近の記事」には Qiita（`lib/site.ts` の `qiita.user`）の記事も日付順に混ぜる。Qiita API v2 を認証なしでサーバーから呼び、1 時間キャッシュする。失敗したら Qiita の分だけ省く。
 
 ## ディレクトリ構成（目標）
 

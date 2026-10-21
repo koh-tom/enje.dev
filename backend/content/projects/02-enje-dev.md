@@ -10,9 +10,9 @@ tech_stack:
 github: "https://github.com/koh-tom/enje.dev"
 demo: "https://enje.dev"
 cover_image: ""
-draft: true
+draft: false
 ---
 
 ## 概要
 
-（執筆中）
+このサイト。Next.js（App Router）のフロントエンドと Rails API のバックエンドを、Bun + Turborepo のモノレポで管理している。記事と制作物は Git 管理の Markdown を原本にし、デプロイ時に DB へ同期する。デザインは Tottenham の navy と white の 2 色だけで組んだ手書き風。
